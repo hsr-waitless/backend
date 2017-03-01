@@ -1,7 +1,7 @@
 # Backend
 
 ## Requirements
-- https://www.microsoft.com/net/core#macos
+- https://www.microsoft.com/net/core
 
 ## Install dependecies
 ```
