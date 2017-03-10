@@ -1,5 +1,5 @@
 pipeline {
-  agent { docker 'microsoft/dotnet' }
+  agent { docker 'microsoft/dotnet:1.1.1-sdk' }
 
   stages {
     stage('install') {
