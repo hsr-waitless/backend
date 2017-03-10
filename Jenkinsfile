@@ -1,5 +1,5 @@
 pipeline {
-  agent { docker 'microsoft/dotnet:runtime' }
+  agent { docker 'microsoft/dotnet' }
 
   stages {
     stage('install') {
