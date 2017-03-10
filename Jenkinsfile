@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent { docker: 'microsoft/dotnet:runtime' }
 
   stages {
     stage('install') {
@@ -10,9 +10,9 @@ pipeline {
 
     stage('build') {
       steps {
-	dir('WaitlessBackend') {
+	      dir('WaitlessBackend') {
           sh 'dotnet build'
-	}
+	      }
       }
     }
 
