@@ -16,7 +16,23 @@ pipeline {
 
     stage('test') {
       steps {
-        sh 'cd Api.Test && dotnet test'
+        script {
+          dir('Api.Test') {
+            sh 'dotnet test'
+          }
+        }
+      }
+    }
+
+    stage('publish') {
+      steps {
+        script {
+          dir('Api') {
+            sh 'dotnet publish -c Release -o out'
+          }
+
+          def img = docker.build "no0dles/waitless-backend:${env.BUILD_TAG}"
+        }
       }
     }
   }
