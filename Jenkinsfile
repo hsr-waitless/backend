@@ -15,10 +15,8 @@ pipeline {
     }
 
     stage('test') {
-      dir('Api.Test') {
-        steps {
-          sh 'dotnet test'
-        }
+      steps {
+        sh 'cd Api.Test && dotnet test'
       }
     }
   }
