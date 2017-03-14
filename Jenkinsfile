@@ -32,6 +32,7 @@ pipeline {
           }
 
           def img = docker.build "no0dles/waitless-backend:${env.BUILD_TAG}"
+          img.push()
         }
       }
     }
