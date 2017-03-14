@@ -10,15 +10,13 @@ pipeline {
 
     stage('build') {
       steps {
-	      dir('WaitlessBackend') {
           sh 'dotnet build'
-	      }
       }
     }
 
     stage('test') {
       steps {
-        dir('Test') {
+        dir('Api.Test') {
           sh 'dotnet test'
         }
       }
