@@ -33,3 +33,4 @@ msbuild.wrn
 /Api.Test/out
 .idea
 /Api/out
+/Backend.userprefs
