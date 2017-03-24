@@ -7,5 +7,9 @@ namespace Api.Models
 {
     public class Tablet
     {
+
+        public Int32 number { get; set; }
+        public Enum mode { get; set; }
+
     }
 }

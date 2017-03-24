@@ -7,5 +7,8 @@ namespace Api.Models
 {
     public class Table
     {
+
+        public String name { get; set; }
+
     }
 }

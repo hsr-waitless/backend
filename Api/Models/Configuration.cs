@@ -7,5 +7,8 @@ namespace Api.Models
 {
     public class Configuration
     {
+        public String name { get; set; }
+        public String description { get; set; }
+
     }
 }

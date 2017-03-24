@@ -7,5 +7,9 @@ namespace Api.Models
 {
     public class ConfigurationValue
     {
+
+        public String configurationValue { get; set; }
+        public Double priceApproximation { get; set; }
+
     }
 }

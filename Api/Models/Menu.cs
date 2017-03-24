@@ -7,5 +7,10 @@ namespace Api.Models
 {
     public class Menu
     {
+
+        public Int32 number { get; set; }
+        public String name { get; set; }
+        public String description { get; set; }
+
     }
 }
