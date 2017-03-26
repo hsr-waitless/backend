@@ -32,7 +32,7 @@ install:
 script:  
   - dotnet restore
   - dotnet build
-  - cd Api.Test && dotnet test
+  - cd Api.Test && dotnet test && cd ..
   - dotnet publish -c Release -o ou
 
 after_success:
