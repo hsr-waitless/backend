@@ -33,10 +33,10 @@ script:
   - dotnet restore
   - dotnet build
   - cd Api.Test && dotnet test
+  - dotnet publish -c Release -o ou
 
-deploy:
-  provider: script
-  script: publish.sh
-  skip_cleanup: true
-  on:
-    branch: master
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login --username $DOCKER_USER --password $DOCKER_PASS;
+    docker push no0dles/waitless-backend;
+    fi
