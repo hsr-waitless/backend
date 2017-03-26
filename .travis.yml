@@ -38,4 +38,4 @@ deploy:
   provider: script
   script: publish.sh
   on:
-    branch: prod
+    branch: master
