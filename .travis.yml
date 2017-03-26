@@ -32,3 +32,10 @@ install:
 script:  
   - dotnet restore
   - dotnet build
+  - cd Api.Test && dotnet test
+
+deploy:
+  provider: script
+  script: publish.sh
+  on:
+    branch: prod
