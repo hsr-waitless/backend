@@ -30,7 +30,7 @@ install:
   - export PATH="$DOTNET_INSTALL_DIR:$PATH"  
 
 script:  
-  - dotnet restore
+  - dotnet restore --configfile Api/Nuget.Config 
   - dotnet build
   - cd Api.Test && dotnet test && cd ..
   - cd Api && dotnet publish -c Release -o out && cd ..
