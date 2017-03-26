@@ -11,7 +11,10 @@ namespace Api
 		public void GetMenuRequest()
 		{
 			//Clients.All.addNewMessageToPage(name, message);
-			var menus = new object[] { };
+			var menus = new object[] { 
+				new { Name = "Vorspeisen", Order = 1 },
+				new { Name = "Hauptspeisen", Order = 2 }
+			};
 			Clients.Caller.GetMenuResponse(menus);
 		}
 
