@@ -33,7 +33,7 @@ script:
   - dotnet restore
   - dotnet build
   - cd Api.Test && dotnet test && cd ..
-  - dotnet publish -c Release -o ou
+  - cd Api && dotnet publish -c Release -o out && cd ..
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
