@@ -38,5 +38,6 @@ script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login --username $DOCKER_USER --password $DOCKER_PASS;
+    docker build -t no0dles/waitless-backend .
     docker push no0dles/waitless-backend;
     fi
