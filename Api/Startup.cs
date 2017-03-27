@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+<<<<<<< HEAD
 using Api.DAL;
+=======
+using Microsoft.AspNetCore.SignalR;
+>>>>>>> e0c5e2c1e055cc41428831fd1a0d0a34df3cb9c6
 
 namespace Api
 {
@@ -31,6 +35,7 @@ namespace Api
             // Add framework services.
             services.AddMvc();
 
+<<<<<<< HEAD
             var sqlConnectionString = Configuration.GetConnectionString("DataAccessPostgreSqlProvider");
 
             /*services.AddDbContext<WaitlessContext>(options =>
@@ -39,6 +44,21 @@ namespace Api
                     b => b.MigrationsAssembly("AspNet5MultipleProject")
                 )
             );*/
+=======
+			services.AddSignalR(options =>
+			{
+				options.Hubs.EnableDetailedErrors = true;
+			});
+
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
+>>>>>>> e0c5e2c1e055cc41428831fd1a0d0a34df3cb9c6
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +67,18 @@ namespace Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+
+			app.UseCors("CorsPolicy");
+
             app.UseMvc();
+
+        	app.UseWebSockets();
+
+			/*var hubConfiguration = new HubConfiguration();
+			hubConfiguration.EnableDetailedErrors = true;
+			hubConfiguration.EnableJavaScriptProxies = false;*/
+
+   			app.UseSignalR("/signalr");
         }
     }
 }

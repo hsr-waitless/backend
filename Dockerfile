@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY Api/out .
 
-ENV ASPNETCORE_URLS http://*:5000
-EXPOSE 5000
+ENV ASPNETCORE_URLS http://*:80
+EXPOSE 80
 
 ENTRYPOINT ["dotnet", "Api.dll"]

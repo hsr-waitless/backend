@@ -1,0 +1,43 @@
+sudo: required
+
+language: csharp 
+
+services:
+  - docker
+
+env:  
+  - CLI_VERSION=latest
+
+addons:  
+  apt:
+    packages:
+    - gettext
+    - libcurl4-openssl-dev
+    - libicu-dev
+    - libssl-dev
+    - libunwind8
+    - zlib1g
+mono:  
+  - 4.2.3
+os:  
+  - linux
+branches:  
+  only:
+    - master
+install:  
+  - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
+  - curl -sSL https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
+  - export PATH="$DOTNET_INSTALL_DIR:$PATH"  
+
+script:  
+  - dotnet restore --configfile Api/Nuget.Config 
+  - dotnet build
+  - cd Api.Test && dotnet test && cd ..
+  - cd Api && dotnet publish -c Release -o out && cd ..
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login --username $DOCKER_USER --password $DOCKER_PASS;
+    docker build -t no0dles/waitless-backend .;
+    docker push no0dles/waitless-backend;
+    fi
