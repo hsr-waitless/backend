@@ -30,7 +30,15 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
-/Api.Test/out
+/Backend.Test/out
 .idea
-/Api/out
+/Backend/out
 /Backend.userprefs
+
+
+.wercker/
+Backend.Test/Backend.Test.csproj.nuget.g.props
+Backend.Test/Backend.Test.csproj.nuget.g.targets
+Backend.Test/project.assets.json
+Backend.Test/project.packagespec.json
+Backend/project.packagespec.json

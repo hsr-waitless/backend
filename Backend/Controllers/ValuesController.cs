@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Controllers
 {
@@ -22,6 +23,12 @@ namespace Backend.Controllers
           return context.Table.AsEnumerable();
         }
 
+        // GET api/values
+        [HttpGet("migrate")]
+        public void Migrate()
+        {
+          context.Database.Migrate();
+        }
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)

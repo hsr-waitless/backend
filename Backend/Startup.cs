@@ -63,10 +63,10 @@ namespace Backend
 
       app.UseSignalR("/signalr");
 
-	  using (var context = app.ApplicationServices.GetService<WaitlessContext>())
+	  /*using (var context = app.ApplicationServices.GetService<WaitlessContext>())
 	  {
 		context.Database.Migrate();
-	  }
+	  }*/
     }
   }
 }
