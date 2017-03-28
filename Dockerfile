@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:1.0.4-runtime
+FROM microsoft/dotnet:1.1.1-runtime
 
 WORKDIR /app
 
