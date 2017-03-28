@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using System.Threading.Tasks;
+using System;
 
 namespace Backend.Hubs
 {
