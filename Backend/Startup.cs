@@ -62,6 +62,11 @@ namespace Backend
       app.UseWebSockets();
 
       app.UseSignalR("/signalr");
+
+	  using (var context = app.ApplicationServices.GetService<WaitlessContext>())
+	  {
+		context.Database.Migrate();
+	  }
     }
   }
 }
