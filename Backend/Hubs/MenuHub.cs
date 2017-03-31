@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Backend.Commands;
 using Backend.Models;
+using Backend.ViewModels;
 
 namespace Backend.Hubs
 {
@@ -25,9 +26,19 @@ namespace Backend.Hubs
         RequestId = request.RequestId,
         Arguments = new MenuResponse
         {
-          Menus = context.Menu.AsEnumerable()
+          Menus = context.Menu
+            .AsEnumerable()
+            .Select(m => {
+              return new MenuViewModel {
+                Id = m.Id,
+                Number = m.Number,
+                Name = m.Name,
+                Description = m.Description
+              };
+            })
         }
       };
+
       Clients.Caller.GetMenuResponse(response);
     }
 
@@ -44,18 +55,12 @@ namespace Backend.Hubs
 
     public override Task OnConnected()
     {
-      Console.WriteLine("connected");
-      var menus = new object[] { };
-      Clients.Caller.GetMenuResponse(menus);
-
       return base.OnConnected();
     }
 
 
     public override Task OnDisconnected(bool stopCalled)
     {
-      Console.WriteLine("connected");
-
       return base.OnDisconnected(stopCalled);
     }
   }
