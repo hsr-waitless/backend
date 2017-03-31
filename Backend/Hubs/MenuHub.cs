@@ -2,19 +2,33 @@
 using Microsoft.AspNetCore.SignalR.Hubs;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
+using Backend.Commands;
+using Backend.Models;
 
 namespace Backend.Hubs
 {
   [HubName("menuhub")]
   public class MenuHub : Hub
   {
-    public void GetMenuRequest()
+    private WaitlessContext context;
+
+    public MenuHub(WaitlessContext context) 
+    { 
+      this.context = context;
+    }
+
+    public void GetMenuRequest(Command<MenuRequest> request)
     {
-      var menus = new object[] {
-        new { Name = "Vorspeisen", Order = 1 },
-        new { Name = "Hauptspeisen", Order = 2 }
+      var response = new Command<MenuResponse>()
+      {
+        RequestId = request.RequestId,
+        Arguments = new MenuResponse
+        {
+          Menus = context.Menu.AsEnumerable()
+        }
       };
-      Clients.Caller.GetMenuResponse(menus);
+      Clients.Caller.GetMenuResponse(response);
     }
 
     public void GetSubMenuRequest(int id)
