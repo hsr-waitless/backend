@@ -42,6 +42,6 @@ after_success:
     fi
 
 notifications:
+  email: false
   slack: hsrdreamteam:9DzildoGSdJuGSnprgoGIq8U
-    on_success: always
 
