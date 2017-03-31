@@ -40,3 +40,8 @@ after_success:
     docker build -t no0dles/waitless-backend .;
     docker push no0dles/waitless-backend;
     fi
+
+notifications:
+  slack: hsrdreamteam:9DzildoGSdJuGSnprgoGIq8U
+    on_success: always
+
