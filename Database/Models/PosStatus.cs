@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Backend.Models
+namespace Database.Models
 {
-    public enum CallStatus
+    public enum PosStatus
     {
         New,
-        Closed
+        Active,
+        Done
     }
 }

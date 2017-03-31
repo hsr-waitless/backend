@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Backend.Migrations
+namespace Database.Migrations
 {
     public partial class Init : Migration
     {

@@ -4,16 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Backend.Models
+namespace Database.Models
 {
-    public class Tablet
+    public class Table
     {
         [Key]
         public long Id { get; set; }
-        public Int32 Number { get; set; }
-        public Mode Mode { get; set; }
-
-        public List<Call> Calls { get; set; }
+        public String Name { get; set; }
 
     }
 }

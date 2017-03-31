@@ -4,20 +4,19 @@ using System.Threading.Tasks;
 using System;
 using System.Linq;
 using Backend.Commands;
-using Backend.Models;
 using Backend.Command;
-using Backend.ViewModels;
+using Bussiness.Services;
 
 namespace Backend.Hubs
 {
   [HubName("menuhub")]
   public class MenuHub : Hub
   {
-    private WaitlessContext context;
+        private MenuService service;
 
-    public MenuHub(WaitlessContext context) 
+    public MenuHub(MenuService service) 
     { 
-      this.context = context;
+      this.service = service;
     }
 
     public void GetMenuRequest(Command<MenuRequest> request)
@@ -27,22 +26,13 @@ namespace Backend.Hubs
         RequestId = request.RequestId,
         Arguments = new MenuResponse
         {
-          Menus = context.Menu
-            .AsEnumerable()
-            .Select(m => {
-              return new MenuViewModel {
-                Id = m.Id,
-                Number = m.Number,
-                Name = m.Name,
-                Description = m.Description
-              };
-            })
+          Menus = service.GetMenus()
         }
       };
 
       Clients.Caller.GetMenuResponse(response);
     }
-
+/*
     public void GetSubMenuRequest(Command<SubmenuRequest> request)
     {
             //Hier mal ausprobiert
@@ -69,7 +59,7 @@ namespace Backend.Hubs
             };
             Clients.Caller.GetItemtypeRequest(response);
     }
-
+    */
 
     public override Task OnConnected()
     {
