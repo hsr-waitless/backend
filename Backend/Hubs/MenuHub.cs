@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Backend.Commands;
 using Backend.Models;
+using Backend.Command;
 
 namespace Backend.Hubs
 {
@@ -31,14 +32,31 @@ namespace Backend.Hubs
       Clients.Caller.GetMenuResponse(response);
     }
 
-    public void GetSubMenuRequest(int id)
+    public void GetSubMenuRequest(Command<SubmenuRequest> request)
     {
-
+            //Hier mal ausprobiert
+            var response = new Command<SubmenuResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new SubmenuResponse
+                {
+                    Submenues = context.Submenu.AsEnumerable()
+                }
+            };
+            Clients.Caller.GetSubMenuResponse(response);
     }
 
-    public void GetItemTypeRequest(int id)
+    public void GetItemTypeRequest(Command<ItemtypeRequest> request)
     {
-
+            var response = new Command<ItemtypeResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new ItemtypeResponse
+                {
+                    Itemtypes = context.Itemtyp.AsEnumerable()
+                }
+            };
+            Clients.Caller.GetItemtypeRequest(response);
     }
 
 
