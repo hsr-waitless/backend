@@ -11,7 +11,7 @@ namespace Bussiness.Services
     {
         private WaitlessContext context;
 
-        public IEnumerable<ItemtypModel> GetMenus(SubmenuModel id)
+        public IEnumerable<ItemtypModel> GetItemtyps(SubmenuModel id)
         {
             return context.Itemtyp
             .AsEnumerable()
