@@ -31,7 +31,7 @@ install:
 
 script:  
   - cd Backend && dotnet restore --configfile ../Nuget.Config && dotnet build && cd ..
-  - cd Business.Test && dotnet restore && dotnet test && cd ..
+  - cd Business.Test && dotnet restore --configfile ../Nuget.Config && dotnet test && cd ..
   - cd Backend && dotnet publish -c Release -o out && cd ..
 
 after_success:
