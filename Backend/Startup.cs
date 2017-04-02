@@ -40,7 +40,9 @@ namespace Backend
         options.Hubs.EnableDetailedErrors = true;
       });
 
-      services.AddTransient<MenuService>();
+	  services.AddTransient<MenuService>();
+	  services.AddTransient<SubMenuService>();
+	  services.AddTransient<ItemTypeService>();
 
       services.AddCors(options =>
       {
