@@ -6,20 +6,21 @@ using Bussiness.Services;
 
 namespace Backend.Controllers
 {
-  [Route("api/[controller]")]
+    [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-    private MenuService service;
+        private MenuService service;
+        
         public ValuesController(MenuService service)
-    {
-      this.service = service;
-    }
+        {
+            this.service = service;
+        }
 
         // GET api/values
         [HttpGet]
         public IEnumerable<object> Get()
         {
-          return service.GetMenus();
+            return service.GetMenus();
         }
 
         // GET api/values/5

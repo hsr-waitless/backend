@@ -1,12 +1,11 @@
 ﻿using System;
+using Newtonsoft.Json;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
 namespace Backend.Commands
 {
-    public class SubmenuRequest
+    public class SubMenuRequest
     {
-
+        [JsonProperty ("menuId")]
+        public long MenuId { get; set; }
     }
 }

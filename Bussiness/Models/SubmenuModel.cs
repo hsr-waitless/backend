@@ -4,12 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-public class SubmenuModel
+namespace Business.Models
 {
-    public SubmenuModel()
+    public class SubMenuModel
     {
         [JsonProperty("id")]
         public long Id { get; set; }

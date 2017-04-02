@@ -6,22 +6,23 @@ using System.Linq;
 
 namespace Bussiness.Services
 {
-    public class SubmenuService
+    public class SubMenuService
     {
         private WaitlessContext context;
-        public SubmenuService(WaitlessContext context)
+
+        public SubMenuService(WaitlessContext context)
         {
             this.context = context;
         }
 
-        public IEnumerable<SubmenuModel> GetSubmenus( MenuModel menuId)
+        public IEnumerable<SubMenuModel> GetSubMenus(long id)
         {
             return context.Submenu
-            .AsEnumerable()
-            //.Where<menuId == this.id>     //sollte menuId's überprüfen
+            .Where(m => m.MenuId == id)
+            .ToList()
             .Select(m =>
             {
-                return new SubmenuModel
+                return new SubMenuModel
                 {
                     Id = m.Id,
                     Number = m.Number,

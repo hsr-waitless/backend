@@ -9,66 +9,69 @@ using Bussiness.Services;
 
 namespace Backend.Hubs
 {
-  [HubName("menuhub")]
-  public class MenuHub : Hub
-  {
+    [HubName("menuhub")]
+    public class MenuHub : Hub
+    {
         private MenuService service;
+        private SubMenuService subService;
+        private ItemTypeService itemService;
 
-    public MenuHub(MenuService service, SubmenuService subService, ItemtypService itemService)
-    { 
-      this.service = service;
-    }
-
-    public void GetMenuRequest(Command<MenuRequest> request)
-    {
-      var response = new Command<MenuResponse>()
-      {
-        RequestId = request.RequestId,
-        Arguments = new MenuResponse
-        {
-          Menus = service.GetMenus()
+        public MenuHub(MenuService service, SubMenuService subService, ItemTypeService itemService)
+        { 
+            this.service = service;
+            this.subService = subService;
+            this.itemService = itemService;
         }
-      };
 
-      Clients.Caller.GetMenuResponse(response);
-    }
-
-    public void GetSubMenuRequest(Command<SubmenuRequest> request)
-    {
-            //Hier mal ausprobiert
-            var response = new Command<SubmenuResponse>()
+        public void GetMenuRequest(Command<MenuRequest> request)
+        {
+            var response = new Command<MenuResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new SubmenuResponse
+                Arguments = new MenuResponse
                 {
-                    Submenues = service.GetSubmenus()
+                    Menus = service.GetMenus()
+                }
+            };
+
+            Clients.Caller.GetMenuResponse(response);
+        }
+
+        public void GetSubMenuRequest(Command<SubMenuRequest> request)
+        {
+            var response = new Command<SubMenuResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new SubMenuResponse
+                {
+                    SubMenus = subService.GetSubMenus(request.Arguments.MenuId)
                 }
             };
             Clients.Caller.GetSubMenuResponse(response);
-    }
+        }
 
-    public void GetItemTypeRequest(Command<ItemtypeRequest> request)
-    {
-            var response = new Command<ItemtypeResponse>()
+        public void GetItemTypeRequest(Command<ItemTypeRequest> request)
+        {
+            var response = new Command<ItemTypeResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new ItemtypeResponse
+                Arguments = new ItemTypeResponse
                 {
-                    Itemtypes = service.GetItemtyps()
+                    ItemTypes = itemService.GetItemTypes(request.Arguments.SubMenuId)
                 }
             };
-            Clients.Caller.GetItemtypeRequest(response);
-    }
+            Clients.Caller.GetItemTypeRequest(response);
+        }
 
-    public override Task OnConnected()
-    {
-      return base.OnConnected();
-    }
+        public override Task OnConnected()
+        {
+            return base.OnConnected();
+        }
 
 
-    public override Task OnDisconnected(bool stopCalled)
-    {
-      return base.OnDisconnected(stopCalled);
+        public override Task OnDisconnected(bool stopCalled)
+        {
+          return base.OnDisconnected(stopCalled);
+        }
     }
-  }
 }

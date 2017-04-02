@@ -7,18 +7,23 @@ using System.Linq;
 
 namespace Bussiness.Services
 {   
-    public class ItemtypService
+    public class ItemTypeService
     {
         private WaitlessContext context;
 
-        public IEnumerable<ItemtypModel> GetItemtyps(SubmenuModel id)
+        public ItemTypeService(WaitlessContext context)
+        {
+            this.context = context;
+        }
+
+        public IEnumerable<ItemTypeModel> GetItemTypes(long id)
         {
             return context.Itemtyp
-            .AsEnumerable()
-            //.Where<submenuId == this.id>     //sollte menuId's überprüfen
+            .Where(i => i.SubmenuId == id)
+            .ToList()
             .Select(m =>
             {
-                return new ItemtypModel
+                return new ItemTypeModel
                 {
                     Id = m.Id,
                     Number = m.Number,

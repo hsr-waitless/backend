@@ -14,6 +14,7 @@ namespace Database.Models
         public String Name { get; set; }
         public String Description { get; set; }
 
+        public long MenuId { get; set; }
         public Menu Menu { get; set; }
 
         public List<Itemtyp> Items { get; set; }

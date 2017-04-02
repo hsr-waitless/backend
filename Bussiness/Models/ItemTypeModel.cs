@@ -23,5 +23,11 @@ namespace Business.Models
 
         [JsonProperty("category")]
         public Category Category { get; set; }
+
+        [JsonProperty("image")]
+        public String Image { get; set; }
+
+        [JsonProperty("priority")]
+        public Int32 Priority { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace Database.Models
         public String Image { get; set; }
         public Int32 Priority { get; set; }
 
+        public long SubmenuId { get; set; }
         public Submenu Submenu { get; set; }
 
         public List<Configuration> Configurations { get; set; }

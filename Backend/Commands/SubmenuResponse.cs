@@ -2,15 +2,12 @@ using Newtonsoft.Json;
 using Business.Models;
 using System.Collections.Generic;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
 namespace Backend.Commands
 {
-    public class SubmenuResponse
+    public class SubMenuResponse
     {
-        [JsonProperty ("submenus")]
-        public IEnumerable<SubmenuModel> Submenues { get; set; }
+        [JsonProperty ("subMenus")]
+        public IEnumerable<SubMenuModel> SubMenus { get; set; }
     }
 }
 

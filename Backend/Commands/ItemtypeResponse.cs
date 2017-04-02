@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using Business.Models;
 using Newtonsoft.Json;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-/// 
-
 namespace Backend.Commands
 {
-    public class ItemtypeResponse
+    public class ItemTypeResponse
     {
         [JsonProperty("items")]
-        public IEnumerable<ItemTypeModel> Itemtypes { get; set; }
+        public IEnumerable<ItemTypeModel> ItemTypes { get; set; }
     }
 }
