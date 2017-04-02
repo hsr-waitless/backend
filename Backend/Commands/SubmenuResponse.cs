@@ -1,6 +1,7 @@
-﻿using Backend.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Business.Models;
+using Newtonsoft.Json;
 
 /// <summary>
 /// Summary description for Class1
@@ -9,7 +10,8 @@ namespace Backend.Commands
 {
     public class SubmenuResponse
     {
-        public IEnumerable<Submenu> Submenues { get; set; }
+        [JsonProperty("submenus")]
+        public IEnumerable<SubMenuModel> Submenues { get; set; }
     }
 }
 

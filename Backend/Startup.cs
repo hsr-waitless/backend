@@ -1,10 +1,11 @@
-﻿using Backend.Models;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Bussiness.Services;
+using Database;
 
 namespace Backend
 {
@@ -39,6 +40,8 @@ namespace Backend
         options.Hubs.EnableDetailedErrors = true;
       });
 
+      services.AddTransient<MenuService>();
+
       services.AddCors(options =>
       {
         options.AddPolicy("CorsPolicy",
@@ -62,11 +65,6 @@ namespace Backend
       app.UseWebSockets();
 
       app.UseSignalR("/signalr");
-
-	  /*using (var context = app.ApplicationServices.GetService<WaitlessContext>())
-	  {
-		context.Database.Migrate();
-	  }*/
     }
   }
 }

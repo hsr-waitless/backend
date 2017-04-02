@@ -1,6 +1,7 @@
-﻿using Backend.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Business.Models;
+using Newtonsoft.Json;
 
 /// <summary>
 /// Summary description for Class1
@@ -11,6 +12,7 @@ namespace Backend.Commands
 {
     public class ItemtypeResponse
     {
-        public IEnumerable<Itemtyp> Itemtypes { get; set; }
+        [JsonProperty("items")]
+        public IEnumerable<ItemTypeModel> Itemtypes { get; set; }
     }
 }
