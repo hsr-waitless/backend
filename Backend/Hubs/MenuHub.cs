@@ -32,7 +32,7 @@ namespace Backend.Hubs
 
       Clients.Caller.GetMenuResponse(response);
     }
-/*
+
     public void GetSubMenuRequest(Command<SubmenuRequest> request)
     {
             //Hier mal ausprobiert
@@ -41,7 +41,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new SubmenuResponse
                 {
-                    Submenues = context.Submenu.AsEnumerable()
+                    Submenues = service.GetSubmenus()
                 }
             };
             Clients.Caller.GetSubMenuResponse(response);
@@ -54,12 +54,11 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new ItemtypeResponse
                 {
-                    Itemtypes = context.Itemtyp.AsEnumerable()
+                    Itemtypes = service.GetItemtyps()
                 }
             };
             Clients.Caller.GetItemtypeRequest(response);
     }
-    */
 
     public override Task OnConnected()
     {
