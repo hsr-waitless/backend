@@ -14,7 +14,7 @@ namespace Backend.Hubs
   {
         private MenuService service;
 
-    public MenuHub(MenuService service) 
+    public MenuHub(MenuService service, SubmenuService subService, ItemtypService itemService) 
     { 
       this.service = service;
     }
