@@ -6,9 +6,6 @@ using System.Linq;
 using Backend.Commands;
 using Backend.Command;
 using Bussiness.Services;
-using Business.Models;
-using Database.Models;
-using System.Collections.Generic;
 
 namespace Backend.Hubs
 {
@@ -17,7 +14,7 @@ namespace Backend.Hubs
   {
         private MenuService service;
 
-    public MenuHub(MenuService service) 
+    public MenuHub(MenuService service, SubmenuService subService, ItemtypService itemService)
     { 
       this.service = service;
     }
@@ -44,10 +41,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new SubmenuResponse
                 {
-                    Submenues = new List<SubMenuModel>()
-                    {
-                      new SubMenuModel { Name = "Test", Number = 1 }
-                    }
+                    Submenues = service.GetSubmenus()
                 }
             };
             Clients.Caller.GetSubMenuResponse(response);
@@ -60,15 +54,11 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new ItemtypeResponse
                 {
-                    Itemtypes = new List<ItemTypeModel>()
-                    {
-                      new ItemTypeModel { Title = "Grüner Salat", Number = 1, Description = "Lorem ipsum", ItemPrice = 18, Category = Category.Vegan }
-                    }
+                    Itemtypes = service.GetItemtyps()
                 }
             };
             Clients.Caller.GetItemtypeRequest(response);
     }
-    
 
     public override Task OnConnected()
     {
