@@ -60,7 +60,7 @@ namespace Backend.Hubs
                     ItemTypes = itemService.GetItemTypes(request.Arguments.SubMenuId)
                 }
             };
-            Clients.Caller.GetItemTypeRequest(response);
+            Clients.Caller.GetItemTypeResponse(response);
         }
 
         public override Task OnConnected()
