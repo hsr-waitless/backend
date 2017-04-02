@@ -3,6 +3,10 @@
 project.lock.json
 .DS_Store
 *.pyc
+*.nuget.g.props
+*.nuget.g.targets
+*.assets.json
+project.packagespec.json
 
 # Visual Studio Code
 .vscode
