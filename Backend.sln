@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.26228.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{6DF7B6E5-5A36-4DAE-A5A8-F85FAC3717C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bussiness.Test", "Backend.Test\Bussiness.Test.csproj", "{63EEBAD1-9326-45DD-BFF3-34DE28F6E6A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bussiness.Test", "Business.Test\Business.Test.csproj", "{63EEBAD1-9326-45DD-BFF3-34DE28F6E6A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bussiness", "Bussiness\Bussiness.csproj", "{D2030585-193B-42B4-9BA2-5E0DA43DA3BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bussiness", "Business\Business.csproj", "{D2030585-193B-42B4-9BA2-5E0DA43DA3BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{996930AE-FAE8-4223-9A68-2BF9FA554FC1}"
 EndProject
