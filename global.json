@@ -1,0 +1,6 @@
+{
+  "projects": [ "Api", "Api.Test" ],
+  "sdk": {
+    "version": "1.0.4"
+  }
+}
