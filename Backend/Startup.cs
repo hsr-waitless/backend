@@ -41,7 +41,7 @@ namespace Backend
       });
 
 	  services.AddTransient<MenuService>();
-	  services.AddTransient<SubMenuService>();
+	  services.AddTransient<SubmenuService>();
 	  services.AddTransient<ItemTypeService>();
 
       services.AddCors(options =>
