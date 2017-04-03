@@ -7,7 +7,7 @@ namespace Backend.Commands
     public class SubMenuResponse
     {
         [JsonProperty ("subMenus")]
-        public IEnumerable<SubMenuModel> SubMenus { get; set; }
+        public IEnumerable<SubmenuModel> SubMenus { get; set; }
     }
 }
 

@@ -13,10 +13,10 @@ namespace Backend.Hubs
     public class MenuHub : Hub
     {
         private MenuService service;
-        private SubMenuService subService;
+        private SubmenuService subService;
         private ItemTypeService itemService;
 
-        public MenuHub(MenuService service, SubMenuService subService, ItemTypeService itemService)
+        public MenuHub(MenuService service, SubmenuService subService, ItemTypeService itemService)
         { 
             this.service = service;
             this.subService = subService;
@@ -44,7 +44,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new SubMenuResponse
                 {
-                    SubMenus = subService.GetSubMenus(request.Arguments.MenuId)
+                    SubMenus = subService.GetSubmenus(request.Arguments.MenuId)
                 }
             };
             Clients.Caller.GetSubMenuResponse(response);

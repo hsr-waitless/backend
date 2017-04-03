@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Business.Models
 {
-    public class SubMenuModel
+    public class SubmenuModel
     {
         [JsonProperty("id")]
         public long Id { get; set; }
