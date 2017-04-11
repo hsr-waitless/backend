@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Bussiness.Services;
 using Database;
+using Business.Services;
 
 namespace Backend
 {
@@ -44,6 +45,7 @@ namespace Backend
 	  services.AddTransient<SubmenuService>();
 	  services.AddTransient<ItemTypeService>();
       services.AddTransient<TableService>();
+      services.AddTransient<AssignTabletService>();
 
             services.AddCors(options =>
       {
