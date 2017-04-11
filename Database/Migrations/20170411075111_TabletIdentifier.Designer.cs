@@ -9,9 +9,10 @@ using Database.Models;
 namespace Database.Migrations
 {
     [DbContext(typeof(WaitlessContext))]
-    partial class WaitlessContextModelSnapshot : ModelSnapshot
+    [Migration("20170411075111_TabletIdentifier")]
+    partial class TabletIdentifier
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)

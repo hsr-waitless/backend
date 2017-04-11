@@ -14,3 +14,20 @@ dotnet restore
 ```
 dotnet run watch
 ```
+
+## Create Migrations
+*All commands need to be executed in the Database folder!*
+
+```
+dotnet ef -s ../Backend migrations add {Name}
+```
+
+## Apply Migrations (Local)
+```
+dotnet ef -s ../Backend database update
+```
+
+## Apply Migrations (Production)
+```
+dotnet ef -s ../Backend database update --environment Production
+```
