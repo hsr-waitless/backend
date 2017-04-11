@@ -8,9 +8,11 @@ namespace Database.Models
 {
     public class Tablet
     {
+       
+
         [Key]
         public long Id { get; set; }
-        public Int32 Number { get; set; }
+        public String Identifier { get; set; }
         public Mode Mode { get; set; }
 
         public List<Call> Calls { get; set; }
