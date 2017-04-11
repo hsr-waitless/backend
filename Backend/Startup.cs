@@ -43,8 +43,9 @@ namespace Backend
 	  services.AddTransient<MenuService>();
 	  services.AddTransient<SubmenuService>();
 	  services.AddTransient<ItemTypeService>();
+      services.AddTransient<TableService>();
 
-      services.AddCors(options =>
+            services.AddCors(options =>
       {
         options.AddPolicy("CorsPolicy",
           builder => builder.AllowAnyOrigin()
