@@ -5,9 +5,6 @@ using System;
 using Bussiness.Services;
 using Microsoft.AspNetCore.SignalR;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
 namespace Backend.Hubs
 {
     [HubName("tablethub")]
