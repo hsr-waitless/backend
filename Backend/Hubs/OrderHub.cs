@@ -15,11 +15,14 @@ namespace Backend.Hubs
     {
         private TableService service;
         private CreateOrderService createOrderService;
+        private GetOrdersByWaiterService getOrdersByWaiterService;
 
-        public OrderHub(TableService service, CreateOrderService createOrderService)
+        public OrderHub(TableService service, CreateOrderService createOrderService, 
+            GetOrdersByWaiterService getOrdersByWaiterService )
         { 
             this.service = service;
             this.createOrderService = createOrderService;
+            this.getOrdersByWaiterService = getOrdersByWaiterService;
         }
 
         public void GetTableRequest(Command<TableRequest> request)
@@ -32,7 +35,6 @@ namespace Backend.Hubs
                     Tables = service.GetTables()
                 }
             };
-
             Clients.Caller.GetTableResponse(response);
         }
 
@@ -46,8 +48,20 @@ namespace Backend.Hubs
                     Order = createOrderService.CreateOrder(request.Arguments.TabletId)
                 }
             };
-
             Clients.Caller.CreateOrderResponse(response);
+        }
+
+        public void GetOrdersByWaiterRequest(Command<GetOrdersByWaiterRequest> request)
+        {
+            var response = new Command<GetOrdersByWaiterResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new GetOrdersByWaiterResponse
+                {
+                    Orders  = getOrdersByWaiterService.GetOrders(request.Arguments.WaiterId)
+                }
+            };
+            Clients.Caller.GetOrdersByWaiterResponse(response);
         }
 
         
@@ -55,8 +69,7 @@ namespace Backend.Hubs
         {
             return base.OnConnected();
         }
-
-
+        
         public override Task OnDisconnected(bool stopCalled)
         {
           return base.OnDisconnected(stopCalled);
