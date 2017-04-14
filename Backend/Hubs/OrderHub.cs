@@ -39,7 +39,7 @@ namespace Backend.Hubs
 
         public void CreateOrderRequest(Command<CreateOrderRequest> request)
         {
-            var response = new Command<CreateOrderRequest>()
+            var response = new Command<CreateOrderResponse>()
             {
                 RequestId = request.RequestId,
                 Arguments = new CreateOrderResponse
