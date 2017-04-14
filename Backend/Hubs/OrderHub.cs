@@ -6,6 +6,7 @@ using System.Linq;
 using Backend.Commands;
 using Backend.Command;
 using Business.Services;
+using Database.Models;
 
 namespace Backend.Hubs
 {
@@ -13,12 +14,12 @@ namespace Backend.Hubs
     public class OrderHub : Hub
     {
         private TableService service;
-        private OrderService orderService;
+        private CreateOrderService createOrderService;
 
-        public OrderHub(TableService service, OrderService orderService)
+        public OrderHub(TableService service, CreateOrderService createOrderService)
         { 
             this.service = service;
-            this.orderService = orderService;
+            this.createOrderService = createOrderService;
         }
 
         public void GetTableRequest(Command<TableRequest> request)
@@ -37,7 +38,16 @@ namespace Backend.Hubs
 
         public void CreateOrderRequest(Command<CreateOrderRequest> request)
         {
+            var response = new Command<CreateOrderResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new CreateOrderResponse
+                {
+                    Order = createOrderService.CreateOrder(request.Arguments.TabletId)
+                }
+            };
 
+            Clients.Caller.CreateOrderResponse(response);
         }
 
         

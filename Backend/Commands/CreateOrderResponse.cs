@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Database.Models;
+using Newtonsoft.Json;
+using System;
 
 namespace Backend.Commands
 {
-    public class CreateOrderRequest
+    public class CreateOrderResponse
     {
-        public CreateOrderRequest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
+        [JsonProperty ("order")]
+        public Order Order { get; set; }
     }
 }

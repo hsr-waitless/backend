@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Database.Models;
+using Newtonsoft.Json;
+using System;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-public class CreateOrderRequest
+namespace Backend.Commands
 {
-	public CreateOrderRequest()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public class CreateOrderRequest
+    {
+
+        [JsonProperty("tabletID")]
+        public int TabletId { get; set; }
+
+    }
 }
