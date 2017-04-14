@@ -19,7 +19,7 @@ namespace Business.Services
             Order newOrder = new Order();
 
             // Bekannte Daten zuordnen
-            newOrder.Table = context.Table
+            newOrder.Waiter = context.Tablet
             .FirstOrDefault(m => m.Id == tabletId);
             newOrder.OrderStatus = OrderStatus.New;
             newOrder.CreationTime = DateTime.Now;
@@ -28,14 +28,15 @@ namespace Business.Services
 
             // Folgendes fehlt:
             // Id muss festgelegt werden
+            // Table fehlt
             // Number muss festgelegt werden
             // evtl. Positions, Guests und Calls festlegen
 
+            context.Add(newOrder);
+            context.SaveChanges();
             return newOrder;
+
         }
-
-
-
     }
 }
 
