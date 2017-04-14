@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Bussiness.Services;
+using Business.Services;
 
 namespace Backend.Controllers
 {
