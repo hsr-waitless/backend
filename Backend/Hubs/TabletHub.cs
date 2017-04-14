@@ -2,7 +2,7 @@
 using Business.Services;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using System;
-using Bussiness.Services;
+using Business.Services;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Backend.Hubs

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Business.Models;
 using System.Linq;
 
-namespace Bussiness.Services
+namespace Business.Services
 {
     public class TableService
     {

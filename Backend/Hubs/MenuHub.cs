@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using Backend.Commands;
 using Backend.Command;
-using Bussiness.Services;
+using Business.Services;
 
 namespace Backend.Hubs
 {
