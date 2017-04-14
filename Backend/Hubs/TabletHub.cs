@@ -2,12 +2,9 @@
 using Business.Services;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using System;
-using Bussiness.Services;
+using Business.Services;
 using Microsoft.AspNetCore.SignalR;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
 namespace Backend.Hubs
 {
     [HubName("tablethub")]
