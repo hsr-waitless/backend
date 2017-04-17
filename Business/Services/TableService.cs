@@ -15,7 +15,7 @@ namespace Business.Services
             this.context = context;
         }
 
-        public IEnumerable<TableModel> GetTables()
+        public IEnumerable<TableModel> GetAllTables()
         {
             return context.Table
             .AsEnumerable()

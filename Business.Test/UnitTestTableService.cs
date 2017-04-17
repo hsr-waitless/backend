@@ -12,7 +12,7 @@ namespace Backend.Test
      public class UnitTestTableService		
      {		
          [Fact]		
-         public void TestGetTables()		
+         public void TestGetAllTables()		
          {		
              var builder = new DbContextOptionsBuilder<WaitlessContext>();		
              builder.UseInMemoryDatabase("unittest1");		
@@ -28,7 +28,7 @@ namespace Backend.Test
              context.SaveChanges();		
  		
              var service = new TableService(context);		
-             var result = service.GetTables();		
+             var result = service.GetAllTables();		
              Assert.Equal(1, result.Count());
             
         }
@@ -49,7 +49,7 @@ namespace Backend.Test
             context.SaveChanges();
             
             var service = new TableService(context);
-            var result = service.GetTables();
+            var result = service.GetAllTables();
             Assert.Equal("Alta", result.ElementAt(0).Name);
             Assert.Equal(3, result.ElementAt(0).Id);
             
@@ -86,12 +86,12 @@ namespace Backend.Test
             context.SaveChanges();
 
             var service = new TableService(context);
-            var result = service.GetTables();
+            var result = service.GetAllTables();
             Assert.Equal(3, result.Count());
 
             context.Table.Remove(testTable2);
             context.SaveChanges();
-            result = service.GetTables();
+            result = service.GetAllTables();
 
             Assert.Equal(2, result.Count());
 
@@ -114,7 +114,7 @@ namespace Backend.Test
             context.SaveChanges();
 
             var service = new TableService(context);
-            var result = service.GetTables();
+            var result = service.GetAllTables();
             Assert.Equal("Zuki", result.ElementAt(0).Name);
 
             testTable1.Name = "Harri";

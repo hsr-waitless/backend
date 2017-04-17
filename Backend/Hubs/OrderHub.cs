@@ -33,7 +33,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new TableResponse
                 {
-                    Tables = getTablesService.GetTables()
+                    Tables = getTablesService.GetAllTables()
                 }
             };
             Clients.Caller.GetAllTablesResponse(response);
