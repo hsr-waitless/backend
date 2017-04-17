@@ -13,29 +13,30 @@ namespace Backend.Hubs
     [HubName("orderhub")]
     public class OrderHub : Hub
     {
-        private TableService service;
+        private TableService getTablesService;
         private CreateOrderService createOrderService;
         private GetOrdersByWaiterService getOrdersByWaiterService;
 
-        public OrderHub(TableService service, CreateOrderService createOrderService, 
+        public OrderHub(TableService getTablesService
+            , CreateOrderService createOrderService, 
             GetOrdersByWaiterService getOrdersByWaiterService )
         { 
-            this.service = service;
+            this.getTablesService = getTablesService;
             this.createOrderService = createOrderService;
             this.getOrdersByWaiterService = getOrdersByWaiterService;
         }
 
-        public void GetTableRequest(Command<TableRequest> request)
+        public void GetAllTablesRequest(Command<TableRequest> request)
         {
             var response = new Command<TableResponse>()
             {
                 RequestId = request.RequestId,
                 Arguments = new TableResponse
                 {
-                    Tables = service.GetTables()
+                    Tables = getTablesService.GetTables()
                 }
             };
-            Clients.Caller.GetTableResponse(response);
+            Clients.Caller.GetAllTablesResponse(response);
         }
 
         public void CreateOrderRequest(Command<CreateOrderRequest> request)

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Backend.Commands
 {
-    public class ItemTypeResponse
+    public class ItemTypesResponse
     {
         [JsonProperty("items")]
         public IEnumerable<ItemTypeModel> ItemTypes { get; set; }

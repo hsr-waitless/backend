@@ -12,15 +12,15 @@ namespace Backend.Hubs
     [HubName("menuhub")]
     public class MenuHub : Hub
     {
-        private MenuService service;
-        private SubmenuService subService;
-        private ItemTypeService itemService;
+        private MenuService getMenuService;
+        private SubmenuService getSubMenuService;
+        private ItemTypeService getItemsService;
 
-        public MenuHub(MenuService service, SubmenuService subService, ItemTypeService itemService)
+        public MenuHub(MenuService getMenuService, SubmenuService getSubMenuService, ItemTypeService getItemsService)
         { 
-            this.service = service;
-            this.subService = subService;
-            this.itemService = itemService;
+            this.getMenuService = getMenuService;
+            this.getSubMenuService = getSubMenuService;
+            this.getItemsService = getItemsService;
         }
 
         public void GetMenuRequest(Command<MenuRequest> request)
@@ -30,7 +30,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new MenuResponse
                 {
-                    Menus = service.GetMenus()
+                    Menus = getMenuService.GetMenus()
                 }
             };
 
@@ -44,20 +44,20 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new SubMenuResponse
                 {
-                    SubMenus = subService.GetSubmenus(request.Arguments.MenuId)
+                    SubMenus = getSubMenuService.GetSubmenus(request.Arguments.MenuId)
                 }
             };
             Clients.Caller.GetSubMenuResponse(response);
         }
 
-        public void GetItemTypeRequest(Command<ItemTypeRequest> request)
+        public void GetItemTypesRequest(Command<ItemTypesRequest> request)
         {
-            var response = new Command<ItemTypeResponse>()
+            var response = new Command<ItemTypesResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new ItemTypeResponse
+                Arguments = new ItemTypesResponse
                 {
-                    ItemTypes = itemService.GetItemTypes(request.Arguments.SubMenuId)
+                    ItemTypes = getItemsService.GetItemTypes(request.Arguments.SubMenuId)
                 }
             };
             Clients.Caller.GetItemTypeResponse(response);
