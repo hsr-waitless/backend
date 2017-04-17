@@ -1,26 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Backend.Hubs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Business.Services;
+using Database.Models;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
 
 namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private MenuService service;
-        
-        public ValuesController(MenuService service)
+        private IConnectionManager connectionManager;
+
+        public ValuesController(IConnectionManager connectionManager)
         {
-            this.service = service;
+            this.connectionManager = connectionManager;
         }
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<object> Get()
+        public void Get(Mode mode)
         {
-            return service.GetMenus();
+            var hubContext = connectionManager.GetHubContext<TabletHub>();
+            hubContext.Clients.All.OnAssignedTablet(mode);
         }
 
         // GET api/values/5
