@@ -2,7 +2,6 @@
 using Business.Services;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using System;
-using Business.Services;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Backend.Hubs
@@ -11,10 +10,12 @@ namespace Backend.Hubs
     public class TabletHub : Hub
     {
         private AssignTabletService assignService;
+        private GetTabletsByModeService getTabletsByModeService;
 
-        public TabletHub(AssignTabletService assignService)
+        public TabletHub(AssignTabletService assignService, GetTabletsByModeService getTabletsByModeService)
         {
             this.assignService = assignService;
+            this.getTabletsByModeService = getTabletsByModeService;
         }
 
         public void DoAssignTabletRequest(Command<DoAssignTabletRequest> request)
@@ -30,6 +31,19 @@ namespace Backend.Hubs
 
             };
             Clients.Caller.DoAssignTabletResponse(response);
+        }
+
+        public void GetTabletsByModeRequest(Command<GetTabletsByModeRequest> request)
+        {
+            var response = new Command<GetTabletsByModeResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new GetTabletsByModeResponse()
+                {
+                    Tablets = getTabletsByModeService.GetTablets(request.Arguments.Mode)
+                }
+            };
+
         }
     }
 }
