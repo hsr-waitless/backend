@@ -10,7 +10,7 @@ namespace Database.Models
     {
         [Key]
         public long Id { get; set; }
-        public String Name { get; set; }
-
+        public string Name { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

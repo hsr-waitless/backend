@@ -1,8 +1,8 @@
-﻿using System;
-using Database;
+﻿using Database;
 using System.Collections.Generic;
 using Business.Models;
 using System.Linq;
+using Database.Models;
 
 namespace Business.Services
 {
@@ -18,12 +18,23 @@ namespace Business.Services
         public IEnumerable<TableModel> GetAllTables()
         {
             return context.Table
-            .AsEnumerable()
-            .Select(m => new TableModel
+                .Where(t => !t.Orders.Any(o => o.OrderStatus == OrderStatus.Active || o.OrderStatus == OrderStatus.New))
+                .Select(m => new TableModel
+                    {
+                        Id = m.Id,
+                        Name = m.Name,
+                        Available = true
+                    })
+                .OrderBy(o => o.Name)
+                .Union(context.Table
+                .Where(t => t.Orders.Any(o => o.OrderStatus == OrderStatus.Active || o.OrderStatus == OrderStatus.New))
+                .Select(m => new TableModel
                 {
                     Id = m.Id,
-                    Name = m.Name
-                });
+                    Name = m.Name,
+                    Available = false
+                })
+                .OrderBy(o => o.Name));
         }
     }
 }

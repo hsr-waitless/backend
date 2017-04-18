@@ -18,17 +18,37 @@ namespace Business.Services
         public IEnumerable<OrderModel> GetOrders(string tabletIdentifier)
         {
             return context.Order
-            .Include(m => m.Waiter)
-            .Where(m => m.Waiter.Identifier == tabletIdentifier)
-            .ToList().Select(m => new OrderModel
+                .Include(m => m.Waiter)
+                .Include(m => m.Table)
+                .Where(m => m.Waiter.Identifier == tabletIdentifier)
+                .Select(m => new OrderModel
                 {
-                    Number = m.Number,
+                    Number = m.Id,
+                    Table = m.Table.Name,
                     OrderStatus = m.OrderStatus,
                     CreationTime = m.CreationTime,
                     UpdateTime = m.UpdateTime,
                     PriceOrder = m.PriceOrder,
+                    Positions = new List<object>()
                 });
+        }
+
+        public OrderModel GetOrder(long number)
+        {
+            return context.Order
+                .Include(m => m.Table)
+                .Where(m => m.Id == number)
+                .Select(m => new OrderModel
+                {
+                    Number = m.Id,
+                    Table = m.Table.Name,
+                    OrderStatus = m.OrderStatus,
+                    CreationTime = m.CreationTime,
+                    UpdateTime = m.UpdateTime,
+                    PriceOrder = m.PriceOrder,
+                    Positions = new List<object>()
+                })
+                .FirstOrDefault();
         }
     }
 }
-

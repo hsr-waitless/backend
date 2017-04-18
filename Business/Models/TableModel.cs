@@ -11,9 +11,11 @@ namespace Business.Models
         [JsonProperty("id")]
         public long Id { get; set; }
 
-      
         [JsonProperty("name")]
-        public String Name { get; set; }
+        public string Name { get; set; }
+
+        [JsonProperty("available")]
+        public bool Available { get; set; }
         
     }
 }

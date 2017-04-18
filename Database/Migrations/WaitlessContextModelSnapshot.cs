@@ -134,13 +134,11 @@ namespace Database.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
-                    b.Property<int>("Number");
-
                     b.Property<int>("OrderStatus");
 
                     b.Property<double>("PriceOrder");
 
-                    b.Property<long?>("TableId");
+                    b.Property<long>("TableId");
 
                     b.Property<DateTime>("UpdateTime");
 
@@ -279,8 +277,9 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.Models.Order", b =>
                 {
                     b.HasOne("Database.Models.Table", "Table")
-                        .WithMany()
-                        .HasForeignKey("TableId");
+                        .WithMany("Orders")
+                        .HasForeignKey("TableId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Database.Models.Tablet", "Waiter")
                         .WithMany()

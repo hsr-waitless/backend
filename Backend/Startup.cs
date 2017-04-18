@@ -47,8 +47,9 @@ namespace Backend
       services.AddTransient<AssignTabletService>();
       services.AddTransient<CreateOrderService>();
       services.AddTransient<GetOrdersByWaiterService>();
+      services.AddTransient<GetTabletsByModeService>();
 
-            services.AddCors(options =>
+      services.AddCors(options =>
       {
         options.AddPolicy("CorsPolicy",
           builder => builder.AllowAnyOrigin()

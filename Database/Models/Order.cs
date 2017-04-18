@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Database.Models
 {
@@ -10,12 +8,12 @@ namespace Database.Models
     {
         [Key]
         public long Id { get; set; }
-        public Int32 Number { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime UpdateTime { get; set; }
-        public Double PriceOrder { get; set; }
+        public double PriceOrder { get; set; }
 
+        public long TableId { get; set; }
         public Table Table { get; set; }
         public Tablet Waiter { get; set; }
         

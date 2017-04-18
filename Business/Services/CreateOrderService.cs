@@ -19,8 +19,7 @@ namespace Business.Services
         {
             var newOrder = new Order();
 
-            newOrder.Table = context.Table
-            .FirstOrDefault(m => m.Id == tableId);
+            newOrder.TableId = tableId;
             newOrder.Waiter = context.Tablet
                 .FirstOrDefault(m => m.Identifier == tabletIdentifier);
             newOrder.OrderStatus = OrderStatus.New;
@@ -33,7 +32,7 @@ namespace Business.Services
 
             return new OrderModel
             {
-                Number = newOrder.Number,
+                Number = newOrder.Id,
                 OrderStatus = newOrder.OrderStatus,
                 CreationTime = newOrder.CreationTime,
                 UpdateTime = newOrder.UpdateTime,

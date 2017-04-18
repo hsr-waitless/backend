@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
-using System.Threading.Tasks;
-using System.Linq;
 using Backend.Commands;
 using Business.Services;
 
@@ -16,7 +14,7 @@ namespace Backend.Hubs
 
         public OrderHub(TableService getTablesService
             , CreateOrderService createOrderService, 
-            GetOrdersByWaiterService getOrdersByWaiterService )
+            GetOrdersByWaiterService getOrdersByWaiterService)
         { 
             this.getTablesService = getTablesService;
             this.createOrderService = createOrderService;
@@ -60,6 +58,19 @@ namespace Backend.Hubs
                 }
             };
             Clients.Caller.GetOrdersByWaiterResponse(response);
+        }
+
+        public void GetOrderRequest(Command<GetOrderRequest> request)
+        {
+            var response = new Command<GetOrderResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new GetOrderResponse
+                {
+                    Order  = getOrdersByWaiterService.GetOrder(request.Arguments.Number)
+                }
+            };
+            Clients.Caller.GetOrderResponse(response);
         }
     }
 }
