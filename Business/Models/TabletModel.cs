@@ -1,13 +1,12 @@
 ﻿using Database.Models;
 using Newtonsoft.Json;
-using System;
 
 namespace Business.Models
 {
     public class TabletModel
     {
-        [JsonProperty("id")]
-        public long Id { get; set; }
+        [JsonProperty("identifier")]
+        public string Identifier { get; set; }
 
         [JsonProperty("mode")]
         public Mode Mode { get; set; }

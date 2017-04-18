@@ -7,7 +7,7 @@ namespace Business.Services
 {
     public class SubmenuService
     {
-        private WaitlessContext context;
+        private readonly WaitlessContext context;
 
         public SubmenuService(WaitlessContext context)
         {
@@ -19,16 +19,13 @@ namespace Business.Services
             return context.Submenu
             .Where(m => m.MenuId == id)
             .ToList()
-            .Select(m =>
-            {
-                return new SubmenuModel
+            .Select(m => new SubmenuModel
                 {
                     Id = m.Id,
                     Number = m.Number,
                     Name = m.Name,
                     Description = m.Description
-                };
-            });
+                });
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using System.Threading.Tasks;
-using System;
-using System.Linq;
 using Backend.Commands;
 using Backend.Command;
 using Business.Services;
@@ -12,9 +10,9 @@ namespace Backend.Hubs
     [HubName("menuhub")]
     public class MenuHub : Hub
     {
-        private MenuService getMenuService;
-        private SubmenuService getSubMenuService;
-        private ItemTypeService getItemsService;
+        private readonly MenuService getMenuService;
+        private readonly SubmenuService getSubMenuService;
+        private readonly ItemTypeService getItemsService;
 
         public MenuHub(MenuService getMenuService, SubmenuService getSubMenuService, ItemTypeService getItemsService)
         { 
@@ -61,17 +59,6 @@ namespace Backend.Hubs
                 }
             };
             Clients.Caller.GetItemTypeResponse(response);
-        }
-
-        public override Task OnConnected()
-        {
-            return base.OnConnected();
-        }
-
-
-        public override Task OnDisconnected(bool stopCalled)
-        {
-          return base.OnDisconnected(stopCalled);
         }
     }
 }

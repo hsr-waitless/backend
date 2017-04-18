@@ -5,8 +5,8 @@ namespace Backend.Commands
 {
     public class GetOrdersByWaiterRequest
     {
-        [JsonProperty("waiterId")]
-        public int WaiterId { get; set; }
+        [JsonProperty("tabletIdentifier")]
+        public string TabletIdentifier { get; set; }
     }
 }
 

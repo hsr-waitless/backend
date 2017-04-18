@@ -1,21 +1,18 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using System.Threading.Tasks;
-using System;
 using System.Linq;
 using Backend.Commands;
-using Backend.Command;
 using Business.Services;
-using Database.Models;
 
 namespace Backend.Hubs
 {
     [HubName("orderhub")]
     public class OrderHub : Hub
     {
-        private TableService getTablesService;
-        private CreateOrderService createOrderService;
-        private GetOrdersByWaiterService getOrdersByWaiterService;
+        private readonly TableService getTablesService;
+        private readonly CreateOrderService createOrderService;
+        private readonly GetOrdersByWaiterService getOrdersByWaiterService;
 
         public OrderHub(TableService getTablesService
             , CreateOrderService createOrderService, 
@@ -46,7 +43,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new CreateOrderResponse
                 {
-                    Order = createOrderService.CreateOrder(request.Arguments.TabletId)
+                    Order = createOrderService.CreateOrder(request.Arguments.TableId, request.Arguments.TabletIdentifier)
                 }
             };
             Clients.Caller.CreateOrderResponse(response);
@@ -59,21 +56,10 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new GetOrdersByWaiterResponse
                 {
-                    Orders  = getOrdersByWaiterService.GetOrders(request.Arguments.WaiterId)
+                    Orders  = getOrdersByWaiterService.GetOrders(request.Arguments.TabletIdentifier)
                 }
             };
             Clients.Caller.GetOrdersByWaiterResponse(response);
-        }
-
-        
-        public override Task OnConnected()
-        {
-            return base.OnConnected();
-        }
-        
-        public override Task OnDisconnected(bool stopCalled)
-        {
-          return base.OnDisconnected(stopCalled);
         }
     }
 }

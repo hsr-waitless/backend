@@ -9,15 +9,16 @@ namespace Business.Services
 {
     public class AssignTabletService
     {
-        private WaitlessContext context;
+        private readonly WaitlessContext context;
+
         public AssignTabletService( WaitlessContext context)
         {
             this.context = context;
         }
 
-        public Boolean AssignTablet( String tabletIdentifier, Mode tabletMode)
+        public bool SetMode( string tabletIdentifier, Mode tabletMode)
         {
-            Boolean tabletWasFound = false;
+            var tabletWasFound = false;
 
             //Looking for Tablet
             var searchedTablet = context.Tablet
@@ -25,10 +26,12 @@ namespace Business.Services
 
             if( searchedTablet == null)
             {
-                searchedTablet = new Tablet();
-                searchedTablet.Identifier = tabletIdentifier;
+                searchedTablet = new Tablet
+                {
+                    Identifier = tabletIdentifier,
+                    Mode = tabletMode
+                };
 
-                searchedTablet.Mode = tabletMode;
                 context.Tablet.Add(searchedTablet);
 
             } else

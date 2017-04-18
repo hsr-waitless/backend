@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Business.Models;
 using Database.Models;
 using Database;
@@ -9,7 +8,7 @@ namespace Business.Services
 {
     public class GetTabletsByModeService
     {
-        private WaitlessContext context;
+        private readonly WaitlessContext context;
 
         public GetTabletsByModeService( WaitlessContext context)
         {
@@ -21,14 +20,11 @@ namespace Business.Services
             return context.Tablet
             .Where(t => t.Mode == mode)
             .ToList()
-            .Select(t =>
-            {
-                return new TabletModel
+            .Select(t => new TabletModel
                 {
-                    Id = t.Id,
+                    Identifier = t.Identifier,
                     Mode = t.Mode
-                };
-            });
+                });
         }
     }
 }

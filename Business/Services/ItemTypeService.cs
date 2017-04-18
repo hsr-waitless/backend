@@ -9,7 +9,7 @@ namespace Business.Services
 {   
     public class ItemTypeService
     {
-        private WaitlessContext context;
+        private readonly WaitlessContext context;
 
         public ItemTypeService(WaitlessContext context)
         {
@@ -21,9 +21,7 @@ namespace Business.Services
             return context.Itemtyp
             .Where(i => i.SubmenuId == id)
             .ToList()
-            .Select(m =>
-            {
-                return new ItemTypeModel
+            .Select(m => new ItemTypeModel
                 {
                     Id = m.Id,
                     Number = m.Number,
@@ -33,8 +31,7 @@ namespace Business.Services
                     Category = m.Category,
                     Image = m.Image,
                     Priority = m.Priority
-                };
-            });
+                });
         }
 
 

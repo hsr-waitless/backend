@@ -2,40 +2,43 @@
 using Database.Models;
 using System;
 using System.Linq;
+using Business.Models;
 
 namespace Business.Services
 {
     public class CreateOrderService
     {
-        private WaitlessContext context;
+        private readonly WaitlessContext context;
 
         public CreateOrderService(WaitlessContext context)
         {
             this.context = context;
         }
 
-        public Order CreateOrder(int tabletId)
+        public OrderModel CreateOrder(long tableId, string tabletIdentifier)
         {
-            Order newOrder = new Order();
+            var newOrder = new Order();
 
-            // Bekannte Daten zuordnen
+            newOrder.Table = context.Table
+            .FirstOrDefault(m => m.Id == tableId);
             newOrder.Waiter = context.Tablet
-            .FirstOrDefault(m => m.Id == tabletId);
+                .FirstOrDefault(m => m.Identifier == tabletIdentifier);
             newOrder.OrderStatus = OrderStatus.New;
             newOrder.CreationTime = DateTime.Now;
             newOrder.UpdateTime = newOrder.CreationTime;
             newOrder.PriceOrder = 0;
 
-            // Folgendes fehlt:
-            // Id muss festgelegt werden
-            // Table fehlt
-            // Number muss festgelegt werden
-            // evtl. Positions, Guests und Calls festlegen
-
             context.Add(newOrder);
             context.SaveChanges();
-            return newOrder;
 
+            return new OrderModel
+            {
+                Number = newOrder.Number,
+                OrderStatus = newOrder.OrderStatus,
+                CreationTime = newOrder.CreationTime,
+                UpdateTime = newOrder.UpdateTime,
+                PriceOrder = newOrder.PriceOrder,
+            };
         }
     }
 }

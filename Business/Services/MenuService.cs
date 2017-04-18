@@ -8,7 +8,7 @@ namespace Business.Services
 {
     public class MenuService
     {
-        private WaitlessContext context;
+        private readonly WaitlessContext context;
 
         public MenuService(WaitlessContext context)
         {
@@ -19,16 +19,13 @@ namespace Business.Services
         {
             return context.Menu
             .AsEnumerable()
-            .Select(m =>
-            {
-                return new MenuModel
+            .Select(m => new MenuModel
                 {
                     Id = m.Id,
                     Number = m.Number,
                     Name = m.Name,
                     Description = m.Description
-                };
-            });
+                });
         }
     }
 }

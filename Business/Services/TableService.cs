@@ -8,7 +8,7 @@ namespace Business.Services
 {
     public class TableService
     {
-        private WaitlessContext context;
+        private readonly WaitlessContext context;
 
         public TableService(WaitlessContext context)
         {
@@ -19,14 +19,11 @@ namespace Business.Services
         {
             return context.Table
             .AsEnumerable()
-            .Select(m =>
-            {
-                return new TableModel
+            .Select(m => new TableModel
                 {
                     Id = m.Id,
                     Name = m.Name
-                };
-            });
+                });
         }
     }
 }

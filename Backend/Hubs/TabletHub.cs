@@ -1,7 +1,6 @@
 ﻿using Backend.Commands;
 using Business.Services;
 using Microsoft.AspNetCore.SignalR.Hubs;
-using System;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Backend.Hubs
@@ -9,8 +8,8 @@ namespace Backend.Hubs
     [HubName("tablethub")]
     public class TabletHub : Hub
     {
-        private AssignTabletService assignService;
-        private GetTabletsByModeService getTabletsByModeService;
+        private readonly AssignTabletService assignService;
+        private readonly GetTabletsByModeService getTabletsByModeService;
 
         public TabletHub(AssignTabletService assignService, GetTabletsByModeService getTabletsByModeService)
         {
@@ -18,19 +17,19 @@ namespace Backend.Hubs
             this.getTabletsByModeService = getTabletsByModeService;
         }
 
-        public void DoAssignTabletRequest(Command<DoAssignTabletRequest> request)
+        public void SetModeRequest(Command<DoAssignTabletRequest> request)
         {
             var response = new Command<DoAssignTabletResponse>()
             {
                 RequestId = request.RequestId,
                 Arguments = new DoAssignTabletResponse()
                 {
-                    IsTabletNew = assignService.AssignTablet
+                    IsTabletNew = assignService.SetMode
                     (request.Arguments.TabletIdentifier , request.Arguments.Mode)
                 }
 
             };
-            Clients.Caller.DoAssignTabletResponse(response);
+            Clients.Caller.SetModeResponse(response);
         }
 
         public void GetTabletsByModeRequest(Command<GetTabletsByModeRequest> request)
@@ -43,7 +42,7 @@ namespace Backend.Hubs
                     Tablets = getTabletsByModeService.GetTablets(request.Arguments.Mode)
                 }
             };
-
+            Clients.Caller.GetTabletsByModeResponse(response);
         }
     }
 }
