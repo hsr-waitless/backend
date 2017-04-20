@@ -9,16 +9,12 @@ namespace Backend.Hubs
     public class OrderHub : Hub
     {
         private readonly TableService getTablesService;
-        private readonly CreateOrderService createOrderService;
-        private readonly GetOrdersByWaiterService getOrdersByWaiterService;
+        private readonly OrderService orderService;
 
-        public OrderHub(TableService getTablesService
-            , CreateOrderService createOrderService, 
-            GetOrdersByWaiterService getOrdersByWaiterService)
+        public OrderHub(TableService getTablesService, OrderService orderService)
         { 
             this.getTablesService = getTablesService;
-            this.createOrderService = createOrderService;
-            this.getOrdersByWaiterService = getOrdersByWaiterService;
+            this.orderService = orderService;
         }
 
         public void GetAllTablesRequest(Command<TableRequest> request)
@@ -41,7 +37,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new CreateOrderResponse
                 {
-                    Order = createOrderService.CreateOrder(request.Arguments.TableId, request.Arguments.TabletIdentifier)
+                    Order = orderService.CreateOrder(request.Arguments.TableId, request.Arguments.TabletIdentifier)
                 }
             };
             Clients.Caller.CreateOrderResponse(response);
@@ -54,7 +50,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new GetOrdersByWaiterResponse
                 {
-                    Orders  = getOrdersByWaiterService.GetOrders(request.Arguments.TabletIdentifier)
+                    Orders  = orderService.GetOrdersByWaiter(request.Arguments.TabletIdentifier)
                 }
             };
             Clients.Caller.GetOrdersByWaiterResponse(response);
@@ -67,7 +63,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new GetOrderResponse
                 {
-                    Order  = getOrdersByWaiterService.GetOrder(request.Arguments.Number)
+                    Order  = orderService.GetOrder(request.Arguments.Number)
                 }
             };
             Clients.Caller.GetOrderResponse(response);
