@@ -8,13 +8,11 @@ namespace Backend.Hubs
     [HubName("tablethub")]
     public class TabletHub : Hub
     {
-        private readonly AssignTabletService assignService;
-        private readonly GetTabletsByModeService getTabletsByModeService;
+        private readonly TabletService tabletService;
 
-        public TabletHub(AssignTabletService assignService, GetTabletsByModeService getTabletsByModeService)
+        public TabletHub(TabletService tabletService)
         {
-            this.assignService = assignService;
-            this.getTabletsByModeService = getTabletsByModeService;
+            this.tabletService = tabletService;
         }
 
         public void SetModeRequest(Command<DoAssignTabletRequest> request)
@@ -24,7 +22,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new DoAssignTabletResponse()
                 {
-                    IsTabletNew = assignService.SetMode
+                    IsTabletNew = tabletService.SetMode
                     (request.Arguments.TabletIdentifier , request.Arguments.Mode)
                 }
 
@@ -39,7 +37,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new GetTabletsByModeResponse()
                 {
-                    Tablets = getTabletsByModeService.GetTablets(request.Arguments.Mode)
+                    Tablets = tabletService.GetTablets(request.Arguments.Mode)
                 }
             };
             Clients.Caller.GetTabletsByModeResponse(response);
