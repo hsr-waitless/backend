@@ -44,11 +44,9 @@ namespace Backend
 	  services.AddTransient<SubmenuService>();
 	  services.AddTransient<ItemTypeService>();
       services.AddTransient<TableService>();
-      services.AddTransient<AssignTabletService>();
-      services.AddTransient<CreateOrderService>();
-      services.AddTransient<GetOrdersByWaiterService>();
-      services.AddTransient<GetTabletsByModeService>();
       services.AddTransient<AssignOrderService>();
+      services.AddTransient<TabletService>();
+      services.AddTransient<OrderService>();
 
       services.AddCors(options =>
       {

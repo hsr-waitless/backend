@@ -1,21 +1,47 @@
 ﻿using Database;
-using System.Collections.Generic;
-using Business.Models;
+using Database.Models;
+using System;
 using System.Linq;
+using Business.Models;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
-    public class GetOrdersByWaiterService
+    public class OrderService
     {
         private readonly WaitlessContext context;
 
-        public GetOrdersByWaiterService(WaitlessContext context)
+        public OrderService(WaitlessContext context)
         {
             this.context = context;
         }
 
-        public IEnumerable<OrderModel> GetOrders(string tabletIdentifier)
+        public OrderModel CreateOrder(long tableId, string tabletIdentifier)
+        {
+            var newOrder = new Order();
+
+            newOrder.TableId = tableId;
+            newOrder.Waiter = context.Tablet
+                .FirstOrDefault(m => m.Identifier == tabletIdentifier);
+            newOrder.OrderStatus = OrderStatus.New;
+            newOrder.CreationTime = DateTime.Now;
+            newOrder.UpdateTime = newOrder.CreationTime;
+            newOrder.PriceOrder = 0;
+
+            context.Add(newOrder);
+            context.SaveChanges();
+
+            return new OrderModel
+            {
+                Number = newOrder.Id,
+                OrderStatus = newOrder.OrderStatus,
+                CreationTime = newOrder.CreationTime,
+                UpdateTime = newOrder.UpdateTime,
+                PriceOrder = newOrder.PriceOrder,
+            };
+        }
+        public IEnumerable<OrderModel> GetOrdersByWaiter(string tabletIdentifier)
         {
             return context.Order
                 .Include(m => m.Waiter)
@@ -52,3 +78,4 @@ namespace Business.Services
         }
     }
 }
+
