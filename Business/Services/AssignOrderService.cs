@@ -38,5 +38,26 @@ namespace Business.Services
             return true;
             
         }
+
+        public bool OnOrderUnassigned(string tabletIdentifier, long orderId) {
+
+            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            if (relevantOrder == null)
+            {
+                return false;
+            }
+
+
+            var tablet = context.Tablet.FirstOrDefault(t => t.Identifier == tabletIdentifier);
+            if (tablet == null)
+            {
+                return false;
+            }
+
+            relevantOrder.Guests.Remove(tablet);
+
+            context.SaveChanges();
+            return true;
+        }
     }
 }

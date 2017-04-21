@@ -1,4 +1,5 @@
 ﻿using Business.Services;
+using Business.Test.Factory;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,9 +13,7 @@ namespace Backend.Test
         [Fact]
         public void TestGetSubmenus()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest1");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testSubmenu = new Database.Models.Submenu()
             {
@@ -37,9 +36,7 @@ namespace Backend.Test
         [Fact]
         public void TestGetSubmenuDetails()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest2");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testSubmenu1 = new Database.Models.Submenu()
             {
@@ -65,9 +62,7 @@ namespace Backend.Test
         [Fact]
         public void TestSubmenuCount()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest3");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testSubmenu2 = new Database.Models.Submenu()
             {
@@ -114,9 +109,7 @@ namespace Backend.Test
         [Fact]
         public void TestSubmenuUpdate()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest4");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testSubmenu = new Database.Models.Submenu()
             {

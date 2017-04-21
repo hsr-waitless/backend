@@ -1,4 +1,5 @@
-﻿using Business.Services;		
+﻿using Business.Services;
+using Business.Test.Factory;
 using Database;		
 using Microsoft.EntityFrameworkCore;		
 using System;		
@@ -11,10 +12,8 @@ using Xunit;
      {		
          [Fact]		
          public void TestGetMenus()		
-         {		
-             var builder = new DbContextOptionsBuilder<WaitlessContext>();		
-             builder.UseInMemoryDatabase("unittest1");		
-             var context = new WaitlessContext(builder.Options);
+         {
+            var context = MockContextFactory.Create();
 
             var testMenu = new Database.Models.Menu()
             {
@@ -36,9 +35,7 @@ using Xunit;
         [Fact]
         public void TestGetMenuDetails()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest2");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testMenu = new Database.Models.Menu()
             {
@@ -63,9 +60,7 @@ using Xunit;
         [Fact]
         public void TestMenuCount()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest3");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testMenu1 = new Database.Models.Menu()
             {
@@ -120,9 +115,7 @@ using Xunit;
         [Fact]
         public void TestMenuUpdate()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest4");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testMenu = new Database.Models.Menu()
             {
