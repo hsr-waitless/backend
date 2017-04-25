@@ -16,6 +16,8 @@ namespace Business.Models
         // benötigt OrderKlasse bevor implementiert wird
         // evtl. muss dies auch in dem Order erstellt werden
 
+        // Korrektur benötigt nur OrderId
+
         /*[JsonProperty("order")]
         public Order Order { get; set; }
         */
