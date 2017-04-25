@@ -100,6 +100,41 @@ using Xunit;
 
         }
 
+        [Fact]
+        public void TestOnOrderAssignedWI() {
+            var context = MockContextFactory.Create();
+
+
+            String fakeIdentifier = "Laptop";
+
+            var waiter = new Tablet()
+            {
+                Id = 2,
+                Identifier = "Karim",
+                Mode = Mode.Waiter
+            };
+
+            var testOrder = new Order()
+            {
+                Id = 1,
+                OrderStatus = OrderStatus.New,
+                CreationTime = new DateTime(2017, 2, 4, 17, 0, 0),
+                UpdateTime = new DateTime(2017, 2, 4, 17, 0, 0),
+                Waiter = waiter,
+                Guests = new List<Tablet>()
+
+
+            };
+            
+            context.Tablet.Add(waiter);
+            context.Order.Add(testOrder);
+            context.SaveChanges();
+
+            var service = new AssignOrderService(context);
+            var result = service.OnOrderAssigned(fakeIdentifier, testOrder.Id);
+
+            Assert.Equal(false, result);
+        }
 
 
     }		
