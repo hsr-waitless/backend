@@ -44,6 +44,7 @@ namespace Backend
 	  services.AddTransient<SubmenuService>();
 	  services.AddTransient<ItemTypeService>();
       services.AddTransient<TableService>();
+      services.AddTransient<AssignOrderService>();
       services.AddTransient<TabletService>();
       services.AddTransient<OrderService>();
 

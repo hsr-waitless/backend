@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR.Hubs;
 using Backend.Commands;
 using Business.Services;
+using Database;
 
 namespace Backend.Hubs
 {
@@ -10,11 +11,15 @@ namespace Backend.Hubs
     {
         private readonly TableService getTablesService;
         private readonly OrderService orderService;
+        private readonly AssignOrderService assignOrderService;
 
-        public OrderHub(TableService getTablesService, OrderService orderService)
-        { 
+        public OrderHub(TableService getTablesService,
+            OrderService orderService,
+            AssignOrderService assignOrderService)
+        {
             this.getTablesService = getTablesService;
             this.orderService = orderService;
+            this.assignOrderService = assignOrderService;
         }
 
         public void GetAllTablesRequest(Command<TableRequest> request)
@@ -68,5 +73,33 @@ namespace Backend.Hubs
             };
             Clients.Caller.GetOrderResponse(response);
         }
+
+        public void AssignOrderRequest(Command<AssignOrderRequest> request) {
+
+            var assignOrder = new OnOrderAssignedEvent
+            {
+                OrderId = request.Arguments.OrderId,
+            };
+            
+            Clients.Group(request.Arguments.TabletIdentifier).OnOrderAssignEvent(assignOrder);
+
+
+            var response = new Command<AssignOrderResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new AssignOrderResponse
+                {
+                    success = assignOrderService.OnOrderAssigned(request.Arguments.TabletIdentifier, request.Arguments.OrderId)
+                }
+            };
+            
+            Clients.Caller.AssignOrderResponse(response);
+        }
+
+        
+
+
+
+
     }
 }

@@ -72,7 +72,8 @@ namespace Business.Services
                     CreationTime = m.CreationTime,
                     UpdateTime = m.UpdateTime,
                     PriceOrder = m.PriceOrder,
-                    Positions = new List<object>()
+                    Positions = new List<object>(),
+                    Guests = m.Guests
                 })
                 .FirstOrDefault();
         }

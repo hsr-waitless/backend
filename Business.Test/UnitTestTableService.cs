@@ -6,6 +6,7 @@ using System.Linq;
 using Xunit;
 using System.Collections.Generic;
 using Business.Models;
+using Business.Test.Factory;
 
 namespace Backend.Test		
  {		
@@ -13,10 +14,8 @@ namespace Backend.Test
      {		
          [Fact]		
          public void TestGetAllTables()		
-         {		
-             var builder = new DbContextOptionsBuilder<WaitlessContext>();		
-             builder.UseInMemoryDatabase("unittest1");		
-             var context = new WaitlessContext(builder.Options);
+         {
+            var context = MockContextFactory.Create();
 
             var testTable = new Database.Models.Table
             {
@@ -35,10 +34,9 @@ namespace Backend.Test
 
         [Fact]
         public void TestGetTableDetails() {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest2");
-            var context = new WaitlessContext(builder.Options);
-            
+
+            var context = MockContextFactory.Create();
+
             var testTable1 = new Database.Models.Table
             {
                 Id = 3,
@@ -58,9 +56,7 @@ namespace Backend.Test
         [Fact]
         public void TestTableCount()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest3");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testTable2 = new Database.Models.Table
             {
@@ -100,9 +96,7 @@ namespace Backend.Test
         [Fact]
         public void TestTableUpdate()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest4");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testTable1 = new Database.Models.Table
             {

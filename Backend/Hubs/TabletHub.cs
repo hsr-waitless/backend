@@ -17,6 +17,8 @@ namespace Backend.Hubs
 
         public void SetModeRequest(Command<DoAssignTabletRequest> request)
         {
+
+            Groups.Add(Context.ConnectionId, request.Arguments.TabletIdentifier);
             var response = new Command<DoAssignTabletResponse>()
             {
                 RequestId = request.RequestId,

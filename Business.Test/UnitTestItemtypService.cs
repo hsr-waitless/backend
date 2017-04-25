@@ -1,4 +1,5 @@
 ﻿using Business.Services;
+using Business.Test.Factory;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -11,9 +12,7 @@ namespace Backend.Test
         [Fact]
         public void TestGetItemtypes()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest1");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create(); 
 
             var testItem = new Database.Models.Itemtyp()
             {
@@ -40,9 +39,7 @@ namespace Backend.Test
         [Fact]
         public void TestGetItemTypeDetails()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest2");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testItem = new Database.Models.Itemtyp()
             {
@@ -76,9 +73,7 @@ namespace Backend.Test
         [Fact]
         public void TestItemTypeCount()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest3");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testItem1 = new Database.Models.Itemtyp()
             {
@@ -137,9 +132,7 @@ namespace Backend.Test
         [Fact]
         public void TestItemTypUpdate()
         {
-            var builder = new DbContextOptionsBuilder<WaitlessContext>();
-            builder.UseInMemoryDatabase("unittest4");
-            var context = new WaitlessContext(builder.Options);
+            var context = MockContextFactory.Create();
 
             var testItem = new Database.Models.Itemtyp()
             {
