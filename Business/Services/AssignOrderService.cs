@@ -24,12 +24,14 @@ namespace Business.Services
                 return false;
             }
 
-
+            
             var tablet = context.Tablet.FirstOrDefault(t => t.Identifier == tabletIdentifier);
             if (tablet == null)
             {
                 return false;
             }
+
+
 
             relevantOrder.Guests.Add(tablet);
 

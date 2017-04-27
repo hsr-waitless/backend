@@ -108,10 +108,24 @@ namespace Backend.Hubs
                 }
             };
             Clients.Caller.DoChangeStatusOrderResponse(response);
+        }        public void UnassignOrderRequest(Command<UnassignOrderRequest> request) {
+            var unassignOrder = new OnOrderUnassignedEvent
+            {
+                OrderId = request.Arguments.OrderId,
+            };
+
+            Clients.Group(request.Arguments.TabletIdentifier).OnOrderUnassignEvent(unassignOrder);
+
+            var response = new Command<UnassignOrderResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new UnassignOrderResponse
+                {
+                    success = assignOrderService.OnOrderUnassigned(request.Arguments.TabletIdentifier, request.Arguments.OrderId)
+                }
+            };
+
+            Clients.Caller.UnassignOrderResponse(response);
         }
-
-
-
-
     }
 }
