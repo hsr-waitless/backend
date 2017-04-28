@@ -10,17 +10,9 @@ namespace Business.Models
 
         [JsonProperty("mode")]
         public Mode Mode { get; set; }
-        
 
-        // Tablet wird einer Order zugewiesen für die Menüauswahl
-        // benötigt OrderKlasse bevor implementiert wird
-        // evtl. muss dies auch in dem Order erstellt werden
-
-        // Korrektur benötigt nur OrderId
-
-        /*[JsonProperty("order")]
-        public Order Order { get; set; }
-        */
+        [JsonProperty("orderId")]
+        public long? OrderId { get; set; }
         
     }
 }

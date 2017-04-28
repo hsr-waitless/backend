@@ -23,7 +23,13 @@ namespace Business.Services
             .Select(t => new TabletModel
             {
                 Identifier = t.Identifier,
-                Mode = t.Mode
+                Mode = t.Mode,
+                OrderId = context.Order
+                    .FirstOrDefault(o => (
+                        o.OrderStatus == OrderStatus.New
+                        || o.OrderStatus == OrderStatus.Active) 
+                        && o.Guests.Any(g => g.Id == t.Id))?.Id
+
             });
         }
         public bool SetMode( string tabletIdentifier, Mode tabletMode)
