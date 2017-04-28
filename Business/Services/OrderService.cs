@@ -55,7 +55,7 @@ namespace Business.Services
                     CreationTime = m.CreationTime,
                     UpdateTime = m.UpdateTime,
                     PriceOrder = m.PriceOrder,
-                    Positions = new List<object>()
+                    Positions = m.Positions
                 });
         }
 
@@ -72,10 +72,45 @@ namespace Business.Services
                     CreationTime = m.CreationTime,
                     UpdateTime = m.UpdateTime,
                     PriceOrder = m.PriceOrder,
-                    Positions = new List<object>(),
+                    Positions = m.Positions,
                     Guests = m.Guests
                 })
                 .FirstOrDefault();
+        }
+
+        public OrderPos CreateOrderPos(long orderId) {
+            return new OrderPos()
+            {
+
+                
+                Number = context.Order.FirstOrDefault(o => o.Id == orderId).Positions.Count() + 1,
+                CreationDate = DateTime.Now,
+                PosStatus = PosStatus.New,
+                OrderId = orderId
+             };
+            
+        }
+
+        public bool AddOrderPos(long orderId, OrderPos position) {
+            if (orderId == null || position.Id == null)
+            {
+                return false;
+            }
+
+            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            relevantOrder.Positions.Add(position);
+            context.SaveChanges();
+            return true;
+        }
+
+        public bool RemoveOrderPos(long orderId, long positionId) {
+            if (orderId == null || positionId == null) {
+                return false;
+            }
+            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            relevantOrder.Positions.Remove(relevantOrder.Positions.FirstOrDefault(p => p.Id == positionId));
+            context.SaveChanges();
+            return true;
         }
     }
 }

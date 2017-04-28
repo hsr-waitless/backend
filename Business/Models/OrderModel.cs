@@ -26,7 +26,7 @@ namespace Business.Models
         public double PriceOrder { get; set; }
 
         [JsonProperty ("positions")]
-        public List<object> Positions { get; set; } //todo: order pos model
+        public List<OrderPos> Positions { get; set; }
 
         [JsonProperty ("guests")]
         public List<Tablet> Guests { get; set; }

@@ -19,6 +19,7 @@ namespace Database.Models
         public PosStatus PosStatus { get; set; }
         public String Comment { get; set; }
 
+        public long OrderId { get; set; }
         public Order Order { get; set; }
         public Itemtyp Itemtyp { get; set; }
 

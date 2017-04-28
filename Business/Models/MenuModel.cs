@@ -8,7 +8,7 @@ namespace Business.Models
         [JsonProperty("id")]
         public long Id { get; set; }
 
-        [JsonProperty("order")]
+        [JsonProperty("number")]
         public Int32 Number { get; set; }
 
         [JsonProperty("name")]

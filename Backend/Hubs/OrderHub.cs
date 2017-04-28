@@ -116,5 +116,34 @@ namespace Backend.Hubs
 
             Clients.Caller.UnassignOrderResponse(response);
         }
+
+        public void AddOrderPosRequest(Command<AddOrderPosRequest> request) {
+
+            var position = orderService.CreateOrderPos(request.Arguments.OrderId);
+
+            var response = new Command<AddOrderPosResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new AddOrderPosResponse
+                {
+                    Success = orderService.AddOrderPos(request.Arguments.OrderId, position)
+                }
+            };
+            Clients.Caller.AddOrderPosResponse(response);
+        }
+
+        public void RemoveOrderPosRequest(Command<RemoveOrderPosRequest> request)
+        {
+            var response = new Command<RemoveOrderPosResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new RemoveOrderPosResponse
+                {
+                    Success = orderService.RemoveOrderPos(request.Arguments.OrderId, request.Arguments.PositionId)
+                }
+            };
+            Clients.Caller.RemoveOrderPosResponse(response);
+        }
+
     }
 }

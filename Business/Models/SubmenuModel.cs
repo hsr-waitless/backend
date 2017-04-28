@@ -11,7 +11,7 @@ namespace Business.Models
         [JsonProperty("id")]
         public long Id { get; set; }
 
-        [JsonProperty("Menu")]
+        [JsonProperty("number")]
         public long Number { get; set; }
 
         [JsonProperty("name")]
