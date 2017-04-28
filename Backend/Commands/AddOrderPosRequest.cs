@@ -9,5 +9,8 @@ namespace Backend.Commands
         [JsonProperty("orderId")]
         public long OrderId { get; set; }
 
+        [JsonProperty("itemTypeId")]
+        public long ItemTypeId { get; set; }
+
     }
 }

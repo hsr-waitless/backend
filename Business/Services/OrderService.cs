@@ -32,14 +32,7 @@ namespace Business.Services
             context.Add(newOrder);
             context.SaveChanges();
 
-            return new OrderModel
-            {
-                Number = newOrder.Id,
-                OrderStatus = newOrder.OrderStatus,
-                CreationTime = newOrder.CreationTime,
-                UpdateTime = newOrder.UpdateTime,
-                PriceOrder = newOrder.PriceOrder,
-            };
+            return OrderModel.MapFromDatabase(newOrder);
         }
         public IEnumerable<OrderModel> GetOrdersByWaiter(string tabletIdentifier)
         {
@@ -47,16 +40,7 @@ namespace Business.Services
                 .Include(m => m.Waiter)
                 .Include(m => m.Table)
                 .Where(m => m.Waiter.Identifier == tabletIdentifier)
-                .Select(m => new OrderModel
-                {
-                    Number = m.Id,
-                    Table = m.Table.Name,
-                    OrderStatus = m.OrderStatus,
-                    CreationTime = m.CreationTime,
-                    UpdateTime = m.UpdateTime,
-                    PriceOrder = m.PriceOrder,
-                    Positions = m.Positions
-                });
+                .Select(m => OrderModel.MapFromDatabase(m));
         }
 
         public OrderModel GetOrder(long number)
@@ -64,40 +48,30 @@ namespace Business.Services
             return context.Order
                 .Include(m => m.Table)
                 .Where(m => m.Id == number)
-                .Select(m => new OrderModel
-                {
-                    Number = m.Id,
-                    Table = m.Table.Name,
-                    OrderStatus = m.OrderStatus,
-                    CreationTime = m.CreationTime,
-                    UpdateTime = m.UpdateTime,
-                    PriceOrder = m.PriceOrder,
-                    Positions = m.Positions,
-                    Guests = m.Guests
-                })
+                .Select(m => OrderModel.MapFromDatabase(m))
                 .FirstOrDefault();
         }
 
-        public OrderPos CreateOrderPos(long orderId) {
-            return new OrderPos()
-            {
-
-                
-                Number = context.Order.FirstOrDefault(o => o.Id == orderId).Positions.Count() + 1,
-                CreationDate = DateTime.Now,
-                PosStatus = PosStatus.New,
-                OrderId = orderId
-             };
-            
-        }
-
-        public bool AddOrderPos(long orderId, OrderPos position) {
-            if (orderId == null || position.Id == null)
+        public bool AddOrderPos(long orderId, long itemTypeId) {
+            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            if (relevantOrder == null)
             {
                 return false;
             }
 
-            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            var position = new OrderPos()
+            {
+                Number = context.OrderPos
+                             .Where(op => op.OrderId == orderId)
+                             .Select(op => op.Number)
+                             .DefaultIfEmpty(0)
+                             .Max() + 1,
+                CreationDate = DateTime.Now,
+                PosStatus = PosStatus.New,
+                ItemtypId = itemTypeId,
+                OrderId = orderId
+            };
+
             relevantOrder.Positions.Add(position);
             context.SaveChanges();
             return true;
@@ -105,12 +79,19 @@ namespace Business.Services
 
         public bool RemoveOrderPos(long orderId, long positionId)
         {
-            if (orderId == null || positionId == null)
+            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            if (relevantOrder == null)
             {
                 return false;
             }
-            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
-            relevantOrder.Positions.Remove(relevantOrder.Positions.FirstOrDefault(p => p.Id == positionId));
+
+            var relevantPos = relevantOrder.Positions.FirstOrDefault(p => p.Id == positionId);
+            if (relevantPos == null)
+            {
+                return false;
+            }
+
+            relevantOrder.Positions.Remove(relevantPos);
             context.SaveChanges();
             return true;
         }

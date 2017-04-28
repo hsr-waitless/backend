@@ -13,7 +13,15 @@ namespace Business.Models
 
         [JsonProperty("orderId")]
         public long? OrderId { get; set; }
-        
+
+        public static TabletModel MapFromDatabase(Tablet tablet)
+        {
+            return new TabletModel()
+            {
+                Identifier = tablet.Identifier,
+                Mode = tablet.Mode
+            };
+        }
     }
 }
 

@@ -21,6 +21,7 @@ namespace Database.Models
 
         public long OrderId { get; set; }
         public Order Order { get; set; }
+        public long ItemtypId { get; set; }
         public Itemtyp Itemtyp { get; set; }
 
         public List<ConfigurationValue> ConfigurationValues { get; set; }

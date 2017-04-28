@@ -107,7 +107,9 @@ namespace Backend.Hubs
                 }
             };
             Clients.Caller.DoChangeStatusOrderResponse(response);
-        }        public void UnassignOrderRequest(Command<UnassignOrderRequest> request) {
+        }
+
+        public void UnassignOrderRequest(Command<UnassignOrderRequest> request) {
             var unassignOrder = new OnOrderUnassignedEvent
             {
                 OrderId = request.Arguments.OrderId,
@@ -127,16 +129,14 @@ namespace Backend.Hubs
             Clients.Caller.UnassignOrderResponse(response);
         }
 
-        public void AddOrderPosRequest(Command<AddOrderPosRequest> request) {
-
-            var position = orderService.CreateOrderPos(request.Arguments.OrderId);
-
+        public void AddOrderPosRequest(Command<AddOrderPosRequest> request)
+        {
             var response = new Command<AddOrderPosResponse>()
             {
                 RequestId = request.RequestId,
                 Arguments = new AddOrderPosResponse
                 {
-                    Success = orderService.AddOrderPos(request.Arguments.OrderId, position)
+                    Success = orderService.AddOrderPos(request.Arguments.OrderId, request.Arguments.ItemTypeId)
                 }
             };
             Clients.Caller.AddOrderPosResponse(response);

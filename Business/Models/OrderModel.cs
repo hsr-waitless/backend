@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Models
 {
@@ -26,10 +27,25 @@ namespace Business.Models
         public double PriceOrder { get; set; }
 
         [JsonProperty ("positions")]
-        public List<OrderPos> Positions { get; set; }
+        public IEnumerable<OrderPosModel> Positions { get; set; }
 
         [JsonProperty ("guests")]
-        public List<Tablet> Guests { get; set; }
+        public IEnumerable<TabletModel> Guests { get; set; }
+
+        public static OrderModel MapFromDatabase(Order order)
+        {
+            return new OrderModel()
+            {
+                Number = order.Id,
+                Table = order.Table.Name,
+                OrderStatus = order.OrderStatus,
+                CreationTime = order.CreationTime,
+                UpdateTime = order.UpdateTime,
+                PriceOrder = order.PriceOrder,
+                Positions = order.Positions.Select(p => OrderPosModel.MapFromDatabase(p)),
+                Guests = order.Guests.Select(p => TabletModel.MapFromDatabase(p))
+            };
+        }
     }
 }
 

@@ -21,12 +21,6 @@ namespace Business.Models
 
         [JsonProperty("pricePos")]
         public double PricePos { get; set; }
-                
-        [JsonProperty ("creationTime")]
-        public DateTime CreationTime { get; set; }
-
-        [JsonProperty("updateTime")]
-        public DateTime UpdateTime { get; set; }
 
         [JsonProperty("posStatus")]
         public PosStatus PosStatus { get; set; }
@@ -34,12 +28,23 @@ namespace Business.Models
         [JsonProperty("comment")]
         public string Comment { get; set; }
 
-        [JsonProperty("itemType")]
-        public long Itemtype { get; set; }
+        [JsonProperty("itemTypeId")]
+        public long ItemtypeId { get; set; }
 
-        [JsonProperty("order")]
-        public long Order { get; set; }
-        
+        public static OrderPosModel MapFromDatabase(OrderPos orderPos)
+        {
+            return new OrderPosModel()
+            {
+                Id = orderPos.Id,
+                Number = orderPos.Number,
+                PricePaidByCustomer = orderPos.PricePaidByCustomer,
+                Amount = orderPos.Amount,
+                PricePos = orderPos.PricePos,
+                PosStatus = orderPos.PosStatus,
+                Comment = orderPos.Comment,
+                ItemtypeId = orderPos.ItemtypId
+            };
+        }
     }
 }
 
