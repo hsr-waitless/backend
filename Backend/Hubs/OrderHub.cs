@@ -98,13 +98,12 @@ namespace Backend.Hubs
 
         public void DoChangeStatusOrderRequest(Command<DoChangeStatusOrderRequest> request)
         {
-            // Ist noch nicht fertig
             var response = new Command<DoChangeStatusOrderResponse>()
             {
                 RequestId = request.RequestId,
                 Arguments = new DoChangeStatusOrderResponse
                 {
-                    Order = orderService.GetOrder(request.Arguments.Number)
+                    Order = orderService.DoChangeOrderStatus(request.Arguments.Number, request.Arguments.OrderStatus)
                 }
             };
             Clients.Caller.DoChangeStatusOrderResponse(response);
