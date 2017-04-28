@@ -60,5 +60,18 @@ namespace Backend.Hubs
             };
             Clients.Caller.GetItemTypeResponse(response);
         }
+
+        public void GetAllItemTypeRequest(Command<AllItemTypesRequest> request)
+        {
+            var response = new Command<AllItemTypesResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new AllItemTypesResponse
+                {
+                    ItemTypes = getItemsService.GetAllItemTypes(request.Arguments.MenuId)
+                }
+            };
+            Clients.Caller.GetAllItemTypeResponse(response);
+        }
     }
 }

@@ -96,8 +96,19 @@ namespace Backend.Hubs
             Clients.Caller.AssignOrderResponse(response);
         }
 
-        public void UnassignOrderRequest(Command<UnassignOrderRequest> request) {
-
+        public void DoChangeStatusOrderRequest(Command<DoChangeStatusOrderRequest> request)
+        {
+            // Ist noch nicht fertig
+            var response = new Command<DoChangeStatusOrderResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new DoChangeStatusOrderResponse
+                {
+                    Order = orderService.GetOrder(request.Arguments.Number)
+                }
+            };
+            Clients.Caller.DoChangeStatusOrderResponse(response);
+        }        public void UnassignOrderRequest(Command<UnassignOrderRequest> request) {
             var unassignOrder = new OnOrderUnassignedEvent
             {
                 OrderId = request.Arguments.OrderId,

@@ -103,14 +103,28 @@ namespace Business.Services
             return true;
         }
 
-        public bool RemoveOrderPos(long orderId, long positionId) {
-            if (orderId == null || positionId == null) {
+        public bool RemoveOrderPos(long orderId, long positionId)
+        {
+            if (orderId == null || positionId == null)
+            {
                 return false;
             }
             var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
             relevantOrder.Positions.Remove(relevantOrder.Positions.FirstOrDefault(p => p.Id == positionId));
             context.SaveChanges();
             return true;
+        }
+
+        public OrderModel DoChangeOrderStatus(long orderId, OrderStatus orderStatus)
+        {
+            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            relevantOrder.OrderStatus = orderStatus;
+            context.SaveChanges();
+
+            // Event fehlt, der alle Tablets benachrichtigt
+            // TabletHub.GetTabletsByModeRequest
+
+            return GetOrder(orderId);
         }
     }
 }
