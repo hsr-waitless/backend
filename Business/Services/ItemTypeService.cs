@@ -22,17 +22,7 @@ namespace Business.Services
             return context.Itemtyp
             .Where(i => i.SubmenuId == subMenuId)
             .ToList()
-            .Select(m => new ItemTypeModel
-                {
-                    Id = m.Id,
-                    Number = m.Number,
-                    Title = m.Title,
-                    Description = m.Description,
-                    ItemPrice = m.ItemPrice,
-                    Category = m.Category,
-                    Image = m.Image,
-                    Priority = m.Priority
-                });
+            .Select(m => ItemTypeModel.MapFromDatabase(m));
         }
 
 
@@ -42,17 +32,7 @@ namespace Business.Services
                 .Include(i => i.Submenu)
                 .Where(i => i.Submenu.MenuId == menuId)
                 .ToList()
-                .Select(m => new ItemTypeModel
-                {
-                    Id = m.Id,
-                    Number = m.Number,
-                    Title = m.Title,
-                    Description = m.Description,
-                    ItemPrice = m.ItemPrice,
-                    Category = m.Category,
-                    Image = m.Image,
-                    Priority = m.Priority
-                });
+                .Select(m => ItemTypeModel.MapFromDatabase(m));
         }
     }
 }

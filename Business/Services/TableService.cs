@@ -19,21 +19,11 @@ namespace Business.Services
         {
             return context.Table
                 .Where(t => !t.Orders.Any(o => o.OrderStatus == OrderStatus.Active || o.OrderStatus == OrderStatus.New))
-                .Select(m => new TableModel
-                    {
-                        Id = m.Id,
-                        Name = m.Name,
-                        Available = true
-                    })
+                .Select(m => TableModel.MapFromDatabase(m, true))
                 .OrderBy(o => o.Name)
                 .Union(context.Table
                 .Where(t => t.Orders.Any(o => o.OrderStatus == OrderStatus.Active || o.OrderStatus == OrderStatus.New))
-                .Select(m => new TableModel
-                {
-                    Id = m.Id,
-                    Name = m.Name,
-                    Available = false
-                })
+                .Select(m => TableModel.MapFromDatabase(m, false))
                 .OrderBy(o => o.Name));
         }
     }

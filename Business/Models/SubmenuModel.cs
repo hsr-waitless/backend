@@ -19,5 +19,15 @@ namespace Business.Models
 
         [JsonProperty("description")]
         public String Description { get; set; }
+
+        public static SubmenuModel MapFromDatabase(Submenu m) {
+            return new SubmenuModel
+            {
+                Id = m.Id,
+                Number = m.Number,
+                Name = m.Name,
+                Description = m.Description
+            };
+        }
     }
 }

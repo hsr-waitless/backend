@@ -19,13 +19,7 @@ namespace Business.Services
         {
             return context.Menu
             .AsEnumerable()
-            .Select(m => new MenuModel
-                {
-                    Id = m.Id,
-                    Number = m.Number,
-                    Name = m.Name,
-                    Description = m.Description
-                });
+            .Select(m => MenuModel.MapFromDatabse(m));
         }
     }
 }

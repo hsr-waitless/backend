@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using Database.Models;
 
 namespace Business.Models
 {
@@ -16,5 +17,15 @@ namespace Business.Models
 
         [JsonProperty("description")]
         public String Description { get; set; }
+
+        public static MenuModel MapFromDatabse(Menu m) {
+            return new MenuModel
+            {
+                Id = m.Id,
+                Number = m.Number,
+                Name = m.Name,
+                Description = m.Description
+            };
+        }
     }
 }

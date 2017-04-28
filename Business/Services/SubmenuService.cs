@@ -19,13 +19,7 @@ namespace Business.Services
             return context.Submenu
             .Where(m => m.MenuId == id)
             .ToList()
-            .Select(m => new SubmenuModel
-                {
-                    Id = m.Id,
-                    Number = m.Number,
-                    Name = m.Name,
-                    Description = m.Description
-                });
+            .Select(m => SubmenuModel.MapFromDatabase(m));
         }
     }
 }

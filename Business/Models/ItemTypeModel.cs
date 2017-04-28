@@ -29,5 +29,19 @@ namespace Business.Models
 
         [JsonProperty("priority")]
         public Int32 Priority { get; set; }
+
+        public static ItemTypeModel MapFromDatabase(Itemtyp m) {
+            return new ItemTypeModel
+            {
+                Id = m.Id,
+                Number = m.Number,
+                Title = m.Title,
+                Description = m.Description,
+                ItemPrice = m.ItemPrice,
+                Category = m.Category,
+                Image = m.Image,
+                Priority = m.Priority
+            };
+        }
     }
 }
