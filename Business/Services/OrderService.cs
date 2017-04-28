@@ -120,10 +120,7 @@ namespace Business.Services
             var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
             relevantOrder.OrderStatus = orderStatus;
             context.SaveChanges();
-
-            // Event fehlt, der alle Tablets benachrichtigt
-            // TabletHub.GetTabletsByModeRequest
-
+            
             return GetOrder(orderId);
         }
     }
