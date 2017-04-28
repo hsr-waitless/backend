@@ -12,7 +12,7 @@ namespace Database.Models
 
         [Key]
         public long Id { get; set; }
-        public String Identifier { get; set; }
+        public string Identifier { get; set; }
         public Mode Mode { get; set; }
 
         public List<Call> Calls { get; set; }
