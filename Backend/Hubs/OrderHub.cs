@@ -11,14 +11,17 @@ namespace Backend.Hubs
     {
         private readonly TableService getTablesService;
         private readonly OrderService orderService;
+        private readonly OrderPosService orderPosService;
         private readonly AssignOrderService assignOrderService;
 
         public OrderHub(TableService getTablesService,
             OrderService orderService,
+            OrderPosService orderPosService,
             AssignOrderService assignOrderService)
         {
             this.getTablesService = getTablesService;
             this.orderService = orderService;
+            this.orderPosService = orderPosService;
             this.assignOrderService = assignOrderService;
         }
 
@@ -153,6 +156,20 @@ namespace Backend.Hubs
                 }
             };
             Clients.Caller.RemoveOrderPosResponse(response);
+        }
+
+        public void DoUpdateOrderPosRequest(Command<DoUpdateOrderPosRequest> request)
+        {
+            var response = new Command<DoUpdateOrderPosResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new DoUpdateOrderPosResponse
+                {
+                    OrderPos = orderPosService.DoUpdateOrderPosRequest(request.Arguments.OrderPosId,
+                        request.Arguments.Amount, request.Arguments.PricePaidByCustomer, 
+                        request.Arguments.Comment)
+                }
+            };
         }
 
     }
