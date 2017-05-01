@@ -77,14 +77,14 @@ namespace Backend.Hubs
             Clients.Caller.GetOrderResponse(response);
         }
 
-        public void AssignOrderRequest(Command<AssignOrderRequest> request) {
+        public void DoUnAssignOrderRequest(Command<AssignOrderRequest> request) {
 
             var assignOrder = new OnOrderAssignedEvent
             {
                 OrderId = request.Arguments.OrderId,
             };
             
-            Clients.Group(request.Arguments.TabletIdentifier).OnOrderAssignEvent(assignOrder);
+            Clients.Group(request.Arguments.TabletIdentifier).OnOrderChange(assignOrder);
 
 
             var response = new Command<AssignOrderResponse>()
@@ -96,7 +96,7 @@ namespace Backend.Hubs
                 }
             };
             
-            Clients.Caller.AssignOrderResponse(response);
+            Clients.Caller.DoUnAssignOrderResponse(response);
         }
 
         public void DoChangeStatusOrderRequest(Command<DoChangeStatusOrderRequest> request)
