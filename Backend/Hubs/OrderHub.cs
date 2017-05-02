@@ -173,6 +173,7 @@ namespace Backend.Hubs
                         request.Arguments.Comment)
                 }
             };
+            Clients.Caller.DoUpdateOrderPosResponse(response);
         }
     }
 }
