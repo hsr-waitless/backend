@@ -17,10 +17,9 @@ namespace Business.Services
         public IEnumerable<SubmenuModel> GetSubmenus(long id)
         {
             return context.Submenu
-            .Where(m => m.MenuId == id)
-            .ToList()
-            .Select(m => SubmenuModel.MapFromDatabase(m));
+                .Where(m => m.MenuId == id)
+                .ToList()
+                .Select(m => SubmenuModel.MapFromDatabase(m));
         }
     }
 }
-

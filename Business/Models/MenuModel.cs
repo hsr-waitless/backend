@@ -19,6 +19,11 @@ namespace Business.Models
         public String Description { get; set; }
 
         public static MenuModel MapFromDatabse(Menu m) {
+            if (m == null)
+            {
+                return null;
+            }
+
             return new MenuModel
             {
                 Id = m.Id,

@@ -5,7 +5,7 @@ namespace Backend.Commands
 {
     public class SubMenuRequest
     {
-        [JsonProperty ("menuId")]
+        [JsonProperty("menuId")]
         public long MenuId { get; set; }
     }
 }

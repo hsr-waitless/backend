@@ -18,8 +18,8 @@ namespace Business.Services
         public IEnumerable<MenuModel> GetMenus()
         {
             return context.Menu
-            .AsEnumerable()
-            .Select(m => MenuModel.MapFromDatabse(m));
+                .AsEnumerable()
+                .Select(m => MenuModel.MapFromDatabse(m));
         }
     }
 }

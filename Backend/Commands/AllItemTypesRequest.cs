@@ -4,7 +4,7 @@ namespace Backend.Commands
 {
     public class AllItemTypesRequest
     {
-        [JsonProperty ("menuId")]
+        [JsonProperty("menuId")]
         public long MenuId { get; set; }
     }
 }

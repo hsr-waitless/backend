@@ -21,6 +21,11 @@ namespace Business.Models
         public String Description { get; set; }
 
         public static SubmenuModel MapFromDatabase(Submenu m) {
+            if (m == null)
+            {
+                return null;
+            }
+
             return new SubmenuModel
             {
                 Id = m.Id,

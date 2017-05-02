@@ -11,4 +11,3 @@ namespace Backend.Commands
         public IEnumerable<TabletModel> Tablets { get; set; }
     }
 }
-

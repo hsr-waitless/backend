@@ -1,7 +1,7 @@
 ﻿using Database;
-using Database.Models;
-using System;
 using System.Linq;
+using Business.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
@@ -14,15 +14,16 @@ namespace Business.Services
             this.context = context;
         }
 
-        public OrderPos DoUpdateOrderPosRequest(long orderPosId, int amount, 
+        public OrderPosModel DoUpdateOrderPosRequest(long orderPosId, int amount,
             double pricePaidByCustomer, string comment)
         {
-            OrderPos relevantOrderPos = context.OrderPos.
-                FirstOrDefault(r => r.Id == orderPosId);
+            var relevantOrderPos = context.OrderPos
+                .Include(o => o.Itemtyp)
+                .FirstOrDefault(r => r.Id == orderPosId);
 
             // Anpassung der Menge + löschen der Position falls sie 0 ist
             relevantOrderPos.Amount += amount;
-            if(relevantOrderPos.Amount <= 0)
+            if (relevantOrderPos.Amount <= 0)
             {
                 relevantOrderPos.Order.Positions.Remove(relevantOrderPos);
             }
@@ -30,8 +31,8 @@ namespace Business.Services
             // TODO es fehlen weitere Update- Möglichkeiten für comment
 
             context.SaveChanges();
-            return relevantOrderPos;
+
+            return OrderPosModel.MapFromDatabase(relevantOrderPos);
         }
     }
 }
-

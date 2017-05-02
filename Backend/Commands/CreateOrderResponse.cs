@@ -5,7 +5,7 @@ namespace Backend.Commands
 {
     public class CreateOrderResponse
     {
-        [JsonProperty ("order")]
+        [JsonProperty("order")]
         public OrderModel Order { get; set; }
     }
 }

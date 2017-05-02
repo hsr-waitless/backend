@@ -8,4 +8,3 @@ namespace Backend.Commands
         public string TabletIdentifier { get; set; }
     }
 }
-

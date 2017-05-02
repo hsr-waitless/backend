@@ -11,7 +11,7 @@ namespace Business.Services
     {
         private readonly WaitlessContext context;
 
-        public AssignOrderService( WaitlessContext context)
+        public AssignOrderService(WaitlessContext context)
         {
             this.context = context;
         }
@@ -24,7 +24,7 @@ namespace Business.Services
                 return false;
             }
 
-            
+
             var tablet = context.Tablet.FirstOrDefault(t => t.Identifier == tabletIdentifier);
             if (tablet == null)
             {
@@ -32,17 +32,15 @@ namespace Business.Services
             }
 
 
-
             relevantOrder.Guests.Add(tablet);
 
             context.SaveChanges();
-            
+
             return true;
-            
         }
 
-        public bool OnOrderUnassigned(string tabletIdentifier, long orderId) {
-
+        public bool OnOrderUnassigned(string tabletIdentifier, long orderId)
+        {
             var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
             if (relevantOrder == null)
             {
