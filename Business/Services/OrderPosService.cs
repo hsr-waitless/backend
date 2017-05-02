@@ -22,16 +22,19 @@ namespace Business.Services
                 .Include(o => o.Itemtyp)
                 .FirstOrDefault(r => r.Id == orderPosId);
 
+            if (relevantOrderPos == null)
+            {
+                return null;
+            }
+
             // Anpassung der Menge + löschen der Position falls sie 0 ist
             relevantOrderPos.Amount = amount;
             relevantOrderPos.Comment = comment;
+            relevantOrderPos.PricePos = relevantOrderPos.Amount * relevantOrderPos.Itemtyp.ItemPrice;
             if (relevantOrderPos.Amount <= 0)
             {
-                relevantOrderPos.Order.Positions.Remove(relevantOrderPos);
+                context.OrderPos.Remove(relevantOrderPos);
             }
-            relevantOrderPos.PricePos = relevantOrderPos.Amount * relevantOrderPos.Itemtyp.ItemPrice;
-
-            // TODO es fehlen weitere Update- Möglichkeiten für comment
 
             context.SaveChanges();
 

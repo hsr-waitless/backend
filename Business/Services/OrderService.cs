@@ -58,7 +58,9 @@ namespace Business.Services
 
         public OrderModel AddOrderPos(long orderId, long itemTypeId)
         {
-            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            var relevantOrder = context.Order
+                .Include(o => o.Positions)
+                .FirstOrDefault(o => o.Id == orderId);
             if (relevantOrder == null)
             {
                 return null;
@@ -115,12 +117,21 @@ namespace Business.Services
         }
 
         public void DoCalulateOrderPrice(long orderId) {
-            Order relevantOrder = context.Order.FirstOrDefault(r => r.Id == orderId);
-            relevantOrder.PriceOrder = 0;
-            foreach (OrderPos Positions in relevantOrder.Positions) {
-                relevantOrder.PriceOrder += Positions.PricePos;
-                context.SaveChanges();
+            var relevantOrder = context.Order
+                .Include(o => o.Positions)
+                .FirstOrDefault(r => r.Id == orderId);
+
+            if (relevantOrder == null)
+            {
+                return;
             }
+
+            relevantOrder.PriceOrder = 0;
+            foreach (var position in relevantOrder.Positions)
+            {
+                relevantOrder.PriceOrder += position.PricePos;
+            }
+            context.SaveChanges();
         }
     }
 }
