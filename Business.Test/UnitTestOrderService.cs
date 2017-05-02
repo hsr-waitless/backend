@@ -138,8 +138,8 @@ using Xunit;
 
             var service = new OrderService(context);
 
-            var result = service.AddOrderPos(testOrder.Id, testItem1.Id);
-            result = result && service.AddOrderPos(testOrder.Id, testItem1.Id);
+            var result = service.AddOrderPos(testOrder.Id, testItem1.Id) != null;
+            result = result && service.AddOrderPos(testOrder.Id, testItem1.Id) != null;
             context.SaveChanges();
             
             Assert.Equal(2, testOrder.Positions.Count());
@@ -158,16 +158,16 @@ using Xunit;
             context.Order.Add(testOrder2);
             context.SaveChanges();
             
-            result = result && service.AddOrderPos(testOrder2.Id, testItem1.Id);
-            result = result && service.AddOrderPos(testOrder2.Id, testItem2.Id);
-            result = result && service.AddOrderPos(testOrder2.Id, testItem3.Id);
+            result = result && service.AddOrderPos(testOrder2.Id, testItem1.Id) != null;
+            result = result && service.AddOrderPos(testOrder2.Id, testItem2.Id) != null;
+            result = result && service.AddOrderPos(testOrder2.Id, testItem3.Id) != null;
             context.SaveChanges();
                         
             Assert.Equal(3, testOrder2.Positions.Count());
             Assert.Equal(3, testOrder2.Positions.LastOrDefault().Number);
             Assert.Equal(true, result);
 
-            result = result && service.RemoveOrderPos(testOrder2.Id, testOrder2.Positions.First().Id);
+            result = result && service.RemoveOrderPos(testOrder2.Id, testOrder2.Positions.First().Id) != null;
 
             Assert.Equal(2, testOrder2.Positions.Count());
             Assert.Equal(3, testOrder2.Positions.LastOrDefault().Number);
@@ -204,21 +204,21 @@ using Xunit;
             
 
             var orderService = new OrderService(context);
-            var positonService = new OrderPosService(context);
+            var positonService = new OrderPosService(context, orderService);
 
-            var result = orderService.AddOrderPos(testOrder.Id, testItem1.Id);
-            result = result && orderService.AddOrderPos(testOrder.Id, testItem1.Id);
-            positonService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 2, testItem1.ItemPrice, "");
+            var result = orderService.AddOrderPos(testOrder.Id, testItem1.Id) != null;
+            result = result && orderService.AddOrderPos(testOrder.Id, testItem1.Id) != null;
+            positonService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 2, "");
             context.SaveChanges();
 
             Assert.Equal(45, testOrder.Positions.First().PricePos);
             Assert.Equal(true, result);
 
-            positonService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, -2, testItem1.ItemPrice, "");
+            positonService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, -2, "");
 
             Assert.Equal(15, testOrder.Positions.First().PricePos);
 
-            positonService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 3, testItem1.ItemPrice, "");
+            positonService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 3, "");
 
             Assert.Equal(60, testOrder.Positions.First().PricePos);
 
