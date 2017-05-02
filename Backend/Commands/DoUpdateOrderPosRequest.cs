@@ -4,6 +4,7 @@ namespace Backend.Commands
 {
     public class DoUpdateOrderPosRequest
     {
+       
         [JsonProperty("orderPosId")]
         public long OrderPosId { get; set; }
 
@@ -15,5 +16,8 @@ namespace Backend.Commands
 
         [JsonProperty("comment")]
         public string Comment { get; set; }
+
+        [JsonProperty("orderId")]
+        public long OrderId { get; set; }
     }
 }
