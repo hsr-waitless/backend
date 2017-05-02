@@ -17,13 +17,14 @@ namespace Business.Models
         [JsonProperty("available")]
         public bool Available { get; set; }
 
-        public static TableModel MapFromDatabase(Table table, Boolean available) {
-            return new TableModel {
+        public static TableModel MapFromDatabase(Table table, Boolean available)
+        {
+            return new TableModel
+            {
                 Id = table.Id,
                 Name = table.Name,
                 Available = available
-        };
+            };
         }
-        
     }
 }

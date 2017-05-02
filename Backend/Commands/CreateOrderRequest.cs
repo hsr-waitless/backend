@@ -11,6 +11,5 @@ namespace Backend.Commands
 
         [JsonProperty("tableId")]
         public long TableId { get; set; }
-
     }
 }

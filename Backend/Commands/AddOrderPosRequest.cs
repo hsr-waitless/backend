@@ -11,6 +11,5 @@ namespace Backend.Commands
 
         [JsonProperty("itemTypeId")]
         public long ItemTypeId { get; set; }
-
     }
 }

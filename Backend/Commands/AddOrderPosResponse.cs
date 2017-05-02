@@ -6,7 +6,7 @@ namespace Backend.Commands
 {
     public class AddOrderPosResponse
     {
-        [JsonProperty ("success")]
+        [JsonProperty("success")]
         public Boolean Success { get; set; }
     }
 }

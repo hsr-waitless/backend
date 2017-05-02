@@ -24,4 +24,3 @@ namespace Business.Models
         }
     }
 }
-

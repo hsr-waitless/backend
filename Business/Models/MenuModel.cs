@@ -18,7 +18,8 @@ namespace Business.Models
         [JsonProperty("description")]
         public String Description { get; set; }
 
-        public static MenuModel MapFromDatabse(Menu m) {
+        public static MenuModel MapFromDatabse(Menu m)
+        {
             return new MenuModel
             {
                 Id = m.Id,

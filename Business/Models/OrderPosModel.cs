@@ -10,7 +10,7 @@ namespace Business.Models
         [JsonProperty("id")]
         public long Id { get; set; }
 
-        [JsonProperty ("number")]
+        [JsonProperty("number")]
         public long Number { get; set; }
 
         [JsonProperty("pricePaidByCustomer")]
@@ -47,4 +47,3 @@ namespace Business.Models
         }
     }
 }
-

@@ -12,4 +12,3 @@ namespace Backend.Commands
         public OrderStatus OrderStatus { get; set; }
     }
 }
-

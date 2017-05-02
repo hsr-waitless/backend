@@ -58,7 +58,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new GetOrdersByWaiterResponse
                 {
-                    Orders  = orderService.GetOrdersByWaiter(request.Arguments.TabletIdentifier)
+                    Orders = orderService.GetOrdersByWaiter(request.Arguments.TabletIdentifier)
                 }
             };
             Clients.Caller.GetOrdersByWaiterResponse(response);
@@ -71,19 +71,19 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new GetOrderResponse
                 {
-                    Order  = orderService.GetOrder(request.Arguments.Number)
+                    Order = orderService.GetOrder(request.Arguments.Number)
                 }
             };
             Clients.Caller.GetOrderResponse(response);
         }
 
-        public void DoUnAssignOrderRequest(Command<AssignOrderRequest> request) {
-
+        public void DoUnAssignOrderRequest(Command<AssignOrderRequest> request)
+        {
             var assignOrder = new OnOrderAssignedEvent
             {
                 OrderId = request.Arguments.OrderId,
             };
-            
+
             Clients.Group(request.Arguments.TabletIdentifier).OnOrderChange(assignOrder);
 
 
@@ -92,10 +92,11 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new AssignOrderResponse
                 {
-                    success = assignOrderService.OnOrderAssigned(request.Arguments.TabletIdentifier, request.Arguments.OrderId)
+                    success = assignOrderService.OnOrderAssigned(request.Arguments.TabletIdentifier,
+                        request.Arguments.OrderId)
                 }
             };
-            
+
             Clients.Caller.DoUnAssignOrderResponse(response);
         }
 
@@ -112,7 +113,8 @@ namespace Backend.Hubs
             Clients.Caller.DoChangeStatusOrderResponse(response);
         }
 
-        public void UnassignOrderRequest(Command<UnassignOrderRequest> request) {
+        public void UnassignOrderRequest(Command<UnassignOrderRequest> request)
+        {
             var unassignOrder = new OnOrderUnassignedEvent
             {
                 OrderId = request.Arguments.OrderId,
@@ -125,7 +127,8 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new UnassignOrderResponse
                 {
-                    success = assignOrderService.OnOrderUnassigned(request.Arguments.TabletIdentifier, request.Arguments.OrderId)
+                    success = assignOrderService.OnOrderUnassigned(request.Arguments.TabletIdentifier,
+                        request.Arguments.OrderId)
                 }
             };
 
@@ -166,11 +169,10 @@ namespace Backend.Hubs
                 Arguments = new DoUpdateOrderPosResponse
                 {
                     OrderPos = orderPosService.DoUpdateOrderPosRequest(request.Arguments.OrderPosId,
-                        request.Arguments.Amount, request.Arguments.PricePaidByCustomer, 
+                        request.Arguments.Amount, request.Arguments.PricePaidByCustomer,
                         request.Arguments.Comment)
                 }
             };
         }
-
     }
 }

@@ -10,4 +10,3 @@ namespace Backend.Commands
         public OrderPos OrderPos { get; set; }
     }
 }
-

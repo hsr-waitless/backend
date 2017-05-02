@@ -8,13 +8,13 @@ namespace Business.Models
 {
     public class OrderModel
     {
-        [JsonProperty ("number")]
+        [JsonProperty("number")]
         public long Number { get; set; }
-        
-        [JsonProperty ("orderStatus")]
+
+        [JsonProperty("orderStatus")]
         public OrderStatus OrderStatus { get; set; }
 
-        [JsonProperty ("creationTime")]
+        [JsonProperty("creationTime")]
         public DateTime CreationTime { get; set; }
 
         [JsonProperty("table")]
@@ -23,13 +23,13 @@ namespace Business.Models
         [JsonProperty("updateTime")]
         public DateTime UpdateTime { get; set; }
 
-        [JsonProperty ("priceOrder")]
+        [JsonProperty("priceOrder")]
         public double PriceOrder { get; set; }
 
-        [JsonProperty ("positions")]
+        [JsonProperty("positions")]
         public IEnumerable<OrderPosModel> Positions { get; set; }
 
-        [JsonProperty ("guests")]
+        [JsonProperty("guests")]
         public IEnumerable<TabletModel> Guests { get; set; }
 
         public static OrderModel MapFromDatabase(Order order)
@@ -48,4 +48,3 @@ namespace Business.Models
         }
     }
 }
-
