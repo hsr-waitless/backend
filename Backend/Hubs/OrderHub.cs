@@ -142,7 +142,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new AddOrderPosResponse
                 {
-                    Order = orderService.AddOrderPos(request.Arguments.OrderId, request.Arguments.ItemTypeId)
+                    Order = orderPosService.AddOrderPos(request.Arguments.OrderId, request.Arguments.ItemTypeId)
                 }
             };
             Clients.Caller.AddOrderPosResponse(response);
@@ -155,7 +155,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new RemoveOrderPosResponse
                 {
-                    Order = orderService.RemoveOrderPos(request.Arguments.OrderId, request.Arguments.PositionId)
+                    Order = orderPosService.RemoveOrderPos(request.Arguments.OrderId, request.Arguments.PositionId)
                 }
             };
             Clients.Caller.RemoveOrderPosResponse(response);

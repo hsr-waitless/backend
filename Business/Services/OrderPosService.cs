@@ -2,6 +2,8 @@
 using System.Linq;
 using Business.Models;
 using Microsoft.EntityFrameworkCore;
+using Database.Models;
+using System;
 
 namespace Business.Services
 {
@@ -14,6 +16,57 @@ namespace Business.Services
         {
             this.context = context;
             this.orderService = orderService;
+        }
+
+        public OrderModel AddOrderPos(long orderId, long itemTypeId)
+        {
+            var relevantOrder = context.Order
+                .Include(o => o.Positions)
+                .FirstOrDefault(o => o.Id == orderId);
+            if (relevantOrder == null)
+            {
+                return null;
+            }
+
+            var position = new OrderPos()
+            {
+                Number = context.OrderPos
+                             .Where(op => op.OrderId == orderId)
+                             .Select(op => op.Number)
+                             .DefaultIfEmpty(0)
+                             .Max() + 1,
+                CreationDate = DateTime.Now,
+                PosStatus = PosStatus.New,
+                ItemtypId = itemTypeId,
+                OrderId = orderId,
+                Amount = 1
+
+            };
+
+            relevantOrder.Positions.Add(position);
+            context.SaveChanges();
+
+            return orderService.GetOrder(orderId);
+        }
+
+        public OrderModel RemoveOrderPos(long orderId, long positionId)
+        {
+            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            if (relevantOrder == null)
+            {
+                return null;
+            }
+
+            var relevantPos = relevantOrder.Positions.FirstOrDefault(p => p.Id == positionId);
+            if (relevantPos == null)
+            {
+                return null;
+            }
+
+            relevantOrder.Positions.Remove(relevantPos);
+            context.SaveChanges();
+
+            return orderService.GetOrder(orderId);
         }
 
         public OrderModel DoUpdateOrderPosRequest(long orderPosId, int amount, string comment)
