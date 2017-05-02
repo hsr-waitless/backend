@@ -71,7 +71,6 @@ namespace Business.Services
                              .Select(op => op.Number)
                              .DefaultIfEmpty(0)
                              .Max() + 1,
-                Amount = 1,
                 CreationDate = DateTime.Now,
                 PosStatus = PosStatus.New,
                 ItemtypId = itemTypeId,

@@ -77,7 +77,7 @@ namespace Backend.Hubs
             Clients.Caller.GetOrderResponse(response);
         }
 
-        public void DoUnAssignOrderRequest(Command<AssignOrderRequest> request)
+        public void DoAssignOrderRequest(Command<AssignOrderRequest> request)
         {
             var assignOrder = new OnOrderAssignedEvent
             {
@@ -97,7 +97,7 @@ namespace Backend.Hubs
                 }
             };
 
-            Clients.Caller.DoUnAssignOrderResponse(response);
+            Clients.Caller.DoAssignOrderResponse(response);
         }
 
         public void DoChangeStatusOrderRequest(Command<DoChangeStatusOrderRequest> request)
@@ -113,7 +113,7 @@ namespace Backend.Hubs
             Clients.Caller.DoChangeStatusOrderResponse(response);
         }
 
-        public void UnassignOrderRequest(Command<UnassignOrderRequest> request)
+        public void DoUnassignOrderRequest(Command<UnassignOrderRequest> request)
         {
             var unassignOrder = new OnOrderUnassignedEvent
             {
@@ -132,7 +132,7 @@ namespace Backend.Hubs
                 }
             };
 
-            Clients.Caller.UnassignOrderResponse(response);
+            Clients.Caller.DoUnassignOrderResponse(response);
         }
 
         public void AddOrderPosRequest(Command<AddOrderPosRequest> request)
