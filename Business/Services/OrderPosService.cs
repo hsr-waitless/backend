@@ -24,11 +24,12 @@ namespace Business.Services
 
             // Anpassung der Menge + löschen der Position falls sie 0 ist
             relevantOrderPos.Amount = amount;
+            relevantOrderPos.Comment = comment;
             if (relevantOrderPos.Amount <= 0)
             {
                 relevantOrderPos.Order.Positions.Remove(relevantOrderPos);
             }
-            relevantOrderPos.PricePos = relevantOrderPos.Amount * pricePaidByCustomer;
+            relevantOrderPos.PricePos = relevantOrderPos.Amount * relevantOrderPos.Itemtyp.ItemPrice;
 
             // TODO es fehlen weitere Update- Möglichkeiten für comment
 
