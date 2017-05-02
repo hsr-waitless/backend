@@ -1,4 +1,5 @@
-﻿using Business.Services;
+﻿using Business.Models;
+using Business.Services;
 using Business.Test.Factory;
 using Database;
 using Database.Models;
@@ -12,6 +13,84 @@ using Xunit;
  {		
      public class UnitTestOrderService		
      {
+        [Fact]
+        public void TestCreateOrder()
+        {
+            // Wieso schlägt dieser Test auf Zeile 18 fehlt???
+            var context = MockContextFactory.Create();
+
+            var table = new Table()
+            {
+                Id = 3,
+                Name = "albertus",
+                Orders = new List<Order>()
+            };
+
+            var waiter = new Tablet()
+            {
+                Id = 4,
+                Identifier = "brutus",
+                Mode = Mode.Waiter
+            };
+
+            context.Table.Add(table);
+            context.Tablet.Add(waiter);
+
+            var service = new OrderService(context);
+            var result = service.CreateOrder(table.Id, waiter.Identifier);
+            context.SaveChanges();
+
+            Assert.Equal(4, result.Number);
+            Assert.Equal(OrderStatus.New, result.OrderStatus);
+            Assert.Equal(result.UpdateTime, result.CreationTime);
+            Assert.Equal(0, result.PriceOrder);
+        }
+
+        [Fact]
+        public void TestGetOrdersByWaiter()
+        {
+            var context = MockContextFactory.Create();
+
+            var waiter = new Tablet
+            {
+                Id = 3,
+                Identifier = "Georg",
+                Mode = Mode.Waiter
+            };
+
+            var order1 = new Order
+            {
+                Id = 4,
+                OrderStatus = OrderStatus.New,
+                PriceOrder = 0,
+                TableId = 5,
+                Waiter = waiter
+            };
+
+            var order2 = new Order
+            {
+                Id = 8,
+                OrderStatus = OrderStatus.Active,
+                PriceOrder = 2,
+                TableId = 7,
+                Waiter = waiter
+            };
+
+            context.Tablet.Add(waiter);
+            context.Order.Add(order1);
+            context.Order.Add(order2);
+
+            var service = new OrderService(context);
+            var result = service.GetOrdersByWaiter("Georg");
+
+            context.SaveChanges();
+
+            Assert.NotEmpty( result );
+            //Assert.Equal( order2, result.Select(t => t.OrderStatus = OrderStatus.Active));
+            //Assert.Equal( order1, result.Select(t => t.OrderStatus = OrderStatus.New));
+        }
+
+
         [Fact]
         public void TestAddOrderPos()
         {
@@ -96,8 +175,54 @@ using Xunit;
 
         }
 
-        
+        [Fact]
+        public void TestDoUpdateOrderPos() {
 
+            var context = MockContextFactory.Create();
+
+            var testOrder = new Order()
+            {
+                Id = 1,
+                OrderStatus = OrderStatus.New,
+                CreationTime = new DateTime(2017, 2, 4, 17, 0, 0),
+                Guests = new List<Tablet>(),
+                Positions = new List<OrderPos>()
+
+            };
+
+            var testItem1 = new Itemtyp
+            {
+                Id = 1,
+                Number = 1,
+                Title = "Burger",
+                Description = "Burger with Fries",
+                ItemPrice = 15
+            };
+
+            context.Order.Add(testOrder);
+            context.SaveChanges();
+            
+
+            var orderService = new OrderService(context);
+            var positonService = new OrderPosService(context);
+
+            var result = orderService.AddOrderPos(testOrder.Id, testItem1.Id);
+            result = result && orderService.AddOrderPos(testOrder.Id, testItem1.Id);
+            positonService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 2, testItem1.ItemPrice, "");
+            context.SaveChanges();
+
+            Assert.Equal(45, testOrder.Positions.First().PricePos);
+            Assert.Equal(true, result);
+
+            positonService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, -2, testItem1.ItemPrice, "");
+
+            Assert.Equal(15, testOrder.Positions.First().PricePos);
+
+            positonService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 3, testItem1.ItemPrice, "");
+
+            Assert.Equal(60, testOrder.Positions.First().PricePos);
+
+        }
 
     }		
  }

@@ -173,7 +173,9 @@ namespace Backend.Hubs
                         request.Arguments.Comment)
                 }
             };
-            Clients.Caller.DoUpdateOrderPosResponse(response);
+            orderService.DoCalulateOrderPrice(request.Arguments.OrderId);
+            Clients.Caller.DoUpdateOrderPosRequest(response);
+
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Business.Services
             {
                 relevantOrderPos.Order.Positions.Remove(relevantOrderPos);
             }
+            relevantOrderPos.PricePos = relevantOrderPos.Amount * pricePaidByCustomer;
 
             // TODO es fehlen weitere Update- Möglichkeiten für comment
 

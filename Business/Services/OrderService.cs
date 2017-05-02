@@ -75,7 +75,9 @@ namespace Business.Services
                 CreationDate = DateTime.Now,
                 PosStatus = PosStatus.New,
                 ItemtypId = itemTypeId,
-                OrderId = orderId
+                OrderId = orderId,
+                Amount = 1
+
             };
 
             relevantOrder.Positions.Add(position);
@@ -111,6 +113,15 @@ namespace Business.Services
             context.SaveChanges();
 
             return GetOrder(orderId);
+        }
+
+        public void DoCalulateOrderPrice(long orderId) {
+            Order relevantOrder = context.Order.FirstOrDefault(r => r.Id == orderId);
+            relevantOrder.PriceOrder = 0;
+            foreach (OrderPos Positions in relevantOrder.Positions) {
+                relevantOrder.PriceOrder += Positions.PricePos;
+                context.SaveChanges();
+            }
         }
     }
 }
