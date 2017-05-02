@@ -11,6 +11,5 @@ namespace Backend.Commands
 
         [JsonProperty("positionId")]
         public long PositionId { get; set; }
-
     }
 }

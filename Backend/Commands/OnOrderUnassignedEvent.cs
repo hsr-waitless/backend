@@ -11,7 +11,5 @@ namespace Backend.Commands
 
         [JsonProperty("tabletIdentifier")]
         public String TabletIdentifier { get; set; }
-
     }
 }
-

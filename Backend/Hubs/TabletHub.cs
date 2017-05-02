@@ -17,7 +17,6 @@ namespace Backend.Hubs
 
         public void SetModeRequest(Command<DoAssignTabletRequest> request)
         {
-
             Groups.Add(Context.ConnectionId, request.Arguments.TabletIdentifier);
             var response = new Command<DoAssignTabletResponse>()
             {
@@ -25,9 +24,8 @@ namespace Backend.Hubs
                 Arguments = new DoAssignTabletResponse()
                 {
                     IsTabletNew = tabletService.SetMode
-                    (request.Arguments.TabletIdentifier , request.Arguments.Mode)
+                        (request.Arguments.TabletIdentifier, request.Arguments.Mode)
                 }
-
             };
             Clients.Caller.SetModeResponse(response);
         }
@@ -46,4 +44,3 @@ namespace Backend.Hubs
         }
     }
 }
-

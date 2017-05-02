@@ -34,6 +34,11 @@ namespace Business.Models
 
         public static OrderModel MapFromDatabase(Order order)
         {
+            if (order == null)
+            {
+                return null;
+            }
+
             return new OrderModel()
             {
                 Number = order.Id,
@@ -42,8 +47,8 @@ namespace Business.Models
                 CreationTime = order.CreationTime,
                 UpdateTime = order.UpdateTime,
                 PriceOrder = order.PriceOrder,
-                Positions = order.Positions.Select(p => OrderPosModel.MapFromDatabase(p)),
-                Guests = order.Guests.Select(p => TabletModel.MapFromDatabase(p))
+                Positions = order.Positions?.Select(p => OrderPosModel.MapFromDatabase(p)),
+                Guests = order.Guests?.Select(p => TabletModel.MapFromDatabase(p))
             };
         }
     }

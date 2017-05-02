@@ -11,36 +11,38 @@ namespace Business.Services
     {
         private readonly WaitlessContext context;
 
-        public TabletService( WaitlessContext context)
+        public TabletService(WaitlessContext context)
         {
             this.context = context;
         }
+
         public IEnumerable<TabletModel> GetTablets(Mode mode)
         {
             return context.Tablet
-            .Where(t => t.Mode == mode)
-            .ToList()
-            .Select(t => new TabletModel
-            {
-                Identifier = t.Identifier,
-                Mode = t.Mode,
-                OrderId = context.Order
-                    .FirstOrDefault(o => (
-                        o.OrderStatus == OrderStatus.New
-                        || o.OrderStatus == OrderStatus.Active) 
-                        && o.Guests.Any(g => g.Id == t.Id))?.Id
-
-            });
+                .Where(t => t.Mode == mode)
+                .ToList()
+                .Select(t => new TabletModel
+                {
+                    Identifier = t.Identifier,
+                    Mode = t.Mode,
+                    OrderId = context.Order
+                        .FirstOrDefault(o => (
+                                                 o.OrderStatus == OrderStatus.New
+                                                 || o.OrderStatus == OrderStatus.Active)
+                                             && o.Guests.Any(g => g.Id == t.Id))
+                        ?.Id
+                });
         }
-        public bool SetMode( string tabletIdentifier, Mode tabletMode)
+
+        public bool SetMode(string tabletIdentifier, Mode tabletMode)
         {
             var tabletWasFound = false;
 
             //Looking for Tablet
             var searchedTablet = context.Tablet
-            .FirstOrDefault(m => m.Identifier == tabletIdentifier);
+                .FirstOrDefault(m => m.Identifier == tabletIdentifier);
 
-            if( searchedTablet == null)
+            if (searchedTablet == null)
             {
                 searchedTablet = new Tablet
                 {
@@ -49,9 +51,9 @@ namespace Business.Services
                 };
 
                 context.Tablet.Add(searchedTablet);
-
-            } else
-            { 
+            }
+            else
+            {
                 tabletWasFound = true;
                 searchedTablet.Mode = tabletMode;
             }

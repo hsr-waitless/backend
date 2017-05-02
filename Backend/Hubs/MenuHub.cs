@@ -15,7 +15,7 @@ namespace Backend.Hubs
         private readonly ItemTypeService getItemsService;
 
         public MenuHub(MenuService getMenuService, SubmenuService getSubMenuService, ItemTypeService getItemsService)
-        { 
+        {
             this.getMenuService = getMenuService;
             this.getSubMenuService = getSubMenuService;
             this.getItemsService = getItemsService;

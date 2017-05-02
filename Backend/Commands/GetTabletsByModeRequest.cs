@@ -10,4 +10,3 @@ namespace Backend.Commands
         public Mode Mode { get; set; }
     }
 }
-

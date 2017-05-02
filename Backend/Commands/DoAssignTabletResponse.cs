@@ -7,7 +7,5 @@ namespace Backend.Commands
     {
         [JsonProperty("isTabletNew")]
         public Boolean IsTabletNew { get; set; }
-
     }
 }
-

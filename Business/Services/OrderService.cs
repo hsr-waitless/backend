@@ -34,6 +34,7 @@ namespace Business.Services
 
             return OrderModel.MapFromDatabase(newOrder);
         }
+
         public IEnumerable<OrderModel> GetOrdersByWaiter(string tabletIdentifier)
         {
             return context.Order
@@ -47,12 +48,15 @@ namespace Business.Services
         {
             return context.Order
                 .Include(m => m.Table)
+                .Include(m => m.Guests)
+                .Include(m => m.Positions)
                 .Where(m => m.Id == number)
                 .Select(m => OrderModel.MapFromDatabase(m))
                 .FirstOrDefault();
         }
 
-        public bool AddOrderPos(long orderId, long itemTypeId) {
+        public bool AddOrderPos(long orderId, long itemTypeId)
+        {
             var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
             if (relevantOrder == null)
             {
@@ -103,7 +107,7 @@ namespace Business.Services
             var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
             relevantOrder.OrderStatus = orderStatus;
             context.SaveChanges();
-            
+
             return GetOrder(orderId);
         }
 
@@ -117,4 +121,3 @@ namespace Business.Services
         }
     }
 }
-

@@ -8,7 +8,7 @@ namespace Backend.Commands
         [JsonProperty("orderPosId")]
         public long OrderPosId { get; set; }
 
-        [JsonProperty("pricePaidByCustomer") ]
+        [JsonProperty("pricePaidByCustomer")]
         public double PricePaidByCustomer { get; set; }
 
         [JsonProperty("amount")]

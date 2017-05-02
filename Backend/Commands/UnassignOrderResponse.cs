@@ -7,7 +7,5 @@ namespace Backend.Commands
     {
         [JsonProperty("success")]
         public Boolean success { get; set; }
-
     }
 }
-

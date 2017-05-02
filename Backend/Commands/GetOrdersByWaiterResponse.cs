@@ -11,4 +11,3 @@ namespace Backend.Commands
         public IEnumerable<OrderModel> Orders { get; set; }
     }
 }
-

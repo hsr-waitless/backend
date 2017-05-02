@@ -30,7 +30,13 @@ namespace Business.Models
         [JsonProperty("priority")]
         public Int32 Priority { get; set; }
 
-        public static ItemTypeModel MapFromDatabase(Itemtyp m) {
+        public static ItemTypeModel MapFromDatabase(Itemtyp m)
+        {
+            if (m == null)
+            {
+                return null;
+            }
+
             return new ItemTypeModel
             {
                 Id = m.Id,
