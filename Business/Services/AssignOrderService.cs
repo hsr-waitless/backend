@@ -4,6 +4,7 @@ using Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
@@ -18,7 +19,10 @@ namespace Business.Services
 
         public bool OnOrderAssigned(string tabletIdentifier, long orderId)
         {
-            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            var relevantOrder = context.Order
+                .Include(o => o.Guests)
+                .FirstOrDefault(o => o.Id == orderId);
+
             if (relevantOrder == null)
             {
                 return false;
@@ -41,14 +45,17 @@ namespace Business.Services
 
         public bool OnOrderUnassigned(string tabletIdentifier, long orderId)
         {
-            var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
+            var relevantOrder = context.Order
+                .Include(o => o.Guests)
+                .FirstOrDefault(o => o.Id == orderId);
+
             if (relevantOrder == null)
             {
                 return false;
             }
 
 
-            var tablet = context.Tablet.FirstOrDefault(t => t.Identifier == tabletIdentifier);
+            var tablet = relevantOrder.Guests.FirstOrDefault(t => t.Identifier == tabletIdentifier);
             if (tablet == null)
             {
                 return false;
