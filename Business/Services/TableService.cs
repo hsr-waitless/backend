@@ -22,9 +22,10 @@ namespace Business.Services
                 .Select(m => TableModel.MapFromDatabase(m, true))
                 .OrderBy(o => o.Name)
                 .Union(context.Table
-                .Where(t => t.Orders.Any(o => o.OrderStatus == OrderStatus.Active || o.OrderStatus == OrderStatus.New))
-                .Select(m => TableModel.MapFromDatabase(m, false))
-                .OrderBy(o => o.Name));
+                    .Where(t => t.Orders.Any(o => o.OrderStatus == OrderStatus.Active ||
+                                                  o.OrderStatus == OrderStatus.New))
+                    .Select(m => TableModel.MapFromDatabase(m, false))
+                    .OrderBy(o => o.Name));
         }
     }
 }

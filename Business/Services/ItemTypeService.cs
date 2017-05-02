@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 namespace Business.Services
-{   
+{
     public class ItemTypeService
     {
         private readonly WaitlessContext context;
@@ -20,9 +20,9 @@ namespace Business.Services
         public IEnumerable<ItemTypeModel> GetItemTypes(long subMenuId)
         {
             return context.Itemtyp
-            .Where(i => i.SubmenuId == subMenuId)
-            .ToList()
-            .Select(m => ItemTypeModel.MapFromDatabase(m));
+                .Where(i => i.SubmenuId == subMenuId)
+                .ToList()
+                .Select(m => ItemTypeModel.MapFromDatabase(m));
         }
 
 
