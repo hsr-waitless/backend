@@ -8,21 +8,22 @@ namespace Business.Services
     public class OrderPosService
     {
         private readonly WaitlessContext context;
+        private readonly OrderService orderService;
 
-        public OrderPosService(WaitlessContext context)
+        public OrderPosService(WaitlessContext context, OrderService orderService)
         {
             this.context = context;
+            this.orderService = orderService;
         }
 
-        public OrderPosModel DoUpdateOrderPosRequest(long orderPosId, int amount,
-            double pricePaidByCustomer, string comment)
+        public OrderModel DoUpdateOrderPosRequest(long orderPosId, int amount, string comment)
         {
             var relevantOrderPos = context.OrderPos
                 .Include(o => o.Itemtyp)
                 .FirstOrDefault(r => r.Id == orderPosId);
 
             // Anpassung der Menge + löschen der Position falls sie 0 ist
-            relevantOrderPos.Amount += amount;
+            relevantOrderPos.Amount = amount;
             if (relevantOrderPos.Amount <= 0)
             {
                 relevantOrderPos.Order.Positions.Remove(relevantOrderPos);
@@ -32,7 +33,7 @@ namespace Business.Services
 
             context.SaveChanges();
 
-            return OrderPosModel.MapFromDatabase(relevantOrderPos);
+            return orderService.GetOrder(relevantOrderPos.OrderId);
         }
     }
 }

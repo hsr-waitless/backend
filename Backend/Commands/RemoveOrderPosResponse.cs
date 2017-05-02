@@ -6,7 +6,7 @@ namespace Backend.Commands
 {
     public class RemoveOrderPosResponse
     {
-        [JsonProperty("success")]
-        public Boolean Success { get; set; }
+        [JsonProperty("order")]
+        public OrderModel Order { get; set; }
     }
 }

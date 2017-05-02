@@ -142,7 +142,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new AddOrderPosResponse
                 {
-                    Success = orderService.AddOrderPos(request.Arguments.OrderId, request.Arguments.ItemTypeId)
+                    Order = orderService.AddOrderPos(request.Arguments.OrderId, request.Arguments.ItemTypeId)
                 }
             };
             Clients.Caller.AddOrderPosResponse(response);
@@ -155,7 +155,7 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new RemoveOrderPosResponse
                 {
-                    Success = orderService.RemoveOrderPos(request.Arguments.OrderId, request.Arguments.PositionId)
+                    Order = orderService.RemoveOrderPos(request.Arguments.OrderId, request.Arguments.PositionId)
                 }
             };
             Clients.Caller.RemoveOrderPosResponse(response);
@@ -168,8 +168,8 @@ namespace Backend.Hubs
                 RequestId = request.RequestId,
                 Arguments = new DoUpdateOrderPosResponse
                 {
-                    OrderPos = orderPosService.DoUpdateOrderPosRequest(request.Arguments.OrderPosId,
-                        request.Arguments.Amount, request.Arguments.PricePaidByCustomer,
+                    Order = orderPosService.DoUpdateOrderPosRequest(request.Arguments.OrderPosId,
+                        request.Arguments.Amount,
                         request.Arguments.Comment)
                 }
             };

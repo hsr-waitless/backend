@@ -7,7 +7,7 @@ namespace Backend.Commands
 {
     public class DoUpdateOrderPosResponse
     {
-        [JsonProperty("orderPos")]
-        public OrderPosModel OrderPos { get; set; }
+        [JsonProperty("order")]
+        public OrderModel Order { get; set; }
     }
 }

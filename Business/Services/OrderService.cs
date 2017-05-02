@@ -50,17 +50,18 @@ namespace Business.Services
                 .Include(m => m.Table)
                 .Include(m => m.Guests)
                 .Include(m => m.Positions)
+                .Include("Positions.Itemtyp")
                 .Where(m => m.Id == number)
                 .Select(m => OrderModel.MapFromDatabase(m))
                 .FirstOrDefault();
         }
 
-        public bool AddOrderPos(long orderId, long itemTypeId)
+        public OrderModel AddOrderPos(long orderId, long itemTypeId)
         {
             var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
             if (relevantOrder == null)
             {
-                return false;
+                return null;
             }
 
             var position = new OrderPos()
@@ -70,6 +71,7 @@ namespace Business.Services
                              .Select(op => op.Number)
                              .DefaultIfEmpty(0)
                              .Max() + 1,
+                Amount = 1,
                 CreationDate = DateTime.Now,
                 PosStatus = PosStatus.New,
                 ItemtypId = itemTypeId,
@@ -78,26 +80,28 @@ namespace Business.Services
 
             relevantOrder.Positions.Add(position);
             context.SaveChanges();
-            return true;
+
+            return GetOrder(orderId);
         }
 
-        public bool RemoveOrderPos(long orderId, long positionId)
+        public OrderModel RemoveOrderPos(long orderId, long positionId)
         {
             var relevantOrder = context.Order.FirstOrDefault(o => o.Id == orderId);
             if (relevantOrder == null)
             {
-                return false;
+                return null;
             }
 
             var relevantPos = relevantOrder.Positions.FirstOrDefault(p => p.Id == positionId);
             if (relevantPos == null)
             {
-                return false;
+                return null;
             }
 
             relevantOrder.Positions.Remove(relevantPos);
             context.SaveChanges();
-            return true;
+
+            return GetOrder(orderId);
         }
 
         public OrderModel DoChangeOrderStatus(long orderId, OrderStatus orderStatus)
