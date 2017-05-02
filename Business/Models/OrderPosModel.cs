@@ -28,11 +28,16 @@ namespace Business.Models
         [JsonProperty("comment")]
         public string Comment { get; set; }
 
-        [JsonProperty("itemTypeId")]
-        public long ItemtypeId { get; set; }
+        [JsonProperty("item")]
+        public ItemTypeModel ItemType { get; set; }
 
         public static OrderPosModel MapFromDatabase(OrderPos orderPos)
         {
+            if (orderPos == null)
+            {
+                return null;
+            }
+
             return new OrderPosModel()
             {
                 Id = orderPos.Id,
@@ -42,7 +47,7 @@ namespace Business.Models
                 PricePos = orderPos.PricePos,
                 PosStatus = orderPos.PosStatus,
                 Comment = orderPos.Comment,
-                ItemtypeId = orderPos.ItemtypId
+                ItemType = ItemTypeModel.MapFromDatabase(orderPos.Itemtyp)
             };
         }
     }

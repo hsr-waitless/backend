@@ -16,6 +16,11 @@ namespace Business.Models
 
         public static TabletModel MapFromDatabase(Tablet tablet)
         {
+            if (tablet == null)
+            {
+                return null;
+            }
+
             return new TabletModel()
             {
                 Identifier = tablet.Identifier,
@@ -24,3 +29,4 @@ namespace Business.Models
         }
     }
 }
+

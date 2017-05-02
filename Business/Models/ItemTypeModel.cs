@@ -32,6 +32,11 @@ namespace Business.Models
 
         public static ItemTypeModel MapFromDatabase(Itemtyp m)
         {
+            if (m == null)
+            {
+                return null;
+            }
+
             return new ItemTypeModel
             {
                 Id = m.Id,

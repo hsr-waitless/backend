@@ -34,6 +34,11 @@ namespace Business.Models
 
         public static OrderModel MapFromDatabase(Order order)
         {
+            if (order == null)
+            {
+                return null;
+            }
+
             return new OrderModel()
             {
                 Number = order.Id,

@@ -19,6 +19,11 @@ namespace Business.Models
 
         public static TableModel MapFromDatabase(Table table, Boolean available)
         {
+            if (table == null)
+            {
+                return null;
+            }
+
             return new TableModel
             {
                 Id = table.Id,
