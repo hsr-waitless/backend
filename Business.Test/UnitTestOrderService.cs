@@ -84,7 +84,7 @@ using Xunit;
 
             context.SaveChanges();
 
-            //Assert.NotEmpty( result );
+            Assert.NotNull( result );
             //Assert.Equal( order2, result.FirstOrDefault(t => t.OrderStatus = OrderStatus.Active));
             //Assert.Equal( order1, result.FirstOrDefault(t => t.OrderStatus = OrderStatus.New));
         }

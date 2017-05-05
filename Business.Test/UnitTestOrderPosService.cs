@@ -59,13 +59,12 @@ namespace Business.Test
             var orderService = new OrderService(context);
             var service = new OrderPosService(context, orderService);
 
-            var result = service.AddOrderPos(testOrder.Id, testItem1.Id) != null;
-            result = result && service.AddOrderPos(testOrder.Id, testItem1.Id) != null;
+            service.AddOrderPos(testOrder.Id, testItem1.Id);
+            service.AddOrderPos(testOrder.Id, testItem2.Id);
             context.SaveChanges();
 
             Assert.Equal(2, testOrder.Positions.Count());
             Assert.Equal(2, testOrder.Positions.LastOrDefault().Number);
-            Assert.Equal(true, result);
 
             var testOrder2 = new Order()
             {
@@ -79,20 +78,18 @@ namespace Business.Test
             context.Order.Add(testOrder2);
             context.SaveChanges();
 
-            result = result && service.AddOrderPos(testOrder2.Id, testItem1.Id) != null;
-            result = result && service.AddOrderPos(testOrder2.Id, testItem2.Id) != null;
-            result = result && service.AddOrderPos(testOrder2.Id, testItem3.Id) != null;
+            service.AddOrderPos(testOrder2.Id, testItem1.Id);
+            service.AddOrderPos(testOrder2.Id, testItem2.Id);
+            service.AddOrderPos(testOrder2.Id, testItem3.Id);
             context.SaveChanges();
 
             Assert.Equal(3, testOrder2.Positions.Count());
             Assert.Equal(3, testOrder2.Positions.LastOrDefault().Number);
-            Assert.Equal(true, result);
 
-            result = result && service.RemoveOrderPos(testOrder2.Id, testOrder2.Positions.First().Id) != null;
+            service.RemoveOrderPos(testOrder2.Id, testOrder2.Positions.First().Id);
 
             Assert.Equal(2, testOrder2.Positions.Count());
             Assert.Equal(3, testOrder2.Positions.LastOrDefault().Number);
-            Assert.Equal(true, result);
 
         }
 
@@ -120,7 +117,7 @@ namespace Business.Test
                 Description = "Burger with Fries",
                 ItemPrice = 15
             };
-
+            context.Itemtyp.Add(testItem1);
             context.Order.Add(testOrder);
             context.SaveChanges();
 
@@ -128,19 +125,17 @@ namespace Business.Test
             var orderService = new OrderService(context);
             var positionService = new OrderPosService(context, orderService);
 
-            var result = positionService.AddOrderPos(testOrder.Id, testItem1.Id) != null;
-            result = result && positionService.AddOrderPos(testOrder.Id, testItem1.Id) != null;
-            positionService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 2, "");
+            positionService.AddOrderPos(testOrder.Id, testItem1.Id);
+            positionService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 3, "");
             context.SaveChanges();
 
             Assert.Equal(45, testOrder.Positions.First().PricePos);
-            Assert.Equal(true, result);
 
-            positionService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, -2, "");
+            positionService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 1, "");
 
             Assert.Equal(15, testOrder.Positions.First().PricePos);
 
-            positionService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 3, "");
+            positionService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 4, "");
 
             Assert.Equal(60, testOrder.Positions.First().PricePos);
 
