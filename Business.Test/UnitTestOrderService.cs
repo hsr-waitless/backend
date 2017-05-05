@@ -85,8 +85,8 @@ using Xunit;
             context.SaveChanges();
 
             Assert.NotNull( result );
-            //Assert.Equal( order2, result.FirstOrDefault(t => t.OrderStatus = OrderStatus.Active));
-            //Assert.Equal( order1, result.FirstOrDefault(t => t.OrderStatus = OrderStatus.New));
+            Assert.Equal( order2.PriceOrder, result.FirstOrDefault(t => t.OrderStatus ==OrderStatus.Active).PriceOrder );
+            Assert.Equal( order1.PriceOrder, result.FirstOrDefault(t => t.OrderStatus == OrderStatus.New).PriceOrder);
         }
 
         [Fact]
@@ -95,31 +95,37 @@ using Xunit;
         {
             var context = MockContextFactory.Create();
 
+            var tablet = new Tablet()
+            {
+                Id = 8,
+                Identifier = "Brutus",
+                Mode = Mode.Waiter
+            };
+
+            var table = new Table()
+            {
+                Id = 5,
+                Name = "Test"
+            };
             var order0 = new Order
             {
                 Id = 3,
                 OrderStatus = OrderStatus.New,
                 PriceOrder = 1,
-                TableId = 5,
-                Waiter = new Tablet()
-                {
-                    Id = 8,
-                    Identifier = "Brutus",
-                    Mode = Mode.Waiter
-                }
+                Table = table,
+                Waiter = tablet
             };
-
+            context.Table.Add(table);
+            context.Tablet.Add(tablet);
             context.Order.Add(order0);
             context.SaveChanges();
 
             var service = new OrderService(context);
             var result = service.GetOrder(3);
 
-            //Assert.NotEmpty(result);
-            //Assert.Equal(1, result.Count() );
-            //Assert.Equal(3, result.Number);
-            //Assert.Equal(OrderStatus.New, result.OrderStatus);
-            //Assert.Equal(1, result.PriceOrder);
+            Assert.Equal(1, result.PriceOrder);
+            Assert.Equal(OrderStatus.New, result.OrderStatus);
+            Assert.Equal(1, result.PriceOrder);
         }
 
         [Fact]
@@ -147,7 +153,7 @@ using Xunit;
             var service = new OrderService(context);
             var result = service.DoChangeOrderStatus(2, OrderStatus.Done);
 
-            //Assert.Equal(OrderStatus.Done, result.OrderStatus);
+            Assert.Equal(OrderStatus.Done, result.OrderStatus);
         }
 
         [Fact]
@@ -180,7 +186,7 @@ using Xunit;
                 Waiter = waiter
             };
 
-            var positionA = new Itemtyp
+            var itemA = new Itemtyp
             {
                 Id = 1,
                 Number = 1,
@@ -189,7 +195,7 @@ using Xunit;
                 ItemPrice = 9
             };
 
-            var positionB = new Itemtyp
+            var itemB = new Itemtyp
             {
                 Id = 2,
                 Number = 2,
@@ -197,29 +203,52 @@ using Xunit;
                 Description = "tomatosalad",
                 ItemPrice = 12
             };
-            
+
+            var positionSoup = new OrderPos
+            {
+                Amount = 1,
+                Id = 6,
+                Order = order2,
+                OrderId = order2.Id,
+                PricePos = 9,
+                PricePaidByCustomer = 9,
+                Itemtyp = itemA,
+                ItemtypId = itemA.Id,
+                PosStatus = PosStatus.Active
+            };
+
+            var positionSalad = new OrderPos
+            {
+                Amount = 1,
+                Id = 8,
+                Order = order2,
+                OrderId = order2.Id,
+                PricePos = 12,
+                PricePaidByCustomer = 12,
+                Itemtyp = itemA,
+                ItemtypId = itemA.Id,
+                PosStatus = PosStatus.Active
+            };
 
             context.Tablet.Add(waiter);
             context.Order.Add(order1);
             context.Order.Add(order2);
+            context.Itemtyp.Add(itemA);
+            context.Itemtyp.Add(itemB);
+            context.OrderPos.Add(positionSoup);
+            context.OrderPos.Add(positionSalad);
             context.SaveChanges();
-
-            //TODO:Hier order2 erweitern um 2 Positionen
-            // Wieso lässt sich order2 nciht erweitern?
-
+            
 
             var orderService = new OrderService(context);
             var posService = new OrderPosService(context, orderService);
             orderService.DoCalulateOrderPrice(4);
-
-            // TODO: Hier wert von order2 berechnen
+            orderService.DoCalulateOrderPrice(8);
+         
             context.SaveChanges();
-
             
-
-            // Test with worth 0
             Assert.Equal(0, order1.PriceOrder);
-            //TODO: Hier testen ob Order2 den richtigen Wert enthält 
+            Assert.Equal(21, order2.PriceOrder);
         }
     }		
  }
