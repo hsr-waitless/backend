@@ -56,13 +56,26 @@ using Xunit;
                 Identifier = "Georg",
                 Mode = Mode.Waiter
             };
+           
+            var tableAlpha = new Table()
+            {
+                Id = 6,
+                Name = "Test"
+            };
+
+            var tableBeta = new Table()
+            {
+                Id = 9,
+                Name = "TestB"
+            };
 
             var order1 = new Order
             {
                 Id = 4,
                 OrderStatus = OrderStatus.New,
                 PriceOrder = 0,
-                TableId = 5,
+                Table = tableAlpha,
+                TableId = 6 ,
                 Waiter = waiter
             };
 
@@ -71,7 +84,8 @@ using Xunit;
                 Id = 8,
                 OrderStatus = OrderStatus.Active,
                 PriceOrder = 2,
-                TableId = 7,
+                Table = tableBeta,
+                TableId = 9,
                 Waiter = waiter
             };
 
@@ -133,18 +147,26 @@ using Xunit;
         {
             var context = MockContextFactory.Create();
 
+            var tablet = new Tablet()
+            {
+                Id = 5,
+                Identifier = "Eugen",
+                Mode = Mode.Waiter
+            };
+
+            var table = new Table()
+            {
+                Id = 5,
+                Name = "TestTisch"
+            };
             var order4 = new Order
             {
                 Id = 2,
                 OrderStatus = OrderStatus.New,
                 PriceOrder = 3,
                 TableId = 7,
-                Waiter = new Tablet()
-                {
-                    Id = 2,
-                    Identifier = "Dagobert",
-                    Mode = Mode.Waiter
-                }
+                Waiter = tablet,
+                Table = table
             };
 
             context.Order.Add(order4);
