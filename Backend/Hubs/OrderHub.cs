@@ -135,7 +135,7 @@ namespace Backend.Hubs
             Clients.Caller.DoUnassignOrderResponse(response);
         }
 
-        public void AddOrderPosRequest(Command<AddOrderPosRequest> request)
+        public void CreateOrderPosRequest(Command<AddOrderPosRequest> request)
         {
             var response = new Command<AddOrderPosResponse>()
             {
@@ -145,10 +145,10 @@ namespace Backend.Hubs
                     Order = orderPosService.AddOrderPos(request.Arguments.OrderId, request.Arguments.ItemTypeId)
                 }
             };
-            Clients.Caller.AddOrderPosResponse(response);
+            Clients.Caller.CreateOrderPosResponse(response);
         }
 
-        public void RemoveOrderPosRequest(Command<RemoveOrderPosRequest> request)
+        public void DoDeleteOrderPosRequest(Command<RemoveOrderPosRequest> request)
         {
             var response = new Command<RemoveOrderPosResponse>()
             {
@@ -158,7 +158,7 @@ namespace Backend.Hubs
                     Order = orderPosService.RemoveOrderPos(request.Arguments.OrderId, request.Arguments.PositionId)
                 }
             };
-            Clients.Caller.RemoveOrderPosResponse(response);
+            Clients.Caller.DoDeleteOrderPosResponse(response);
         }
 
         public void DoUpdateOrderPosRequest(Command<DoUpdateOrderPosRequest> request)
