@@ -191,7 +191,6 @@ namespace Backend.Hubs
                         .Union(orderService.GetOrdersByStatus(OrderStatus.Active))  
                 }
             };
-            orderService.DoCalulateOrderPrice(request.Arguments.OrderId);
             Clients.Caller.DoUpdateOrderPosResponse(response);
 
         }
