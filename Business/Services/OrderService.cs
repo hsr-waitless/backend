@@ -84,5 +84,12 @@ namespace Business.Services
             }
             context.SaveChanges();
         }
+
+        public IEnumerable<OrderModel> GetOrdersByStatus(OrderStatus status)
+        {
+            return context.Order
+                .Where( t =>t.OrderStatus == status)
+                .Select(m => OrderModel.MapFromDatabase(m));
+        }
     }
 }

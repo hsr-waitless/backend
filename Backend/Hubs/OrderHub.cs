@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.SignalR.Hubs;
 using Backend.Commands;
 using Business.Services;
 using Database;
+using Database.Models;
+using System.Linq;
 
 namespace Backend.Hubs
 {
@@ -175,6 +177,21 @@ namespace Backend.Hubs
             };
             orderService.DoCalulateOrderPrice(request.Arguments.OrderId);
             Clients.Caller.DoUpdateOrderPosResponse(response);
+
+        }
+
+        public void GetOrdersForKitchenRequest(Command<GetOrdersForKitchenRequest> request)
+        {
+            var response = new Command<GetOrdersForKitchenResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new GetOrdersForKitchenResponse
+                {
+                    Orders = orderService.GetOrdersByStatus(OrderStatus.New)
+                        .Union(orderService.GetOrdersByStatus(OrderStatus.Active))  
+                }
+            };
+
 
         }
     }
