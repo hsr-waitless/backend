@@ -180,18 +180,17 @@ namespace Backend.Hubs
 
         }
 
-        public void GetOrdersForKitchenRequest(Command<GetOrdersForKitchenRequest> request)
+        public void GetOrdersByStatusRequest(Command<GetOrdersByStatusRequest> request)
         {
-            var response = new Command<GetOrdersForKitchenResponse>()
+            var response = new Command<GetOrdersByStatusResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new GetOrdersForKitchenResponse
+                Arguments = new GetOrdersByStatusResponse
                 {
-                    Orders = orderService.GetOrdersByStatus(OrderStatus.New)
-                        .Union(orderService.GetOrdersByStatus(OrderStatus.Active))  
+                    Orders = orderService.GetOrdersByStatus(request.Arguments.Status)
                 }
             };
-            Clients.Caller.DoUpdateOrderPosResponse(response);
+            Clients.Caller.GetOrdersByStatusResponse(response);
 
         }
     }

@@ -88,6 +88,9 @@ namespace Business.Services
         public IEnumerable<OrderModel> GetOrdersByStatus(OrderStatus status)
         {
             return context.Order
+                .Include(o => o.Table)
+                .Include(o => o.Positions)
+                .Include("Positions.Itemtyp")
                 .Where( t =>t.OrderStatus == status)
                 .Select(m => OrderModel.MapFromDatabase(m));
         }
