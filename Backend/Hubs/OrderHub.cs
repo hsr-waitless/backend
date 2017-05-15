@@ -193,5 +193,18 @@ namespace Backend.Hubs
             Clients.Caller.GetOrdersByStatusResponse(response);
 
         }
+
+        public void DoChangeStatusOrderPosRequest(Command<DoChangeStatusOrderPosRequest> request)
+        {
+            var response = new Command<DoChangeStatusOrderPosResponse>()
+            {
+                RequestId = request.RequestId,
+                Arguments = new DoChangeStatusOrderPosResponse
+                {
+                    OrderPos = orderPosService.DoChangeStatusOrderPos(request.Arguments.id, request.Arguments.Status)
+                }
+            };
+            Clients.Caller.DoChangeStatusOrderPosResponse(response);
+        }
     }
 }

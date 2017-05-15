@@ -93,5 +93,17 @@ namespace Business.Services
 
             return orderService.GetOrder(relevantOrderPos.OrderId);
         }
+
+        public OrderPos DoChangeStatusOrderPos(long orderPosId, PosStatus status )
+        {
+            var relevantOrderPos = context.OrderPos
+                .FirstOrDefault(o => o.Id == orderPosId);
+
+            relevantOrderPos.PosStatus = status;
+            context.SaveChanges();
+
+            return relevantOrderPos;
+
+        }
     }
 }
