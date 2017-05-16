@@ -86,9 +86,9 @@ namespace Backend.Test
                 Name = "Sommerspeisen",
              });
 
-            var request = new MenuRequest();
+            var request = new GetMenuRequest();
 
-            var command = new Command<MenuRequest>();
+            var command = new Command<GetMenuRequest>();
             command.RequestId = "123";
             command.Arguments = request;
 
@@ -97,7 +97,7 @@ namespace Backend.Test
             var hub = new MenuHub(getMenuService, SubmenuService, getItemsService);
 
             var responseType = "GetMenuResponse";
-            var action = new Action<Command<MenuResponse>>((response) =>
+            var action = new Action<Command<GetMenuResponse>>((response) =>
             {
                 Assert.Equal(response.RequestId, command.RequestId);
                 Assert.NotNull(response.Arguments.Menus);
