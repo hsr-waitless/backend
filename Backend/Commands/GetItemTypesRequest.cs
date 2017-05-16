@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Backend.Command
 {
-    public class ItemTypesRequest
+    public class GetItemTypesRequest
     {
         [JsonProperty("subMenuId")]
         public long SubMenuId { get; set; }

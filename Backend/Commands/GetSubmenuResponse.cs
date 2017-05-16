@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Backend.Commands
 {
-    public class SubMenuResponse
+    public class GetSubMenuResponse
     {
         [JsonProperty("subMenus")]
         public IEnumerable<SubmenuModel> SubMenus { get; set; }

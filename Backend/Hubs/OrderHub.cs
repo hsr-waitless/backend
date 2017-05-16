@@ -27,12 +27,12 @@ namespace Backend.Hubs
             this.assignOrderService = assignOrderService;
         }
 
-        public void GetAllTablesRequest(Command<TableRequest> request)
+        public void GetAllTablesRequest(Command<GetAllTablesRequest> request)
         {
-            var response = new Command<TableResponse>()
+            var response = new Command<GetAllTablesResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new TableResponse
+                Arguments = new GetAllTablesResponse
                 {
                     Tables = getTablesService.GetAllTables()
                 }
@@ -79,7 +79,7 @@ namespace Backend.Hubs
             Clients.Caller.GetOrderResponse(response);
         }
 
-        public void DoAssignOrderRequest(Command<AssignOrderRequest> request)
+        public void DoAssignOrderRequest(Command<DoAssignOrderRequest> request)
         {
             var assignOrder = new OnOrderAssignedEvent
             {
@@ -89,10 +89,10 @@ namespace Backend.Hubs
             Clients.Group(request.Arguments.TabletIdentifier).OnOrderChange(assignOrder);
 
 
-            var response = new Command<AssignOrderResponse>()
+            var response = new Command<DoAssignOrderResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new AssignOrderResponse
+                Arguments = new DoAssignOrderResponse
                 {
                     success = assignOrderService.OnOrderAssigned(request.Arguments.TabletIdentifier,
                         request.Arguments.OrderId)
@@ -115,7 +115,7 @@ namespace Backend.Hubs
             Clients.Caller.DoChangeStatusOrderResponse(response);
         }
 
-        public void DoUnassignOrderRequest(Command<UnassignOrderRequest> request)
+        public void DoUnassignOrderRequest(Command<DoUnassignOrderRequest> request)
         {
             var unassignOrder = new OnOrderUnassignedEvent
             {
@@ -124,10 +124,10 @@ namespace Backend.Hubs
 
             Clients.Group(request.Arguments.TabletIdentifier).OnOrderUnassignEvent(unassignOrder);
 
-            var response = new Command<UnassignOrderResponse>()
+            var response = new Command<DoUnassignOrderResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new UnassignOrderResponse
+                Arguments = new DoUnassignOrderResponse
                 {
                     success = assignOrderService.OnOrderUnassigned(request.Arguments.TabletIdentifier,
                         request.Arguments.OrderId)
@@ -137,12 +137,12 @@ namespace Backend.Hubs
             Clients.Caller.DoUnassignOrderResponse(response);
         }
 
-        public void CreateOrderPosRequest(Command<AddOrderPosRequest> request)
+        public void CreateOrderPosRequest(Command<CreateOrderPosRequest> request)
         {
-            var response = new Command<AddOrderPosResponse>()
+            var response = new Command<CreateOrderPosResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new AddOrderPosResponse
+                Arguments = new CreateOrderPosResponse
                 {
                     Order = orderPosService.AddOrderPos(request.Arguments.OrderId, request.Arguments.ItemTypeId)
                 }
@@ -150,12 +150,12 @@ namespace Backend.Hubs
             Clients.Caller.CreateOrderPosResponse(response);
         }
 
-        public void DoDeleteOrderPosRequest(Command<RemoveOrderPosRequest> request)
+        public void DoDeleteOrderPosRequest(Command<DoDeleteOrderPosRequest> request)
         {
-            var response = new Command<RemoveOrderPosResponse>()
+            var response = new Command<DoDeleteOrderPosResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new RemoveOrderPosResponse
+                Arguments = new DoDeleteOrderPosResponse
                 {
                     Order = orderPosService.RemoveOrderPos(request.Arguments.OrderId, request.Arguments.PositionId)
                 }

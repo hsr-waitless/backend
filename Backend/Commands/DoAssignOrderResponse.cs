@@ -3,7 +3,7 @@ using System;
 
 namespace Backend.Commands
 {
-    public class AssignOrderResponse
+    public class DoAssignOrderResponse
     {
         [JsonProperty("success")]
         public Boolean success { get; set; }

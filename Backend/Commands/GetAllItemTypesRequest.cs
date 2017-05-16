@@ -1,9 +1,8 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Backend.Commands
 {
-    public class SubMenuRequest
+    public class GetAllItemTypesRequest
     {
         [JsonProperty("menuId")]
         public long MenuId { get; set; }
