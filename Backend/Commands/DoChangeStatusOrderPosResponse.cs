@@ -1,13 +1,12 @@
-﻿using Database.Models;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
+using Business.Models;
 
 namespace Backend.Commands
 {
     public class DoChangeStatusOrderPosResponse
     {
         [JsonProperty("orderPos")]
-        public OrderPos OrderPos { get; set; }
+        public OrderPosModel OrderPos { get; set; }
     }
 }
 
