@@ -94,7 +94,7 @@ namespace Business.Services
             return orderService.GetOrder(relevantOrderPos.OrderId);
         }
 
-        public OrderPos DoChangeStatusOrderPos(long orderPosId, PosStatus status )
+        public OrderPosModel DoChangeStatusOrderPos(long orderPosId, PosStatus status )
         {
             var relevantOrderPos = context.OrderPos
                 .Include(o => o.Itemtyp)
@@ -103,7 +103,7 @@ namespace Business.Services
             relevantOrderPos.PosStatus = status;
             context.SaveChanges();
 
-            return relevantOrderPos;
+            return OrderPosModel.MapFromDatabase(relevantOrderPos);
 
         }
     }
