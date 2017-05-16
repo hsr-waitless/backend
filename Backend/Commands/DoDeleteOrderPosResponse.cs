@@ -4,7 +4,7 @@ using System;
 
 namespace Backend.Commands
 {
-    public class RemoveOrderPosResponse
+    public class DoDeleteOrderPosResponse
     {
         [JsonProperty("order")]
         public OrderModel Order { get; set; }
