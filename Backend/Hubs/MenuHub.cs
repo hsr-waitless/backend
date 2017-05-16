@@ -58,7 +58,7 @@ namespace Backend.Hubs
                     ItemTypes = getItemsService.GetItemTypes(request.Arguments.SubMenuId)
                 }
             };
-            Clients.Caller.GetItemTypeResponse(response);
+            Clients.Caller.GetItemTypesResponse(response);
         }
 
         public void GetAllItemTypeRequest(Command<AllItemTypesRequest> request)
