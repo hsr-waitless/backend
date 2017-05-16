@@ -97,6 +97,7 @@ namespace Business.Services
         public OrderPos DoChangeStatusOrderPos(long orderPosId, PosStatus status )
         {
             var relevantOrderPos = context.OrderPos
+                .Include(o => o.Itemtyp)
                 .FirstOrDefault(o => o.Id == orderPosId);
 
             relevantOrderPos.PosStatus = status;

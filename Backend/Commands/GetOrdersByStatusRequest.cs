@@ -6,6 +6,6 @@ namespace Backend.Commands
     public class GetOrdersByStatusRequest
     {
         [JsonProperty("status")]
-        public OrderStatus Status { get; set; }
+        public PosStatus Status { get; set; }
     }
 }
