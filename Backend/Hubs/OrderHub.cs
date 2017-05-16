@@ -5,6 +5,7 @@ using Business.Services;
 using Database;
 using Database.Models;
 using System.Linq;
+using System;
 
 namespace Backend.Hubs
 {
@@ -38,6 +39,11 @@ namespace Backend.Hubs
                 }
             };
             Clients.Caller.GetAllTablesResponse(response);
+        }
+
+        public void CreateOrderRequest(CreateOrderRequest request)
+        {
+            throw new NotImplementedException();
         }
 
         public void CreateOrderRequest(Command<CreateOrderRequest> request)
