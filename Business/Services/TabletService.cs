@@ -4,6 +4,7 @@ using Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
@@ -16,12 +17,13 @@ namespace Business.Services
             this.context = context;
         }
 
-        public String GetTabletIdentifier(long orderPosId) {
-
-            return context.Tablet.FirstOrDefault(t => t.Id ==
-            context.Order.FirstOrDefault(o => o.Id ==
-            context.OrderPos.FirstOrDefault(op => op.Id == orderPosId).Id).Waiter.Id).Identifier;
-                
+        public string GetTabletIdentifier(long orderPosId)
+        {
+            return context.OrderPos
+                .Include(o => o.Order.Waiter)
+                .Where(o => o.Id == orderPosId)
+                .Select(o => o.Order.Waiter.Identifier)
+                .FirstOrDefault();
         }
 
         public IEnumerable<TabletModel> GetTablets(Mode mode)

@@ -2,10 +2,7 @@
 using Microsoft.AspNetCore.SignalR.Hubs;
 using Backend.Commands;
 using Business.Services;
-using Database;
 using Database.Models;
-using System.Linq;
-using System;
 
 namespace Backend.Hubs
 {
@@ -21,16 +18,15 @@ namespace Backend.Hubs
         public OrderHub(TableService getTablesService,
             OrderService orderService,
             OrderPosService orderPosService,
-            AssignOrderService assignOrderService
+            AssignOrderService assignOrderService,
+            TabletService tabletService
             )
         {
-            
-
             this.getTablesService = getTablesService;
             this.orderService = orderService;
             this.orderPosService = orderPosService;
             this.assignOrderService = assignOrderService;
-            
+            this.tabletService = tabletService;
         }
 
         public void GetAllTablesRequest(Command<GetAllTablesRequest> request)
@@ -46,11 +42,6 @@ namespace Backend.Hubs
             Clients.Caller.GetAllTablesResponse(response);
         }
 
-        public void CreateOrderRequest(CreateOrderRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
         public void CreateOrderRequest(Command<CreateOrderRequest> request)
         {
             var response = new Command<CreateOrderResponse>()
@@ -61,13 +52,12 @@ namespace Backend.Hubs
                     Order = orderService.CreateOrder(request.Arguments.TableId, request.Arguments.TabletIdentifier)
                 }
             };
-            /*
+
             var infoEvent = new DoSendInfoEvent()
             {
                 Info = "OrderCreated"
             };
-            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
-            */
+            Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
 
             Clients.Caller.CreateOrderResponse(response);
         }
@@ -105,7 +95,7 @@ namespace Backend.Hubs
                 OrderId = request.Arguments.OrderId,
             };
 
-            Clients.Group(request.Arguments.TabletIdentifier).OnOrderChange(assignOrder);
+            Clients?.Group(request.Arguments.TabletIdentifier)?.OnOrderChange(assignOrder);
 
 
             var response = new Command<DoAssignOrderResponse>()
@@ -135,7 +125,7 @@ namespace Backend.Hubs
             {
                 Info = "OrderUpdated"
             };
-            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
+            Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
             Clients.Caller.DoChangeStatusOrderResponse(response);
         }
 
@@ -146,7 +136,7 @@ namespace Backend.Hubs
                 OrderId = request.Arguments.OrderId,
             };
 
-            Clients.Group(request.Arguments.TabletIdentifier).OnOrderUnassignEvent(unassignOrder);
+            Clients?.Group(request.Arguments.TabletIdentifier)?.OnOrderUnassignEvent(unassignOrder);
 
             var response = new Command<DoUnassignOrderResponse>()
             {
@@ -177,7 +167,7 @@ namespace Backend.Hubs
             {
                 Info = "OrderPosCreated"
             };
-            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
+            Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
 
             Clients.Caller.CreateOrderPosResponse(response);
         }
@@ -196,7 +186,7 @@ namespace Backend.Hubs
             {
                 Info = "OrderPosDeleted"
             };
-            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
+            Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
 
             Clients.Caller.DoDeleteOrderPosResponse(response);
         }
@@ -216,10 +206,11 @@ namespace Backend.Hubs
             };
             orderService.DoCalulateOrderPrice(request.Arguments.OrderId);
             
-            var infoEvent = new DoSendInfoEvent() {
+            var infoEvent = new DoSendInfoEvent()
+            {
                 Info = "OrderPosUpdated"
             };
-            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
+            Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
             
             
             Clients.Caller.DoUpdateOrderPosResponse(response);
@@ -255,8 +246,8 @@ namespace Backend.Hubs
             {
                 Info = "OrderPosUpdate"
             };
-            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
-            Clients.Group(tabletService.GetTabletIdentifier(request.Arguments.id)).DoSendInfoEvent(infoEvent);
+            Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
+            Clients?.Group(tabletService.GetTabletIdentifier(request.Arguments.id))?.DoSendInfoEvent(infoEvent);
 
             Clients.Caller.DoChangeStatusOrderPosResponse(response);
         }

@@ -29,6 +29,7 @@ namespace Backend.Test
             var orderService = new OrderService(context);
             var orderPosService = new OrderPosService(context, orderService);
             var assignOrderService = new AssignOrderService(context);
+            var tabletService = new TabletService(context);
 
             context.Table.Add(new Database.Models.Table
             {
@@ -53,7 +54,7 @@ namespace Backend.Test
 
             var called = false;
 
-            var hub = new OrderHub(getTablesService, orderService, orderPosService, assignOrderService);
+            var hub = new OrderHub(getTablesService, orderService, orderPosService, assignOrderService, tabletService);
 
             var responseType = "CreateOrderResponse";
             var action = new Action<Command<CreateOrderResponse>>((response) =>
