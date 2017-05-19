@@ -4,7 +4,7 @@ using Business.Models;
 
 namespace Backend.Commands
 {
-    public class TableResponse
+    public class GetAllTablesResponse
     {
         [JsonProperty("tables")]
         public IEnumerable<TableModel> Tables { get; set; }

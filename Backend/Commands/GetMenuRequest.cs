@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Commands
 {
-    public class MenuRequest
+    public class GetMenuRequest
     {
     }
 }

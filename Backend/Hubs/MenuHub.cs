@@ -21,12 +21,12 @@ namespace Backend.Hubs
             this.getItemsService = getItemsService;
         }
 
-        public void GetMenuRequest(Command<MenuRequest> request)
+        public void GetMenuRequest(Command<GetMenuRequest> request)
         {
-            var response = new Command<MenuResponse>()
+            var response = new Command<GetMenuResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new MenuResponse
+                Arguments = new GetMenuResponse
                 {
                     Menus = getMenuService.GetMenus()
                 }
@@ -35,12 +35,12 @@ namespace Backend.Hubs
             Clients.Caller.GetMenuResponse(response);
         }
 
-        public void GetSubMenuRequest(Command<SubMenuRequest> request)
+        public void GetSubMenuRequest(Command<GetSubMenuRequest> request)
         {
-            var response = new Command<SubMenuResponse>()
+            var response = new Command<GetSubMenuResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new SubMenuResponse
+                Arguments = new GetSubMenuResponse
                 {
                     SubMenus = getSubMenuService.GetSubmenus(request.Arguments.MenuId)
                 }
@@ -48,12 +48,12 @@ namespace Backend.Hubs
             Clients.Caller.GetSubMenuResponse(response);
         }
 
-        public void GetItemTypesRequest(Command<ItemTypesRequest> request)
+        public void GetItemTypesRequest(Command<GetItemTypesRequest> request)
         {
-            var response = new Command<ItemTypesResponse>()
+            var response = new Command<GetItemTypesResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new ItemTypesResponse
+                Arguments = new GetItemTypesResponse
                 {
                     ItemTypes = getItemsService.GetItemTypes(request.Arguments.SubMenuId)
                 }
@@ -61,12 +61,12 @@ namespace Backend.Hubs
             Clients.Caller.GetItemTypesResponse(response);
         }
 
-        public void GetAllItemTypeRequest(Command<AllItemTypesRequest> request)
+        public void GetAllItemTypeRequest(Command<GetAllItemTypesRequest> request)
         {
-            var response = new Command<AllItemTypesResponse>()
+            var response = new Command<GetAllItemTypesResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new AllItemTypesResponse
+                Arguments = new GetAllItemTypesResponse
                 {
                     ItemTypes = getItemsService.GetAllItemTypes(request.Arguments.MenuId)
                 }

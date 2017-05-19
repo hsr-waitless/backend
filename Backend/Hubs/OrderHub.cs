@@ -5,6 +5,7 @@ using Business.Services;
 using Database;
 using Database.Models;
 using System.Linq;
+using System;
 
 namespace Backend.Hubs
 {
@@ -15,29 +16,39 @@ namespace Backend.Hubs
         private readonly OrderService orderService;
         private readonly OrderPosService orderPosService;
         private readonly AssignOrderService assignOrderService;
+        private readonly TabletService tabletService;
 
         public OrderHub(TableService getTablesService,
             OrderService orderService,
             OrderPosService orderPosService,
-            AssignOrderService assignOrderService)
+            AssignOrderService assignOrderService
+            )
         {
+            
+
             this.getTablesService = getTablesService;
             this.orderService = orderService;
             this.orderPosService = orderPosService;
             this.assignOrderService = assignOrderService;
+            
         }
 
-        public void GetAllTablesRequest(Command<TableRequest> request)
+        public void GetAllTablesRequest(Command<GetAllTablesRequest> request)
         {
-            var response = new Command<TableResponse>()
+            var response = new Command<GetAllTablesResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new TableResponse
+                Arguments = new GetAllTablesResponse
                 {
                     Tables = getTablesService.GetAllTables()
                 }
             };
             Clients.Caller.GetAllTablesResponse(response);
+        }
+
+        public void CreateOrderRequest(CreateOrderRequest request)
+        {
+            throw new NotImplementedException();
         }
 
         public void CreateOrderRequest(Command<CreateOrderRequest> request)
@@ -50,6 +61,14 @@ namespace Backend.Hubs
                     Order = orderService.CreateOrder(request.Arguments.TableId, request.Arguments.TabletIdentifier)
                 }
             };
+            /*
+            var infoEvent = new DoSendInfoEvent()
+            {
+                Info = "OrderCreated"
+            };
+            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
+            */
+
             Clients.Caller.CreateOrderResponse(response);
         }
 
@@ -79,7 +98,7 @@ namespace Backend.Hubs
             Clients.Caller.GetOrderResponse(response);
         }
 
-        public void DoAssignOrderRequest(Command<AssignOrderRequest> request)
+        public void DoAssignOrderRequest(Command<DoAssignOrderRequest> request)
         {
             var assignOrder = new OnOrderAssignedEvent
             {
@@ -89,10 +108,10 @@ namespace Backend.Hubs
             Clients.Group(request.Arguments.TabletIdentifier).OnOrderChange(assignOrder);
 
 
-            var response = new Command<AssignOrderResponse>()
+            var response = new Command<DoAssignOrderResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new AssignOrderResponse
+                Arguments = new DoAssignOrderResponse
                 {
                     success = assignOrderService.OnOrderAssigned(request.Arguments.TabletIdentifier,
                         request.Arguments.OrderId)
@@ -112,10 +131,15 @@ namespace Backend.Hubs
                     Order = orderService.DoChangeOrderStatus(request.Arguments.Number, request.Arguments.OrderStatus)
                 }
             };
+            var infoEvent = new DoSendInfoEvent()
+            {
+                Info = "OrderUpdated"
+            };
+            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
             Clients.Caller.DoChangeStatusOrderResponse(response);
         }
 
-        public void DoUnassignOrderRequest(Command<UnassignOrderRequest> request)
+        public void DoUnassignOrderRequest(Command<DoUnassignOrderRequest> request)
         {
             var unassignOrder = new OnOrderUnassignedEvent
             {
@@ -124,10 +148,10 @@ namespace Backend.Hubs
 
             Clients.Group(request.Arguments.TabletIdentifier).OnOrderUnassignEvent(unassignOrder);
 
-            var response = new Command<UnassignOrderResponse>()
+            var response = new Command<DoUnassignOrderResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new UnassignOrderResponse
+                Arguments = new DoUnassignOrderResponse
                 {
                     success = assignOrderService.OnOrderUnassigned(request.Arguments.TabletIdentifier,
                         request.Arguments.OrderId)
@@ -137,34 +161,49 @@ namespace Backend.Hubs
             Clients.Caller.DoUnassignOrderResponse(response);
         }
 
-        public void CreateOrderPosRequest(Command<AddOrderPosRequest> request)
+        public void CreateOrderPosRequest(Command<CreateOrderPosRequest> request)
         {
-            var response = new Command<AddOrderPosResponse>()
+
+            
+            var response = new Command<CreateOrderPosResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new AddOrderPosResponse
+                Arguments = new CreateOrderPosResponse
                 {
                     Order = orderPosService.AddOrderPos(request.Arguments.OrderId, request.Arguments.ItemTypeId)
                 }
             };
+            var infoEvent = new DoSendInfoEvent()
+            {
+                Info = "OrderPosCreated"
+            };
+            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
+
             Clients.Caller.CreateOrderPosResponse(response);
         }
 
-        public void DoDeleteOrderPosRequest(Command<RemoveOrderPosRequest> request)
+        public void DoDeleteOrderPosRequest(Command<DoDeleteOrderPosRequest> request)
         {
-            var response = new Command<RemoveOrderPosResponse>()
+            var response = new Command<DoDeleteOrderPosResponse>()
             {
                 RequestId = request.RequestId,
-                Arguments = new RemoveOrderPosResponse
+                Arguments = new DoDeleteOrderPosResponse
                 {
                     Order = orderPosService.RemoveOrderPos(request.Arguments.OrderId, request.Arguments.PositionId)
                 }
             };
+            var infoEvent = new DoSendInfoEvent()
+            {
+                Info = "OrderPosDeleted"
+            };
+            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
+
             Clients.Caller.DoDeleteOrderPosResponse(response);
         }
 
         public void DoUpdateOrderPosRequest(Command<DoUpdateOrderPosRequest> request)
         {
+            
             var response = new Command<DoUpdateOrderPosResponse>()
             {
                 RequestId = request.RequestId,
@@ -176,6 +215,13 @@ namespace Backend.Hubs
                 }
             };
             orderService.DoCalulateOrderPrice(request.Arguments.OrderId);
+            
+            var infoEvent = new DoSendInfoEvent() {
+                Info = "OrderPosUpdated"
+            };
+            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
+            
+            
             Clients.Caller.DoUpdateOrderPosResponse(response);
 
         }
@@ -196,6 +242,7 @@ namespace Backend.Hubs
 
         public void DoChangeStatusOrderPosRequest(Command<DoChangeStatusOrderPosRequest> request)
         {
+            
             var response = new Command<DoChangeStatusOrderPosResponse>()
             {
                 RequestId = request.RequestId,
@@ -204,6 +251,13 @@ namespace Backend.Hubs
                     OrderPos = orderPosService.DoChangeStatusOrderPos(request.Arguments.id, request.Arguments.Status)
                 }
             };
+            var infoEvent = new DoSendInfoEvent()
+            {
+                Info = "OrderPosUpdate"
+            };
+            Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
+            Clients.Group(tabletService.GetTabletIdentifier(request.Arguments.id)).DoSendInfoEvent(infoEvent);
+
             Clients.Caller.DoChangeStatusOrderPosResponse(response);
         }
     }

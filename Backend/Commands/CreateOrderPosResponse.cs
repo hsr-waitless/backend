@@ -3,7 +3,7 @@ using Business.Models;
 
 namespace Backend.Commands
 {
-    public class AddOrderPosResponse
+    public class CreateOrderPosResponse
     {
         [JsonProperty("order")]
         public OrderModel Order { get; set; }

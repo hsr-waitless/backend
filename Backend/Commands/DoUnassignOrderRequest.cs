@@ -4,7 +4,7 @@ using System;
 
 namespace Backend.Commands
 {
-    public class AssignOrderRequest
+    public class DoUnassignOrderRequest
     {
         [JsonProperty("orderId")]
         public long OrderId { get; set; }

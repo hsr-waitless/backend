@@ -4,7 +4,7 @@ using Business.Models;
 
 namespace Backend.Commands
 {
-    public class MenuResponse
+    public class GetMenuResponse
     {
         [JsonProperty("menus")]
         public IEnumerable<MenuModel> Menus { get; set; }

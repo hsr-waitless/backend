@@ -4,12 +4,12 @@ using System;
 
 namespace Backend.Commands
 {
-    public class UnassignOrderRequest
+    public class CreateOrderPosRequest
     {
         [JsonProperty("orderId")]
         public long OrderId { get; set; }
 
-        [JsonProperty("tabletIdentifier")]
-        public String TabletIdentifier { get; set; }
+        [JsonProperty("itemTypeId")]
+        public long ItemTypeId { get; set; }
     }
 }

@@ -94,6 +94,51 @@ namespace Business.Test
         }
 
         [Fact]
+        public void TestDoChangeStatusOrderPos()
+        {
+
+            var context = MockContextFactory.Create();
+
+            var testOrder = new Order()
+            {
+                Id = 1,
+                OrderStatus = OrderStatus.New,
+                CreationTime = new DateTime(2017, 2, 4, 17, 0, 0),
+                Guests = new List<Tablet>(),
+                Positions = new List<OrderPos>()
+
+            };
+
+            var testItem1 = new Itemtyp
+            {
+                Id = 1,
+                Number = 1,
+                Title = "Burger",
+                Description = "Burger with Fries",
+                ItemPrice = 15
+            };
+            context.Itemtyp.Add(testItem1);
+            context.Order.Add(testOrder);
+            context.SaveChanges();
+
+
+            var orderService = new OrderService(context);
+            var positionService = new OrderPosService(context, orderService);
+
+            positionService.AddOrderPos(testOrder.Id, testItem1.Id);
+            positionService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 3, "");
+            context.SaveChanges();
+
+            Assert.Equal(testOrder.Positions.FirstOrDefault().PosStatus, Database.Models.PosStatus.New);
+
+            positionService.DoChangeStatusOrderPos(testOrder.Positions.FirstOrDefault().Id, Database.Models.PosStatus.Active);
+
+            Assert.Equal(testOrder.Positions.FirstOrDefault().PosStatus, Database.Models.PosStatus.Active);
+
+        }
+
+
+        [Fact]
         public void TestDoUpdateOrderPos()
         {
 

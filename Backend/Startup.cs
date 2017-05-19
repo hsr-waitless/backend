@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Database;
 using Business.Services;
+using Backend.Hubs;
 
 namespace Backend
 {
@@ -13,6 +14,9 @@ namespace Backend
     {
         public Startup(IHostingEnvironment env)
         {
+            if (env == null)
+                return;
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -21,7 +25,7 @@ namespace Backend
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfigurationRoot Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
