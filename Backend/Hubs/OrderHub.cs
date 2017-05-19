@@ -61,12 +61,13 @@ namespace Backend.Hubs
                     Order = orderService.CreateOrder(request.Arguments.TableId, request.Arguments.TabletIdentifier)
                 }
             };
+            /*
             var infoEvent = new DoSendInfoEvent()
             {
                 Info = "OrderCreated"
             };
             Clients.Group(Mode.Kitchen.ToString()).DoSendInfoEvent(infoEvent);
-
+            */
 
             Clients.Caller.CreateOrderResponse(response);
         }
