@@ -16,6 +16,14 @@ namespace Business.Services
             this.context = context;
         }
 
+        public String GetTabletIdentifier(long orderPosId) {
+
+            return context.Tablet.FirstOrDefault(t => t.Id ==
+            context.Order.FirstOrDefault(o => o.Id ==
+            context.OrderPos.FirstOrDefault(op => op.Id == orderPosId).Id).Waiter.Id).Identifier;
+                
+        }
+
         public IEnumerable<TabletModel> GetTablets(Mode mode)
         {
             return context.Tablet

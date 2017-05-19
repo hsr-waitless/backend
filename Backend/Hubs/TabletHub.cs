@@ -18,6 +18,7 @@ namespace Backend.Hubs
         public void DoAssignTabletRequest(Command<DoAssignTabletRequest> request)
         {
             Groups.Add(Context.ConnectionId, request.Arguments.TabletIdentifier);
+            
             var response = new Command<DoAssignTabletResponse>()
             {
                 RequestId = request.RequestId,
@@ -27,6 +28,7 @@ namespace Backend.Hubs
                         (request.Arguments.TabletIdentifier, request.Arguments.Mode)
                 }
             };
+            Groups.Add(Context.ConnectionId, request.Arguments.Mode.ToString());
             Clients.Caller.DoAssignTabletResponse(response);
         }
 
