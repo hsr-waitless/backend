@@ -12,13 +12,11 @@ namespace Backend.Hubs
     public class TabletHub : Hub
     {
         private readonly TabletService tabletService;
-        private readonly ILogger _logger;
 
         public TabletHub(TabletService tabletService,
             ILoggerFactory loggerFactory)
         {
             this.tabletService = tabletService;
-            this._logger = loggerFactory.CreateLogger(typeof(OrderHub));
         }
 
         public void DoAssignTabletRequest(Command<DoAssignTabletRequest> request)

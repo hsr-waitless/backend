@@ -16,14 +16,12 @@ namespace Backend.Hubs
         private readonly OrderPosService orderPosService;
         private readonly AssignOrderService assignOrderService;
         private readonly TabletService tabletService;
-        private readonly ILogger _logger;
 
         public OrderHub(TableService getTablesService,
             OrderService orderService,
             OrderPosService orderPosService,
             AssignOrderService assignOrderService,
-            TabletService tabletService,
-            ILoggerFactory loggerFactory
+            TabletService tabletService
             )
         {
             this.getTablesService = getTablesService;
@@ -31,7 +29,6 @@ namespace Backend.Hubs
             this.orderPosService = orderPosService;
             this.assignOrderService = assignOrderService;
             this.tabletService = tabletService;
-            this._logger = loggerFactory.CreateLogger(typeof(OrderHub));
         }
 
         public void GetAllTablesRequest(Command<GetAllTablesRequest> request)
