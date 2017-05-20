@@ -1,7 +1,10 @@
-﻿using Backend.Commands;
+﻿using System;
+using Backend.Commands;
 using Business.Services;
+using Database.Models;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 
 namespace Backend.Hubs
 {
@@ -9,16 +12,19 @@ namespace Backend.Hubs
     public class TabletHub : Hub
     {
         private readonly TabletService tabletService;
+        private readonly ILogger _logger;
 
-        public TabletHub(TabletService tabletService)
+        public TabletHub(TabletService tabletService,
+            ILoggerFactory loggerFactory)
         {
             this.tabletService = tabletService;
+            this._logger = loggerFactory.CreateLogger(typeof(OrderHub));
         }
 
         public void DoAssignTabletRequest(Command<DoAssignTabletRequest> request)
         {
             Groups.Add(Context.ConnectionId, request.Arguments.TabletIdentifier);
-            Groups.Add(Context.ConnectionId, request.Arguments.Mode.ToString());
+            Groups.Add(Context.ConnectionId, Enum.GetName(typeof(Mode), request.Arguments.Mode));
             
             var response = new Command<DoAssignTabletResponse>()
             {

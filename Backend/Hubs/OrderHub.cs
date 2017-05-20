@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using Backend.Commands;
 using Business.Services;
 using Database.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Backend.Hubs
 {
@@ -14,12 +16,14 @@ namespace Backend.Hubs
         private readonly OrderPosService orderPosService;
         private readonly AssignOrderService assignOrderService;
         private readonly TabletService tabletService;
+        private readonly ILogger _logger;
 
         public OrderHub(TableService getTablesService,
             OrderService orderService,
             OrderPosService orderPosService,
             AssignOrderService assignOrderService,
-            TabletService tabletService
+            TabletService tabletService,
+            ILoggerFactory loggerFactory
             )
         {
             this.getTablesService = getTablesService;
@@ -27,6 +31,7 @@ namespace Backend.Hubs
             this.orderPosService = orderPosService;
             this.assignOrderService = assignOrderService;
             this.tabletService = tabletService;
+            this._logger = loggerFactory.CreateLogger(typeof(OrderHub));
         }
 
         public void GetAllTablesRequest(Command<GetAllTablesRequest> request)
@@ -57,6 +62,7 @@ namespace Backend.Hubs
             {
                 Info = "OrderCreated"
             };
+            Clients?.All?.DoSendInfoEvent(infoEvent);
             Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
 
             Clients.Caller.CreateOrderResponse(response);
@@ -125,6 +131,7 @@ namespace Backend.Hubs
             {
                 Info = "OrderUpdated"
             };
+            Clients?.All?.DoSendInfoEvent(infoEvent);
             Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
             Clients.Caller.DoChangeStatusOrderResponse(response);
         }
@@ -167,6 +174,7 @@ namespace Backend.Hubs
             {
                 Info = "OrderPosCreated"
             };
+            Clients?.All?.DoSendInfoEvent(infoEvent);
             Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
 
             Clients.Caller.CreateOrderPosResponse(response);
@@ -186,6 +194,7 @@ namespace Backend.Hubs
             {
                 Info = "OrderPosDeleted"
             };
+            Clients?.All?.DoSendInfoEvent(infoEvent);
             Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
 
             Clients.Caller.DoDeleteOrderPosResponse(response);
@@ -210,6 +219,7 @@ namespace Backend.Hubs
             {
                 Info = "OrderPosUpdated"
             };
+            Clients?.All?.DoSendInfoEvent(infoEvent);
             Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
             
             
@@ -246,7 +256,9 @@ namespace Backend.Hubs
             {
                 Info = "OrderPosUpdate"
             };
-            Clients?.Group(Mode.Kitchen.ToString())?.DoSendInfoEvent(infoEvent);
+
+            Clients?.All?.DoSendInfoEvent(infoEvent);
+            Clients?.Group(Enum.GetName(typeof(Mode), Mode.Kitchen))?.DoSendInfoEvent(infoEvent);
             Clients?.Group(tabletService.GetTabletIdentifier(request.Arguments.id))?.DoSendInfoEvent(infoEvent);
 
             Clients.Caller.DoChangeStatusOrderPosResponse(response);

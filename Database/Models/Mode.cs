@@ -7,8 +7,8 @@ namespace Database.Models
 {
     public enum Mode
     {
-        Guest,
-        Waiter,
-        Kitchen
+        Guest = 1,
+        Waiter = 2,
+        Kitchen = 3
     }
 }
