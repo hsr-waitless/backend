@@ -4,7 +4,6 @@ using Business.Services;
 using Database.Models;
 using Microsoft.AspNetCore.SignalR.Hubs;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
 
 namespace Backend.Hubs
 {
@@ -13,8 +12,7 @@ namespace Backend.Hubs
     {
         private readonly TabletService tabletService;
 
-        public TabletHub(TabletService tabletService,
-            ILoggerFactory loggerFactory)
+        public TabletHub(TabletService tabletService)
         {
             this.tabletService = tabletService;
         }
