@@ -36,7 +36,7 @@ using Xunit;
             context.Table.Add(table);
             context.Tablet.Add(waiter);
 
-            var service = new OrderService(context);
+            var service = new OrderService(new MockDataService(context));
             var result = service.CreateOrder(table.Id, waiter.Identifier);
             context.SaveChanges();
             
@@ -93,7 +93,7 @@ using Xunit;
             context.Order.Add(order1);
             context.Order.Add(order2);
 
-            var service = new OrderService(context);
+            var service = new OrderService(new MockDataService(context));
             var result = service.GetOrdersByWaiter("Georg");
 
             context.SaveChanges();
@@ -134,7 +134,7 @@ using Xunit;
             context.Order.Add(order0);
             context.SaveChanges();
 
-            var service = new OrderService(context);
+            var service = new OrderService(new MockDataService(context));
             var result = service.GetOrder(3);
 
             Assert.Equal(1, result.PriceOrder);
@@ -172,7 +172,7 @@ using Xunit;
             context.Order.Add(order4);
             context.SaveChanges();
 
-            var service = new OrderService(context);
+            var service = new OrderService(new MockDataService(context));
             var result = service.DoChangeOrderStatus(2, OrderStatus.Done);
 
             Assert.Equal(OrderStatus.Done, result.OrderStatus);
@@ -262,8 +262,7 @@ using Xunit;
             context.SaveChanges();
             
 
-            var orderService = new OrderService(context);
-            var posService = new OrderPosService(context, orderService);
+            var orderService = new OrderService(new MockDataService(context));
             orderService.DoCalulateOrderPrice(4);
             orderService.DoCalulateOrderPrice(8);
          

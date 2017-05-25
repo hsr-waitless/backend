@@ -8,18 +8,21 @@ namespace Business.Services
 {
     public class MenuService
     {
-        private readonly WaitlessContext context;
+        private readonly IDataService data;
 
-        public MenuService(WaitlessContext context)
+        public MenuService(IDataService data)
         {
-            this.context = context;
+            this.data = data;
         }
 
         public IEnumerable<MenuModel> GetMenus()
         {
-            return context.Menu
-                .AsEnumerable()
-                .Select(m => MenuModel.MapFromDatabse(m));
+            using (var context = data.GetContext())
+            {
+                return context.Menu
+                    .ToList()
+                    .Select(m => MenuModel.MapFromDatabse(m));
+            }
         }
     }
 }

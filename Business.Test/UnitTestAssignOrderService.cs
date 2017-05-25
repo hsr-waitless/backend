@@ -48,7 +48,7 @@ using Xunit;
             context.Order.Add(testOrder);
             context.SaveChanges();
 
-            var service = new AssignOrderService(context);
+            var service = new AssignOrderService(new MockDataService(context));
             var result = service.OnOrderAssigned(guest.Identifier, testOrder.Id);
             Assert.Equal(guest.Identifier, testOrder.Guests.FirstOrDefault().Identifier);
             Assert.Equal(true, result);
@@ -91,7 +91,7 @@ using Xunit;
             context.Order.Add(testOrder);
             context.SaveChanges();
 
-            var service = new AssignOrderService(context);
+            var service = new AssignOrderService(new MockDataService(context));
             var result = service.OnOrderAssigned(guest.Identifier, testOrder.Id);
             result = service.OnOrderUnassigned(guest.Identifier, testOrder.Id);
             
@@ -130,7 +130,7 @@ using Xunit;
             context.Order.Add(testOrder);
             context.SaveChanges();
 
-            var service = new AssignOrderService(context);
+            var service = new AssignOrderService(new MockDataService(context));
             var result = service.OnOrderAssigned(fakeIdentifier, testOrder.Id);
 
             Assert.Equal(false, result);

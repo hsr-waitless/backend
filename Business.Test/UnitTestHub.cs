@@ -1,18 +1,8 @@
-﻿using Business.Services;		
-using Database;		
-using Microsoft.EntityFrameworkCore;		
-using System;		
-using System.Linq;		
+﻿using Business.Services;
+using System;
 using Xunit;
-using System.Collections.Generic;
-using Business.Models;
 using Business.Test.Factory;
 using Backend.Hubs;
-using Microsoft.AspNetCore.SignalR.Infrastructure;
-using Backend.Controllers;
-using Microsoft.AspNetCore.SignalR.Hubs;
-using System.Dynamic;
-using Moq;
 using Backend.Commands;
 
 namespace Backend.Test		
@@ -25,11 +15,11 @@ namespace Backend.Test
         public void TestOrderHub()
         {
             var context = MockContextFactory.Create();
-            var getTablesService = new TableService(context);
-            var orderService = new OrderService(context);
-            var orderPosService = new OrderPosService(context, orderService);
-            var assignOrderService = new AssignOrderService(context);
-            var tabletService = new TabletService(context);
+            var getTablesService = new TableService(new MockDataService(context));
+            var orderService = new OrderService(new MockDataService(context));
+            var orderPosService = new OrderPosService(new MockDataService(context), orderService);
+            var assignOrderService = new AssignOrderService(new MockDataService(context));
+            var tabletService = new TabletService(new MockDataService(context));
 
             context.Table.Add(new Database.Models.Table
             {
@@ -75,9 +65,9 @@ namespace Backend.Test
         {
             var context = MockContextFactory.Create();
             
-            var getMenuService = new MenuService(context);
-            var SubmenuService = new SubmenuService(context);
-            var getItemsService = new ItemTypeService(context);
+            var getMenuService = new MenuService(new MockDataService(context));
+            var SubmenuService = new SubmenuService(new MockDataService(context));
+            var getItemsService = new ItemTypeService(new MockDataService(context));
 
             context.Menu.Add(new Database.Models.Menu
             {
@@ -117,7 +107,7 @@ namespace Backend.Test
         {
             var context = MockContextFactory.Create();
 
-            var tabletService = new TabletService(context);
+            var tabletService = new TabletService(new MockDataService(context));
             
 
             var request = new GetTabletsByModeRequest();

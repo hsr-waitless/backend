@@ -3,6 +3,7 @@ using Database;
 using Database.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,20 +11,27 @@ namespace Business.Services
 {
     public class TabletService
     {
+        private readonly IDataService data;
         private readonly WaitlessContext context;
 
-        public TabletService(WaitlessContext context)
+        public TabletService(IDataService data)
         {
-            this.context = context;
+            this.data = data;
+            context = data.GetContext();
+        }
+
+        ~TabletService()
+        {
+            context.Dispose();
         }
 
         public string GetTabletIdentifier(long orderPosId)
         {
-            return context.OrderPos
+            var orderPos = context.OrderPos
                 .Include(o => o.Order.Waiter)
-                .Where(o => o.Id == orderPosId)
-                .Select(o => o.Order.Waiter.Identifier)
-                .FirstOrDefault();
+                .FirstOrDefault(o => o.Id == orderPosId);
+
+            return orderPos.Order.Waiter.Identifier;
         }
 
         public IEnumerable<TabletModel> GetTablets(Mode mode)

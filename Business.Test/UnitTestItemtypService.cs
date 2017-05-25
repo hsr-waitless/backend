@@ -29,7 +29,7 @@ namespace Backend.Test
             context.Itemtyp.Add(testItem);
             context.SaveChanges();
 
-            var service = new ItemTypeService(context);
+            var service = new ItemTypeService(new MockDataService(context));
             var result = service.GetItemTypes(0);
 
             Assert.Equal(1, result.Count());
@@ -56,7 +56,7 @@ namespace Backend.Test
             context.Itemtyp.Add(testItem);
             context.SaveChanges();
 
-            var service = new ItemTypeService(context);
+            var service = new ItemTypeService(new MockDataService(context));
             var result = service.GetItemTypes(0);
 
             Assert.Equal(1, result.ElementAt(0).Id);
@@ -116,7 +116,7 @@ namespace Backend.Test
             context.Itemtyp.Add(testItem3);
             context.SaveChanges();
 
-            var service = new ItemTypeService(context);
+            var service = new ItemTypeService(new MockDataService(context));
             var result = service.GetItemTypes(0);
 
             Assert.Equal(3, result.Count());
@@ -149,7 +149,7 @@ namespace Backend.Test
             context.Itemtyp.Add(testItem);
             context.SaveChanges();
 
-            var service = new ItemTypeService(context);
+            var service = new ItemTypeService(new MockDataService(context));
             var result = service.GetItemTypes(0);
 
             Assert.Equal("Hamburger", result.ElementAt(0).Title);

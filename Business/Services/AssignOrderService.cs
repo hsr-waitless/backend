@@ -10,61 +10,67 @@ namespace Business.Services
 {
     public class AssignOrderService
     {
-        private readonly WaitlessContext context;
+        private readonly IDataService data;
 
-        public AssignOrderService(WaitlessContext context)
+        public AssignOrderService(IDataService data)
         {
-            this.context = context;
+            this.data = data;
         }
 
         public bool OnOrderAssigned(string tabletIdentifier, long orderId)
         {
-            var relevantOrder = context.Order
-                .Include(o => o.Guests)
-                .FirstOrDefault(o => o.Id == orderId);
-
-            if (relevantOrder == null)
+            using (var context = data.GetContext())
             {
-                return false;
+                var relevantOrder = context.Order
+                    .Include(o => o.Guests)
+                    .FirstOrDefault(o => o.Id == orderId);
+
+                if (relevantOrder == null)
+                {
+                    return false;
+                }
+
+
+                var tablet = context.Tablet.FirstOrDefault(t => t.Identifier == tabletIdentifier);
+                if (tablet == null)
+                {
+                    return false;
+                }
+
+
+                relevantOrder.Guests.Add(tablet);
+
+                context.SaveChanges();
+
+                return true;
             }
-
-
-            var tablet = context.Tablet.FirstOrDefault(t => t.Identifier == tabletIdentifier);
-            if (tablet == null)
-            {
-                return false;
-            }
-
-
-            relevantOrder.Guests.Add(tablet);
-
-            context.SaveChanges();
-
-            return true;
         }
 
         public bool OnOrderUnassigned(string tabletIdentifier, long orderId)
         {
-            var relevantOrder = context.Order
-                .Include(o => o.Guests)
-                .FirstOrDefault(o => o.Id == orderId);
-
-            if (relevantOrder == null)
+            using (var context = data.GetContext())
             {
-                return false;
+                var relevantOrder = context.Order
+                    .Include(o => o.Guests)
+                    .FirstOrDefault(o => o.Id == orderId);
+
+                if (relevantOrder == null)
+                {
+                    return false;
+                }
+
+
+                var tablet = relevantOrder.Guests.FirstOrDefault(t => t.Identifier == tabletIdentifier);
+                if (tablet == null)
+                {
+                    return false;
+                }
+
+                relevantOrder.Guests.Remove(tablet);
+
+                context.SaveChanges();
+                return true;
             }
-
-
-            var tablet = relevantOrder.Guests.FirstOrDefault(t => t.Identifier == tabletIdentifier);
-            if (tablet == null)
-            {
-                return false;
-            }
-
-            relevantOrder.Guests.Remove(tablet);
-
-            context.SaveChanges();
-            return true;
         }
     }
 }

@@ -8,24 +8,30 @@ namespace Business.Services
 {
     public class TableService
     {
-        private readonly WaitlessContext context;
+        private readonly IDataService data;
 
-        public TableService(WaitlessContext context)
+        public TableService(IDataService data)
         {
-            this.context = context;
+            this.data = data;
         }
 
         public IEnumerable<TableModel> GetAllTables()
         {
-            return context.Table
-                .Where(t => !t.Orders.Any(o => o.OrderStatus == OrderStatus.Active || o.OrderStatus == OrderStatus.New))
-                .Select(m => TableModel.MapFromDatabase(m, true))
-                .OrderBy(o => o.Name)
-                .Union(context.Table
-                    .Where(t => t.Orders.Any(o => o.OrderStatus == OrderStatus.Active ||
-                                                  o.OrderStatus == OrderStatus.New))
-                    .Select(m => TableModel.MapFromDatabase(m, false))
-                    .OrderBy(o => o.Name));
+            using (var context = data.GetContext())
+            {
+                return context.Table
+                    .Where(t => !t.Orders.Any(o => o.OrderStatus == OrderStatus.Active ||
+                                                   o.OrderStatus == OrderStatus.New))
+                    .ToList()
+                    .Select(m => TableModel.MapFromDatabase(m, true))
+                    .OrderBy(o => o.Name)
+                    .Union(context.Table
+                        .Where(t => t.Orders.Any(o => o.OrderStatus == OrderStatus.Active ||
+                                                      o.OrderStatus == OrderStatus.New))
+                        .ToList()
+                        .Select(m => TableModel.MapFromDatabase(m, false))
+                        .OrderBy(o => o.Name));
+            }
         }
     }
 }

@@ -56,8 +56,8 @@ namespace Business.Test
             context.Order.Add(testOrder);
             context.SaveChanges();
 
-            var orderService = new OrderService(context);
-            var service = new OrderPosService(context, orderService);
+            var orderService = new OrderService(new MockDataService(context));
+            var service = new OrderPosService(new MockDataService(context), orderService);
 
             service.AddOrderPos(testOrder.Id, testItem1.Id);
             service.AddOrderPos(testOrder.Id, testItem2.Id);
@@ -122,8 +122,8 @@ namespace Business.Test
             context.SaveChanges();
 
 
-            var orderService = new OrderService(context);
-            var positionService = new OrderPosService(context, orderService);
+            var orderService = new OrderService(new MockDataService(context));
+            var positionService = new OrderPosService(new MockDataService(context), orderService);
 
             positionService.AddOrderPos(testOrder.Id, testItem1.Id);
             positionService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 3, "");
@@ -167,8 +167,8 @@ namespace Business.Test
             context.SaveChanges();
 
 
-            var orderService = new OrderService(context);
-            var positionService = new OrderPosService(context, orderService);
+            var orderService = new OrderService(new MockDataService(context));
+            var positionService = new OrderPosService(new MockDataService(context), orderService);
 
             positionService.AddOrderPos(testOrder.Id, testItem1.Id);
             positionService.DoUpdateOrderPosRequest(testOrder.Positions.First().Id, 3, "");

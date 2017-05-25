@@ -26,7 +26,7 @@ namespace Backend.Test
             context.Submenu.Add(testSubmenu);
             context.SaveChanges();
             
-            var service = new SubmenuService(context);
+            var service = new SubmenuService(new MockDataService(context));
             var result = service.GetSubmenus(0);
 
             Assert.Equal(1, result.Count());
@@ -49,7 +49,7 @@ namespace Backend.Test
             context.Submenu.Add(testSubmenu1);
             context.SaveChanges();
 
-            var service = new SubmenuService(context);
+            var service = new SubmenuService(new MockDataService(context));
             var result = service.GetSubmenus(0);
 
             Assert.Equal(1, result.ElementAt(0).Id);
@@ -93,7 +93,7 @@ namespace Backend.Test
             context.Submenu.Add(testSubmenu4);
             context.SaveChanges();
 
-            var service = new SubmenuService(context);
+            var service = new SubmenuService(new MockDataService(context));
             var result = service.GetSubmenus(0);
 
             Assert.Equal(3, result.Count());
@@ -122,7 +122,7 @@ namespace Backend.Test
             context.Submenu.Add(testSubmenu);
             context.SaveChanges();
 
-            var service = new SubmenuService(context);
+            var service = new SubmenuService(new MockDataService(context));
             var result = service.GetSubmenus(0);
 
             Assert.Equal("Vorspeisen", result.ElementAt(0).Name);

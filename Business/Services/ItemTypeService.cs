@@ -10,29 +10,35 @@ namespace Business.Services
 {
     public class ItemTypeService
     {
-        private readonly WaitlessContext context;
+        private readonly IDataService data;
 
-        public ItemTypeService(WaitlessContext context)
+        public ItemTypeService(IDataService data)
         {
-            this.context = context;
+            this.data = data;
         }
 
         public IEnumerable<ItemTypeModel> GetItemTypes(long subMenuId)
         {
-            return context.Itemtyp
-                .Where(i => i.SubmenuId == subMenuId)
-                .ToList()
-                .Select(m => ItemTypeModel.MapFromDatabase(m));
+            using (var context = data.GetContext())
+            {
+                return context.Itemtyp
+                    .Where(i => i.SubmenuId == subMenuId)
+                    .ToList()
+                    .Select(m => ItemTypeModel.MapFromDatabase(m));
+            }
         }
 
 
         public IEnumerable<ItemTypeModel> GetAllItemTypes(long menuId)
         {
-            return context.Itemtyp
-                .Include(i => i.Submenu)
-                .Where(i => i.Submenu.MenuId == menuId)
-                .ToList()
-                .Select(m => ItemTypeModel.MapFromDatabase(m));
+            using (var context = data.GetContext())
+            {
+                return context.Itemtyp
+                    .Include(i => i.Submenu)
+                    .Where(i => i.Submenu.MenuId == menuId)
+                    .ToList()
+                    .Select(m => ItemTypeModel.MapFromDatabase(m));
+            }
         }
     }
 }
