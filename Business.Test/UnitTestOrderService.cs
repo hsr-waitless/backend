@@ -35,10 +35,10 @@ using Xunit;
 
             context.Table.Add(table);
             context.Tablet.Add(waiter);
+            context.SaveChanges();
 
             var service = new OrderService(new MockDataService(context));
             var result = service.CreateOrder(table.Id, waiter.Identifier);
-            context.SaveChanges();
             
             Assert.Equal(OrderStatus.New, result.OrderStatus);
             Assert.Equal(result.UpdateTime, result.CreationTime);
@@ -92,11 +92,10 @@ using Xunit;
             context.Tablet.Add(waiter);
             context.Order.Add(order1);
             context.Order.Add(order2);
+            context.SaveChanges();
 
             var service = new OrderService(new MockDataService(context));
             var result = service.GetOrdersByWaiter("Georg");
-
-            context.SaveChanges();
 
             Assert.NotNull( result );
             Assert.Equal( order2.PriceOrder, result.FirstOrDefault(t => t.OrderStatus ==OrderStatus.Active).PriceOrder );

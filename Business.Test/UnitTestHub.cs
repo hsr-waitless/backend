@@ -33,6 +33,7 @@ namespace Backend.Test
                 Identifier = "Mira",
                 Mode = Database.Models.Mode.Guest
             });
+            context.SaveChanges();
 
             var request = new CreateOrderRequest();
             request.TableId = 12;

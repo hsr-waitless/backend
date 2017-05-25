@@ -9,20 +9,24 @@ namespace Business.Services
     public class MenuService
     {
         private readonly IDataService data;
+        private readonly WaitlessContext context;
 
         public MenuService(IDataService data)
         {
             this.data = data;
+            context = data.GetContext();
+        }
+
+        ~MenuService()
+        {
+            context.Dispose();
         }
 
         public IEnumerable<MenuModel> GetMenus()
         {
-            using (var context = data.GetContext())
-            {
-                return context.Menu
-                    .ToList()
-                    .Select(m => MenuModel.MapFromDatabse(m));
-            }
+            return context.Menu
+                .ToList()
+                .Select(m => MenuModel.MapFromDatabse(m));
         }
     }
 }

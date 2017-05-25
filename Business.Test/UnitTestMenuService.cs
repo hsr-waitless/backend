@@ -104,11 +104,11 @@ using Xunit;
             var result = service.GetMenus();
             Assert.Equal(4, result.Count());
             
-            /*context.Menu.Remove(testMenu1);
+            context.Menu.Remove(testMenu1);
             context.SaveChanges();
             result = service.GetMenus();
 
-            Assert.Equal(3, result.Count());*/
+            Assert.Equal(3, result.Count());
         }
 
         [Fact]

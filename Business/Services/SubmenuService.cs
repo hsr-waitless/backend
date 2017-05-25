@@ -8,21 +8,25 @@ namespace Business.Services
     public class SubmenuService
     {
         private readonly IDataService data;
+        private readonly WaitlessContext context;
 
         public SubmenuService(IDataService data)
         {
             this.data = data;
+            context = data.GetContext();
+        }
+
+        ~SubmenuService()
+        {
+            context.Dispose();
         }
 
         public IEnumerable<SubmenuModel> GetSubmenus(long id)
         {
-            using (var context = data.GetContext())
-            {
-                return context.Submenu
-                    .Where(m => m.MenuId == id)
-                    .ToList()
-                    .Select(m => SubmenuModel.MapFromDatabase(m));
-            }
+            return context.Submenu
+                .Where(m => m.MenuId == id)
+                .ToList()
+                .Select(m => SubmenuModel.MapFromDatabase(m));
         }
     }
 }
